@@ -11,8 +11,7 @@ If my tool has been helpful for your translation work, I would appreciate it if 
 * Extract sentence in CP file and not in i18n file（The mod author can be used to check if there are any missing sentences that have not been placed in the i18n file）
 * The entire process from extraction to generating the final translation file.
 * Verify if there are any omissions or losses in the translated text, such as %farm, $1, ^, #.
-Support machine translate
-
+* Support machine translate
 
 ## Who needs to use it
 * Mod translators or teams translating a large number of mods.
