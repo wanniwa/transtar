@@ -3,7 +3,7 @@ from PySide6.QtCore import QUrl, QSize
 from PySide6.QtGui import QIcon, QColor
 from PySide6.QtWidgets import QApplication
 
-from qfluentwidgets import NavigationItemPosition, MSFluentWindow, SplashScreen
+from qfluentwidgets import NavigationItemPosition, MSFluentWindow, SplashScreen, SplitFluentWindow
 from qfluentwidgets import FluentIcon as FIF
 
 from .setting_interface import SettingInterface
@@ -21,17 +21,11 @@ class MainWindow(MSFluentWindow):
         self.initWindow()
 
         # TODO: create sub interface
-        # self.homeInterface = HomeInterface(self)
-        self.settingInterface = SettingInterface(self)
         self.homeInterface = HomeInterface(self)
-
-        self.connectSignalToSlot()
+        self.settingInterface = SettingInterface(self)
 
         # add items to navigation interface
         self.initNavigation()
-
-    def connectSignalToSlot(self):
-        signalBus.micaEnableChanged.connect(self.setMicaEffectEnabled)
 
     def initNavigation(self):
         # self.navigationInterface.setAcrylicEnabled(True)
@@ -46,8 +40,8 @@ class MainWindow(MSFluentWindow):
         self.splashScreen.finish()
 
     def initWindow(self):
-        # self.resize(600, 600)
-        # self.setMinimumWidth(600)
+        # self.resize(960, 780)
+        # self.setMinimumWidth(760)
         self.setWindowIcon(QIcon(':/app/images/logo.png'))
         self.setWindowTitle('Transtar')
 

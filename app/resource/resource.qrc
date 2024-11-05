@@ -10,5 +10,7 @@
 
         <file>qss/light/setting_interface.qss</file>
         <file>qss/dark/setting_interface.qss</file>
+        <file>qss/light/drop_area.qss</file>
+        <file>qss/dark/drop_area.qss</file>
     </qresource>
 </RCC>

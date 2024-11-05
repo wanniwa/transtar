@@ -4,9 +4,9 @@ from qfluentwidgets import PushButton
 from app.common.utils.file_util import open_folder
 
 
-class ErrorDialog(QDialog):
+class FileErrorDialog(QDialog):
     def __init__(self, e, tb, parent=None):
-        super(ErrorDialog, self).__init__(parent)
+        super(FileErrorDialog, self).__init__(parent)
 
         self.setWindowTitle("Error")
         self.resize(600, 400)

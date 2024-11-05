@@ -6,21 +6,20 @@ from qfluentwidgets import ComboBoxSettingCard, FluentIcon as FIF, PushButton, D
 from app.common.constant import LANGUAGES
 from app.common.config import cfg
 from app.view.components.drop_area import DropArea
-from app.common.utils.dialog_utils import notify_common_error
+from app.common.utils.notify_utils import notify_common_error, notify_error
+from app.view.components.progress_bar import CustomProgressBar
+
 
 def process_folder(folder_path, action_type):
     pass
-    # if folder_path:
-    #     try:
-    #         if action_type == 1 or action_type == 2:
-    #             # translation_module.process_common(folder_path, action_type)
-    #         elif action_type == 3:
-    #             translation_module.process_error(folder_path)
-    #     except Exception as e:
-    #         print(e)
-    #         notify_error(e, folder_path)
-    # else:
-    #     notify_common_error("No mod folder selected", "Please select a folder to extract", "")
+    # try:
+    #     if action_type == 1 or action_type == 2:
+    #         translation_module.process_common(folder_path, action_type)
+    #     elif action_type == 3:
+    #         translation_module.process_error(folder_path)
+    # except Exception as e:
+    #     print(e)
+    #     notify_error(e, folder_path)
 
 
 class ExtractOldDialog(QDialog):
@@ -69,6 +68,7 @@ class ExtractOldDialog(QDialog):
         #     notify_common_error("Notice", "Please select both folders", "")
         # self.close()
 
+
 class HomeInterface(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent=parent)
@@ -92,7 +92,6 @@ class HomeInterface(QWidget):
             texts=list(LANGUAGES.keys()),
             parent=self
         )
-
 
         # 设置语言代码作为用户数据
         for combo in [self.from_language.comboBox, self.to_language.comboBox]:
@@ -123,17 +122,7 @@ class HomeInterface(QWidget):
             button_group_box_layout.addWidget(button, position[0], position[1])  # 使用自定义位置
 
         # 添加进度条
-        self.progress_bar = QProgressBar()
-        self.progress_bar.setMinimum(0)
-        self.progress_bar.setTextVisible(True)
-        self.progress_bar.setFormat("%v/%m")
-        self.progress_bar.setStyleSheet("""
-                QProgressBar {
-                    border: 1px solid #D3D3D3;  /* Light gray border color */
-                    border-radius: 5px;
-                    text-align: center;
-                }
-            """)
+        self.progress_bar = CustomProgressBar(self)
 
         self.__initWidget()
 
@@ -151,52 +140,44 @@ class HomeInterface(QWidget):
         if self.drop_area.folderPath:
             process_folder(self.drop_area.folderPath, 1)
         else:
-            notify_common_error(self.parent(), 
-                              self.tr("No folder selected"), 
-                              self.tr("Please select a folder to generate"))
+            notify_common_error(self.tr("No folder selected"), self.tr("Please select a folder to generate"),
+                                self.parent())
 
     def extract_old_action(self):
         if self.drop_area.folderPath:
             dialog = ExtractOldDialog(self)
             dialog.exec()
         else:
-            notify_common_error(self.parent(),
-                              self.tr("No folder selected"),
-                              self.tr("Please select a folder"))
+            notify_common_error(self.tr("No folder selected"), self.tr("Please select a folder"), self.parent())
 
     def generate_action(self):
         if self.drop_area.folderPath:
             process_folder(self.drop_area.folderPath, 2)
         else:
-            notify_common_error(self.parent(),
-                              self.tr("No folder selected"),
-                              self.tr("Please select a folder to generate"))
+            notify_common_error(self.tr("No folder selected"),
+                                self.tr("Please select a folder to generate"), self.parent())
 
     def validate_action(self):
         if self.drop_area.folderPath:
             if os.path.exists(self.drop_area.folderPath + " dict"):
                 process_folder(self.drop_area.folderPath, 3)
             else:
-                notify_common_error(self.parent(),
-                                  self.tr("No dict folder"),
-                                  self.tr("Please select a folder to generate"))
+                notify_common_error(self.tr("No dict folder"), self.tr("Please select a folder to generate"),
+                                    self.parent())
         else:
-            notify_common_error(self.parent(),
-                              self.tr("No folder selected"),
-                              self.tr("Please select a folder to validate"))
+            notify_common_error(self.tr("No folder selected"), self.tr("Please select a folder to validate"),
+                                self.parent())
 
     def import_from_error(self):
         if self.drop_area.folderPath:
             if os.path.exists(self.drop_area.folderPath + " dict"):
                 pass
             else:
-                notify_common_error(self.parent(),
-                                  self.tr("No dict folder"),
-                                  self.tr("Please select a folder to generate"))
+                notify_common_error(self.tr("No dict folder"),
+                                    self.tr("Please select a folder to generate"), self.parent(), )
         else:
-            notify_common_error(self.parent(),
-                              self.tr("No folder selected"),
-                              self.tr("Please select a folder to import"))
+            notify_common_error(self.tr("No folder selected"),
+                                self.tr("Please select a folder to import"), self.parent())
 
     def translate_action(self):
         pass

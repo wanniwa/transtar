@@ -88,8 +88,7 @@ class SettingInterface(ScrollArea):
             self.tr('Open help page'),
             FIF.HELP,
             self.tr('Help'),
-            self.tr(
-                'Discover new features and learn useful tips about Fluent Client'),
+            self.tr('Discover new features and learn useful tips about Transtar'),
             self.aboutGroup
         )
         self.feedbackCard = PrimaryPushSettingCard(
@@ -112,7 +111,7 @@ class SettingInterface(ScrollArea):
 
     def __initWidget(self):
         self.resize(1000, 800)
-        self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.setViewportMargins(0, 100, 0, 20)
         self.setWidget(self.scrollWidget)
         self.setWidgetResizable(True)

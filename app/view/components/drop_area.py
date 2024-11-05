@@ -1,25 +1,39 @@
+from enum import Enum
+
 from PySide6.QtWidgets import QLabel, QPushButton, QFileDialog, QStyle
 from PySide6.QtCore import Qt
 import os
 
+from qfluentwidgets import StyleSheetBase, Theme, qconfig, BodyLabel
+
+
+class StyleSheet(StyleSheetBase, Enum):
+    """ Style sheet  """
+
+    WINDOW = "drop_area"
+
+    def path(self, theme=Theme.AUTO):
+        theme = qconfig.theme if theme == Theme.AUTO else theme
+        return f"app/resource/qss/{theme.value.lower()}/{self.value}.qss"
+
 
 class DropArea(QLabel):
     def __init__(self, parent, label):
-        super().__init__(label)
+        super().__init__(label, parent)
+        self.setText(label)
         self.parent_widget = parent
         self.setAcceptDrops(True)
         self.setFixedHeight(120)
         self.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.setStyleSheet("border: 2px dashed #aaa; border-radius: 5px; padding: 10px;")
         self.folderPath = ""
 
         self.delete_button = QPushButton(self)
         self.delete_button.setFixedSize(20, 20)
         self.delete_button.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_TrashIcon))
-        self.delete_button.setStyleSheet("border: none; background: transparent;")
         self.delete_button.clicked.connect(self.clear)
         self.delete_button.hide()
         self.delete_button.setToolTip("")
+        StyleSheet.WINDOW.apply(self)
 
     def resizeEvent(self, event):
         super().resizeEvent(event)
@@ -64,8 +78,6 @@ class DropArea(QLabel):
                 self.setAlignment(
                     Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)  # Align text to the left and top
                 self.delete_button.show()
-
-
 
     def clear(self):
         self.setText(self.tr("Drop a folder here or click to select"))
