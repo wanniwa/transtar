@@ -59,10 +59,10 @@ If my tool has been helpful for your translation work, I would appreciate it if 
 5. After completing the generation, a mod translation package will be generated
 
 ## Support framework
-1. [CP]:Content Patcher
+1. [CP] Content Patcher
 2. [i18n] i18n/default.json
-3. [JA]:Json Assets(mod deprecated)
-4. [MFM]:Mail Framework Mod(mod deprecated)
+3. [JA] Json Assets(mod deprecated)
+4. [MFM] Mail Framework Mod(mod deprecated)
 5. [STF] Shop Tile Framework(mod deprecated)
-6. [QF]:Quest Framework(mod deprecated)
+6. [QF] Quest Framework(mod deprecated)
 
