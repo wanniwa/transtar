@@ -1,0 +1,12 @@
+DropArea {
+    background-color: transparent;
+    color: white;
+    border: 2px dashed #aaa;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+QPushButton {
+    border: none;
+    background: transparent;
+}

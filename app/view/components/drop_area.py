@@ -1,10 +1,13 @@
 from enum import Enum
 
-from PySide6.QtWidgets import QLabel, QPushButton, QFileDialog, QStyle
+from PySide6.QtGui import QIcon
+from PySide6.QtWidgets import QLabel, QPushButton, QFileDialog, QStyle, QApplication
 from PySide6.QtCore import Qt
 import os
+from qfluentwidgets import FluentIcon as FIF, TransparentToolButton
+from qfluentwidgets import StyleSheetBase, Theme, qconfig, BodyLabel, PushButton
 
-from qfluentwidgets import StyleSheetBase, Theme, qconfig, BodyLabel
+from app.common.utils import notify_util
 
 
 class StyleSheet(StyleSheetBase, Enum):
@@ -21,18 +24,18 @@ class DropArea(QLabel):
     def __init__(self, parent, label):
         super().__init__(label, parent)
         self.setText(label)
+        self.setWordWrap(True)
         self.parent_widget = parent
         self.setAcceptDrops(True)
-        self.setFixedHeight(120)
+        self.setMinimumHeight(140)
         self.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.folderPath = ""
 
-        self.delete_button = QPushButton(self)
+        self.delete_button = TransparentToolButton(self)
         self.delete_button.setFixedSize(20, 20)
-        self.delete_button.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_TrashIcon))
+        self.delete_button.setIcon(FIF.DELETE)
         self.delete_button.clicked.connect(self.clear)
         self.delete_button.hide()
-        self.delete_button.setToolTip("")
         StyleSheet.WINDOW.apply(self)
 
     def resizeEvent(self, event):
@@ -62,9 +65,9 @@ class DropArea(QLabel):
                     Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)  # Align text to the left and top
                 self.delete_button.show()
             else:
-                notify_error(NotADirectoryError("Please drop a folder"), "")
+                notify_util.notify_error(NotADirectoryError("Please drop a folder"), "")
         else:
-            notify_error(ValueError("Please drop only one folder"), "")
+            notify_util.notify_error(ValueError("Please drop only one folder"), "")
 
     def mousePressEvent(self, event):
         if event.button() == Qt.MouseButton.LeftButton:

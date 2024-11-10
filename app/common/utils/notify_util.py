@@ -1,21 +1,22 @@
 from qfluentwidgets import Dialog
-from app.view.components.error_dailog import FileErrorDialog
+
+from app.common.window_manager import get_window
+from app.view.components.error_dialog import FileErrorDialog
 
 
-def notify_common_error(title: str, content: str, parent):
+def notify_common_error(title: str, content: str):
     """
     显示通用错误对话框
     Args:
         :param title: 标题
         :param content: 内容
-        :param parent: 父组件
     """
-    msg = Dialog(title, content, parent)
+    msg = Dialog(title, content, get_window())
     msg.cancelButton.hide()
     msg.buttonLayout.insertStretch(1)
     msg.exec()
 
 
 def notify_error(e, tb):
-    msg = FileErrorDialog(e, tb)
+    msg = FileErrorDialog(e, tb, get_window())
     msg.exec()

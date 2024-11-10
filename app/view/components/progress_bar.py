@@ -18,7 +18,7 @@ class CustomProgressBar(QProgressBar):
                 color: #2B2B2B;
             }
             QProgressBar::chunk {
-                background-color: #7FBFB3;
+                background-color: #ffd460;
                 border-radius: 4px;
                 margin: 0.5px;
             }

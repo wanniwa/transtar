@@ -3,7 +3,8 @@ from PySide6.QtCore import QUrl, QSize
 from PySide6.QtGui import QIcon, QColor
 from PySide6.QtWidgets import QApplication
 
-from qfluentwidgets import NavigationItemPosition, MSFluentWindow, SplashScreen, SplitFluentWindow
+from qfluentwidgets import NavigationItemPosition, MSFluentWindow, SplashScreen, SplitFluentWindow, setThemeColor, \
+    FluentThemeColor
 from qfluentwidgets import FluentIcon as FIF
 
 from .setting_interface import SettingInterface
@@ -12,6 +13,9 @@ from ..common.config import cfg
 from ..common.icon import Icon
 from ..common.signal_bus import signalBus
 from ..common import resource
+from qframelesswindow.utils import getSystemAccentColor
+
+from ..common.window_manager import set_window
 
 
 class MainWindow(MSFluentWindow):
@@ -19,6 +23,10 @@ class MainWindow(MSFluentWindow):
     def __init__(self):
         super().__init__()
         self.initWindow()
+        set_window(self)
+
+        setThemeColor(QColor('#edb007'))
+
 
         # TODO: create sub interface
         self.homeInterface = HomeInterface(self)
@@ -40,7 +48,9 @@ class MainWindow(MSFluentWindow):
         self.splashScreen.finish()
 
     def initWindow(self):
-        # self.resize(960, 780)
+        # self.resize(760, 680)
+        self.setFixedHeight(700)
+        self.setFixedWidth(655)
         # self.setMinimumWidth(760)
         self.setWindowIcon(QIcon(':/app/images/logo.png'))
         self.setWindowTitle('Transtar')

@@ -7,7 +7,7 @@ DEBUG = "__compiled__" not in globals()
 
 YEAR = 2024
 AUTHOR = "wanniwa"
-VERSION = "v0.0.1"
+VERSION = "v2.0.0"
 APP_NAME = "transtar"
 HELP_URL = "https://www.nexusmods.com/stardewvalley/mods/20435"
 REPO_URL = "https://github.com/wanniwa/transtar"

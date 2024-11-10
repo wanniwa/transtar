@@ -1,17 +1,17 @@
 # coding:utf-8
-from qfluentwidgets import (SwitchSettingCard, FolderListSettingCard,
-                            OptionsSettingCard, PushSettingCard,
-                            HyperlinkCard, PrimaryPushSettingCard, ScrollArea,
-                            ComboBoxSettingCard, ExpandLayout, Theme, CustomColorSettingCard,
-                            setTheme, setThemeColor, isDarkTheme, setFont)
-from qfluentwidgets import FluentIcon as FIF
-from qfluentwidgets import SettingCardGroup as CardGroup
-from qfluentwidgets import InfoBar
-from PySide6.QtCore import Qt, Signal, QUrl, QStandardPaths
+from PySide6.QtCore import Qt, QUrl
 from PySide6.QtGui import QDesktopServices, QFont
-from PySide6.QtWidgets import QWidget, QLabel, QFileDialog
+from PySide6.QtWidgets import QWidget, QLabel
+from qfluentwidgets import FluentIcon as FIF, OptionsSettingCard, RangeSettingCard
+from qfluentwidgets import InfoBar
+from qfluentwidgets import SettingCardGroup as CardGroup
+from qfluentwidgets import (SwitchSettingCard,
+                            HyperlinkCard, PrimaryPushSettingCard, ScrollArea,
+                            ComboBoxSettingCard, ExpandLayout,
+                            setTheme, setFont)
 
-from ..common.config import cfg
+from .components.setting_card import LineEditSettingCard, TextEditSettingCard
+from ..common.config import cfg,models
 from ..common.setting import HELP_URL, FEEDBACK_URL, AUTHOR, VERSION, YEAR
 from ..common.signal_bus import signalBus
 from ..common.style_sheet import StyleSheet
@@ -19,10 +19,9 @@ from ..common.style_sheet import StyleSheet
 
 class SettingCardGroup(CardGroup):
 
-   def __init__(self, title: str, parent=None):
-       super().__init__(title, parent)
-       setFont(self.titleLabel, 14, QFont.Weight.DemiBold)
-
+    def __init__(self, title: str, parent=None):
+        super().__init__(title, parent)
+        setFont(self.titleLabel, 14, QFont.Weight.DemiBold)
 
 
 class SettingInterface(ScrollArea):
@@ -35,6 +34,55 @@ class SettingInterface(ScrollArea):
 
         # setting label
         self.settingLabel = QLabel(self.tr("Settings"), self)
+
+        self.translationGroup = SettingCardGroup(
+            self.tr('Translation'), self.scrollWidget)
+
+        self.i18n_ignore_cp_card = SwitchSettingCard(
+            FIF.FLAG,
+            self.tr('Extract CP file'),
+            self.tr('CP files will translated when i18n files exist.'),
+            configItem=cfg.i18n_ignore_cp,
+            parent=self.translationGroup
+        )
+        self.i18n_from_language_json_card = SwitchSettingCard(
+            FIF.FLAG,
+            self.tr('Extract specified language'),
+            self.tr('For example, replace default.json with zh.json'),
+            configItem=cfg.i18n_source_flag,
+            parent=self.translationGroup
+        )
+        self.trans_mode_card = OptionsSettingCard(
+            cfg.trans_model,
+            FIF.FLAG,
+            self.tr('Trans model'),
+            self.tr('Google、OpenAI……'),
+            models,
+            self.translationGroup
+        )
+        self.api_key_card = LineEditSettingCard(
+            FIF.FLAG,
+            self.tr('APIKEY'),
+            self.tr('API Key for authentication.'),
+            configItem=cfg.api_key,
+            parent=self.translationGroup
+        )
+        self.ai_batch_size = RangeSettingCard(
+            cfg.ai_batch_size,
+            FIF.FLAG,
+            self.tr("AI batch size"),
+            self.tr("Number of AI batch translate size."),
+            parent=self.translationGroup
+        )
+
+        self.ai_prompt_card = TextEditSettingCard(
+            FIF.FLAG,
+            self.tr('AI prompt'),
+            self.tr('Prompt get shown to the AI on all chat.'),
+            self.tr('Please enter the prompt word. If empty, the default prompt will be used. like: You are currently a professional Stardew Valley mod translator.'),
+            configItem=cfg.ai_prompt,
+            parent=self.translationGroup
+        )
 
         # personalization
         self.personalGroup = SettingCardGroup(
@@ -70,16 +118,16 @@ class SettingInterface(ScrollArea):
             parent=self.personalGroup
         )
 
-        # update software
-        self.updateSoftwareGroup = SettingCardGroup(
-            self.tr("Software update"), self.scrollWidget)
-        self.updateOnStartUpCard = SwitchSettingCard(
-            FIF.UPDATE,
-            self.tr('Check for updates when the application starts'),
-            self.tr('The new version will be more stable and have more features'),
-            configItem=cfg.checkUpdateAtStartUp,
-            parent=self.updateSoftwareGroup
-        )
+        # # update software
+        # self.updateSoftwareGroup = SettingCardGroup(
+        #     self.tr("Software update"), self.scrollWidget)
+        # self.updateOnStartUpCard = SwitchSettingCard(
+        #     FIF.UPDATE,
+        #     self.tr('Check for updates when the application starts'),
+        #     self.tr('The new version will be more stable and have more features'),
+        #     configItem=cfg.checkUpdateAtStartUp,
+        #     parent=self.updateSoftwareGroup
+        # )
 
         # application
         self.aboutGroup = SettingCardGroup(self.tr('About'), self.scrollWidget)
@@ -88,19 +136,19 @@ class SettingInterface(ScrollArea):
             self.tr('Open help page'),
             FIF.HELP,
             self.tr('Help'),
-            self.tr('Discover new features and learn useful tips about Transtar'),
+            self.tr('Discover new features about Transtar'),
             self.aboutGroup
         )
         self.feedbackCard = PrimaryPushSettingCard(
             self.tr('Provide feedback'),
             FIF.FEEDBACK,
             self.tr('Provide feedback'),
-            self.tr('Help us improve Fluent Client by providing feedback'),
+            self.tr('Help us improve Transtar by providing feedback'),
             self.aboutGroup
         )
         self.aboutCard = PrimaryPushSettingCard(
             self.tr('Check update'),
-            ":/qfluentwidgets/images/logo.png",
+            FIF.INFO,
             self.tr('About'),
             '© ' + self.tr('Copyright') + f" {YEAR}, {AUTHOR}. " +
             self.tr('Version') + " " + VERSION,
@@ -124,7 +172,6 @@ class SettingInterface(ScrollArea):
         StyleSheet.SETTING_INTERFACE.apply(self)
         self.scrollWidget.setStyleSheet("QWidget{background:transparent}")
 
-
         # initialize layout
         self.__initLayout()
         self._connectSignalToSlot()
@@ -132,11 +179,18 @@ class SettingInterface(ScrollArea):
     def __initLayout(self):
         self.settingLabel.move(36, 50)
 
+        self.translationGroup.addSettingCard(self.i18n_ignore_cp_card)
+        self.translationGroup.addSettingCard(self.i18n_from_language_json_card)
+        self.translationGroup.addSettingCard(self.trans_mode_card)
+        self.translationGroup.addSettingCard(self.api_key_card)
+        self.translationGroup.addSettingCard(self.ai_batch_size)
+        self.translationGroup.addSettingCard(self.ai_prompt_card)
+
         self.personalGroup.addSettingCard(self.themeCard)
         self.personalGroup.addSettingCard(self.zoomCard)
         self.personalGroup.addSettingCard(self.languageCard)
 
-        self.updateSoftwareGroup.addSettingCard(self.updateOnStartUpCard)
+        # self.updateSoftwareGroup.addSettingCard(self.updateOnStartUpCard)
 
         self.aboutGroup.addSettingCard(self.helpCard)
         self.aboutGroup.addSettingCard(self.feedbackCard)
@@ -145,8 +199,9 @@ class SettingInterface(ScrollArea):
         # add setting card group to layout
         self.expandLayout.setSpacing(28)
         self.expandLayout.setContentsMargins(36, 10, 36, 0)
+        self.expandLayout.addWidget(self.translationGroup)
         self.expandLayout.addWidget(self.personalGroup)
-        self.expandLayout.addWidget(self.updateSoftwareGroup)
+        # self.expandLayout.addWidget(self.updateSoftwareGroup)
         self.expandLayout.addWidget(self.aboutGroup)
 
     def _showRestartTooltip(self):

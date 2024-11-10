@@ -2,12 +2,12 @@ from PySide6.QtWidgets import QDialog, QLabel, QTextEdit, QVBoxLayout
 from qfluentwidgets import PushButton
 
 from app.common.utils.file_util import open_folder
-
+from app.common.logger import logger
 
 class FileErrorDialog(QDialog):
     def __init__(self, e, tb, parent=None):
-        super(FileErrorDialog, self).__init__(parent)
-
+        super().__init__(parent)
+        logger.error(e, exc_info=True)
         self.setWindowTitle("Error")
         self.resize(600, 400)
         self.label = QLabel(e.__class__.__name__, self)

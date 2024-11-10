@@ -4,10 +4,13 @@ from enum import Enum
 
 from PySide6.QtCore import QLocale
 from qfluentwidgets import (qconfig, QConfig, ConfigItem, OptionsConfigItem, BoolValidator,
-                            OptionsValidator, Theme, FolderValidator, ConfigSerializer)
+                            OptionsValidator, Theme, ConfigSerializer, RangeConfigItem, RangeValidator)
 
 from .setting import CONFIG_FILE
 from .constant import LANGUAGES
+
+models = ['google', 'deepl', 'gpt-3.5-turbo', 'gpt-4', 'gpt-4-turbo-2024-04-09', 'gpt-4o', 'gpt-4o-mini']
+
 
 class Language(Enum):
     """ Language enumeration """
@@ -32,8 +35,6 @@ def isWin11():
 
 
 class Config(QConfig):
-    """ Config of application """
-
     # TODO: ADD YOUR CONFIG GROUP HERE
     # 个性化配置
     dpiScale = OptionsConfigItem(
@@ -42,8 +43,17 @@ class Config(QConfig):
         "MainWindow", "Language", Language.AUTO, OptionsValidator(Language), LanguageSerializer(), restart=True)
 
     # 翻译配置
-    from_language = OptionsConfigItem(
-        "Translation", "from_language", LANGUAGES['English'], OptionsValidator(LANGUAGES.values()),  restart=False)
+    """ Config of application """
+    i18n_ignore_cp = ConfigItem("Translation", "i18n_ignore_cp", True, BoolValidator())
+    i18n_source_flag = ConfigItem("Translation", "i18n_source_flag", False, BoolValidator())
+    trans_model = OptionsConfigItem("Translation", "trans_model", "google", OptionsValidator(models))
+    ai_batch_size = RangeConfigItem("Translation", "ai_batch_size", 5, RangeValidator(1, 20))
+    ai_prompt = ConfigItem("Translation", "ai_prompt",
+                           "You are currently a professional Stardew Valley mod translator. ", None)
+    api_key = ConfigItem("Translation", "api_key", "", None)
+
+    source_language = OptionsConfigItem(
+        "Translation", "source_language", LANGUAGES['English'], OptionsValidator(LANGUAGES.values()), restart=False)
     to_language = OptionsConfigItem(
         "Translation", "to_language", LANGUAGES['Chinese'], OptionsValidator(LANGUAGES.values()), restart=False)
 
