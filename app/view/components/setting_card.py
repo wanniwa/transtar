@@ -2,7 +2,6 @@ from typing import Union
 
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QVBoxLayout, QTextEdit
 from qfluentwidgets import LineEdit, SettingCard, FluentIconBase, ConfigItem, TextEdit, ExpandSettingCard
 from app.common.config import cfg
 
@@ -73,7 +72,7 @@ class TextEditSettingCard(ExpandSettingCard):
         self.configItem = configItem
 
         # 创建文本编辑框
-        self.textEdit = QTextEdit(self.view)
+        self.textEdit = TextEdit(self.view)
         self.textEdit.setText(configItem.value)
         self.textEdit.setFixedHeight(100)
         
@@ -82,7 +81,7 @@ class TextEditSettingCard(ExpandSettingCard):
             self.textEdit.setPlaceholderText(placeholder)
 
         # 使用 ExpandSettingCard 提供的 viewLayout
-        self.viewLayout.setContentsMargins(10, 0, 10, 0)
+        self.viewLayout.setContentsMargins(0, 0, 0, 0)
         self.viewLayout.addWidget(self.textEdit)
 
         self._adjustViewSize()
