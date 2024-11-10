@@ -1,23 +1,11 @@
-from enum import Enum
-
-from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QLabel, QPushButton, QFileDialog, QStyle, QApplication
-from PySide6.QtCore import Qt
 import os
+
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QLabel, QFileDialog
 from qfluentwidgets import FluentIcon as FIF, TransparentToolButton
-from qfluentwidgets import StyleSheetBase, Theme, qconfig, BodyLabel, PushButton
 
+from app.common.style_sheet import DropStyleSheet
 from app.common.utils import notify_util
-
-
-class StyleSheet(StyleSheetBase, Enum):
-    """ Style sheet  """
-
-    WINDOW = "drop_area"
-
-    def path(self, theme=Theme.AUTO):
-        theme = qconfig.theme if theme == Theme.AUTO else theme
-        return f"app/resource/qss/{theme.value.lower()}/{self.value}.qss"
 
 
 class DropArea(QLabel):
@@ -36,7 +24,7 @@ class DropArea(QLabel):
         self.delete_button.setIcon(FIF.DELETE)
         self.delete_button.clicked.connect(self.clear)
         self.delete_button.hide()
-        StyleSheet.WINDOW.apply(self)
+        DropStyleSheet.WINDOW.apply(self)
 
     def resizeEvent(self, event):
         super().resizeEvent(event)

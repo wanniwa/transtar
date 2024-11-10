@@ -4,12 +4,12 @@
 <context>
     <name>DropArea</name>
     <message>
-        <location filename="../../view/components/drop_area.py" line="86"/>
+        <location filename="../../view/components/drop_area.py" line="74"/>
         <source>Drop a folder here or click to select</source>
         <translation>配置在重启软件后生效</translation>
     </message>
     <message>
-        <location filename="../../view/components/drop_area.py" line="88"/>
+        <location filename="../../view/components/drop_area.py" line="76"/>
         <source>Drop a folder here</source>
         <translation>放入</translation>
     </message>
@@ -17,47 +17,47 @@
 <context>
     <name>ExtractOldDialog</name>
     <message>
-        <location filename="../../view/home_interface.py" line="72"/>
+        <location filename="../../view/home_interface.py" line="68"/>
         <source>Extract Old</source>
         <translation>提取老 Mod 翻译</translation>
     </message>
     <message>
-        <location filename="../../view/home_interface.py" line="78"/>
-        <location filename="../../view/home_interface.py" line="95"/>
+        <location filename="../../view/home_interface.py" line="74"/>
+        <location filename="../../view/home_interface.py" line="91"/>
         <source>Select old mod folder</source>
         <translation>选择未翻译的老版本 Mod 文件夹</translation>
     </message>
     <message>
-        <location filename="../../view/home_interface.py" line="83"/>
-        <location filename="../../view/home_interface.py" line="101"/>
+        <location filename="../../view/home_interface.py" line="79"/>
+        <location filename="../../view/home_interface.py" line="97"/>
         <source>Select translated mod folder</source>
         <translation>选择覆盖了翻译的老版本 Mod 文件夹</translation>
     </message>
     <message>
-        <location filename="../../view/home_interface.py" line="88"/>
+        <location filename="../../view/home_interface.py" line="84"/>
         <source>Execute</source>
         <translation>执行</translation>
     </message>
     <message>
-        <location filename="../../view/home_interface.py" line="112"/>
+        <location filename="../../view/home_interface.py" line="108"/>
         <source>Notice</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">提醒</translation>
     </message>
     <message>
-        <location filename="../../view/home_interface.py" line="112"/>
+        <location filename="../../view/home_interface.py" line="108"/>
         <source>Please select both folders</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">请选择两个文件夹</translation>
     </message>
 </context>
 <context>
     <name>FileErrorDialog</name>
     <message>
-        <location filename="../../view/components/error_dialog.py" line="19"/>
+        <location filename="../../view/components/error_dialog.py" line="17"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../../view/components/error_dialog.py" line="23"/>
+        <location filename="../../view/components/error_dialog.py" line="21"/>
         <source>OK</source>
         <translation>确认</translation>
     </message>
@@ -65,85 +65,85 @@
 <context>
     <name>HomeInterface</name>
     <message>
-        <location filename="../../view/home_interface.py" line="126"/>
+        <location filename="../../view/home_interface.py" line="122"/>
         <source>From</source>
         <translation>来源</translation>
     </message>
     <message>
-        <location filename="../../view/home_interface.py" line="127"/>
+        <location filename="../../view/home_interface.py" line="123"/>
         <source>Select source language</source>
         <translation>选择来源语言</translation>
     </message>
     <message>
-        <location filename="../../view/home_interface.py" line="135"/>
+        <location filename="../../view/home_interface.py" line="131"/>
         <source>To</source>
         <translation>目标</translation>
     </message>
     <message>
-        <location filename="../../view/home_interface.py" line="136"/>
+        <location filename="../../view/home_interface.py" line="132"/>
         <source>Select target language</source>
         <translation>选择目标语言</translation>
     </message>
     <message>
-        <location filename="../../view/home_interface.py" line="147"/>
+        <location filename="../../view/home_interface.py" line="143"/>
         <source>Drop folder here or click to select</source>
         <translation>拖入或点击选择文件夹</translation>
     </message>
     <message>
-        <location filename="../../view/home_interface.py" line="159"/>
+        <location filename="../../view/home_interface.py" line="155"/>
         <source>Extract</source>
         <translation>提取</translation>
     </message>
     <message>
-        <location filename="../../view/home_interface.py" line="160"/>
+        <location filename="../../view/home_interface.py" line="156"/>
         <source>Extract old</source>
         <translation>提取旧翻译</translation>
     </message>
     <message>
-        <location filename="../../view/home_interface.py" line="161"/>
-        <location filename="../../view/home_interface.py" line="248"/>
-        <location filename="../../view/home_interface.py" line="261"/>
+        <location filename="../../view/home_interface.py" line="157"/>
+        <location filename="../../view/home_interface.py" line="244"/>
+        <location filename="../../view/home_interface.py" line="257"/>
         <source>Translate</source>
         <translation>翻译</translation>
     </message>
     <message>
-        <location filename="../../view/home_interface.py" line="162"/>
+        <location filename="../../view/home_interface.py" line="158"/>
         <source>Validate</source>
         <translation>校验</translation>
     </message>
     <message>
-        <location filename="../../view/home_interface.py" line="163"/>
+        <location filename="../../view/home_interface.py" line="159"/>
         <source>Import from error</source>
         <translation>从报错更新</translation>
     </message>
     <message>
-        <location filename="../../view/home_interface.py" line="164"/>
+        <location filename="../../view/home_interface.py" line="160"/>
         <source>Generate</source>
         <translation>生成</translation>
     </message>
     <message>
-        <location filename="../../view/home_interface.py" line="197"/>
+        <location filename="../../view/home_interface.py" line="193"/>
         <source>No folder selected</source>
         <translation>没有选择文件夹</translation>
     </message>
     <message>
-        <location filename="../../view/home_interface.py" line="203"/>
-        <location filename="../../view/home_interface.py" line="240"/>
+        <location filename="../../view/home_interface.py" line="199"/>
+        <location filename="../../view/home_interface.py" line="236"/>
         <source>Please generate dict files first</source>
         <translation>请先生成字典文件</translation>
     </message>
     <message>
-        <location filename="../../view/home_interface.py" line="240"/>
+        <location filename="../../view/home_interface.py" line="236"/>
         <source>No dict files</source>
         <translation type="unfinished">没有找到字典文件</translation>
     </message>
     <message>
-        <location filename="../../view/home_interface.py" line="244"/>
+        <location filename="../../view/home_interface.py" line="240"/>
         <source>No api key</source>
         <translation type="unfinished">没有密钥</translation>
     </message>
     <message>
-        <location filename="../../view/home_interface.py" line="244"/>
+        <location filename="../../view/home_interface.py" line="240"/>
         <source>Please input api key config</source>
         <translation type="unfinished"></translation>
     </message>
@@ -152,22 +152,22 @@
         <translation type="obsolete">请配置密钥</translation>
     </message>
     <message>
-        <location filename="../../view/home_interface.py" line="248"/>
+        <location filename="../../view/home_interface.py" line="244"/>
         <source>Stop</source>
         <translation>停止</translation>
     </message>
     <message>
-        <location filename="../../view/home_interface.py" line="269"/>
+        <location filename="../../view/home_interface.py" line="265"/>
         <source>Translation Error</source>
         <translation>翻译异常</translation>
     </message>
     <message>
-        <location filename="../../view/home_interface.py" line="197"/>
+        <location filename="../../view/home_interface.py" line="193"/>
         <source>Please select a folder</source>
         <translation>请选择一个文件夹</translation>
     </message>
     <message>
-        <location filename="../../view/home_interface.py" line="203"/>
+        <location filename="../../view/home_interface.py" line="199"/>
         <source>No dict folder</source>
         <translation>字典文件不存在</translation>
     </message>
@@ -277,7 +277,7 @@
     <message>
         <location filename="../../view/setting_interface.py" line="82"/>
         <source>Please enter the prompt word. If empty, the default prompt will be used. like: You are currently a professional Stardew Valley mod translator.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">请输入提示词。如果为空，使用会使用默认的提示词。比如：You are currently a professional Stardew Valley mod translator.</translation>
     </message>
     <message>
         <location filename="../../view/setting_interface.py" line="93"/>

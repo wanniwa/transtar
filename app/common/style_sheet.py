@@ -14,3 +14,12 @@ class StyleSheet(StyleSheetBase, Enum):
     def path(self, theme=Theme.AUTO):
         theme = qconfig.theme if theme == Theme.AUTO else theme
         return f":/app/qss/{theme.value.lower()}/{self.value}.qss"
+
+class DropStyleSheet(StyleSheetBase, Enum):
+    """ Style sheet  """
+
+    WINDOW = "drop_area"
+
+    def path(self, theme=Theme.AUTO):
+        theme = qconfig.theme if theme == Theme.AUTO else theme
+        return f":app/qss/{theme.value.lower()}/{self.value}.qss"

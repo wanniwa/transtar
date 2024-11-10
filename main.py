@@ -9,7 +9,6 @@ from qfluentwidgets import FluentTranslator
 
 from app.common.config import cfg
 from app.view.main_window import MainWindow
-from app.common.logger import logger
 
 
 # enable dpi scale

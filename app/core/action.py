@@ -7,7 +7,6 @@ from PySide6.QtWidgets import QMessageBox
 from app.common.constant import FileType, ActionType
 from app.core.handler_factory import HandlerFactory
 from app.core.handlers.trans_context import TransContext
-from ..common import logger
 from ..common.config import cfg
 
 from qfluentwidgets import InfoBar
@@ -193,13 +192,11 @@ def process_old_common(mod_path, old_folder_path, old_trans_folder_path):
     try:
         oldNoTransDicts = process_dict(old_folder_path, i18n_file_name)
     except Exception as e:
-        logger.error('process_dict error', exc_info=True)
         notify_util.notify_error(e, old_folder_path)
         return
     try:
         oldTransDicts = process_dict(old_trans_folder_path, cfg.to_language.value)
     except Exception as e:
-        logger.error('process_dict error', exc_info=True)
         notify_util.notify_error(e, old_trans_folder_path)
         return
     if oldNoTransDicts is None or oldTransDicts is None:

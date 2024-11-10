@@ -1,7 +1,4 @@
-import json
 import os
-import shutil
-from venv import logger
 
 from PySide6.QtCore import QThread, Signal
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QGroupBox, QGridLayout, QFormLayout, QDialog, QFileDialog, \
@@ -9,7 +6,6 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout, QGroupBox, QGridLayout, QFor
 from qfluentwidgets import ComboBoxSettingCard, FluentIcon as FIF, PushButton, CardWidget, SimpleCardWidget
 from app.common.constant import LANGUAGES, ActionType
 from app.common.config import cfg
-from app.common.utils import trans_util
 from app.view.components.drop_area import DropArea
 from app.common.utils.notify_util import notify_common_error, notify_error
 from app.common.utils.file_util import get_all_json_files, get_dict_path, get_error_dict_path
