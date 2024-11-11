@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 import os
 import json
-from app.common.constant import FileType, TargetAssetType
+from app.common.constant import FileType, TargetAssetType, ActionType
 from app.common.utils.notify_util import notify_error
 from app.common.utils.file_util import get_dict_path, get_error_dict_path, get_out_path
 from app.core.handlers.trans_context import TransContext
@@ -44,7 +44,7 @@ class BaseTransHandler(ABC):
                 notify_error(e, file)
 
     def create_out_file(self, file_path, out_obj):
-        if self.context.action_type != 2:
+        if self.context.action_type != ActionType.GENERATE:
             return
         out_file_path = get_out_path(self.context.mod_path) + "/" + os.path.relpath(file_path,
                                                                                     self.context.mod_path)
