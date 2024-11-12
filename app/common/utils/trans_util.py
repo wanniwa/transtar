@@ -138,7 +138,7 @@ def modTrans(value):
         return cache[value]
     new_value = value
 
-    if cfg.trans_model.value != "google":
+    if cfg.trans_model.value != "google" and cfg.trans_model.value != "deepl":
         new_value = translate(value)
         print(f'translate_out: {new_value}')
         return new_value
