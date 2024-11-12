@@ -83,75 +83,75 @@ class TargetAssetType(Enum):
 
     @staticmethod
     def get_target_asset_type(target):
-        target = target.lower()
-        if ("characters/dialogue" in target or
-                "strings/characters" in target or
-                "data/engagementdialogue" in target or
-                "Data/ExtraDialogue".lower() in target or
-                "strings/specialorderstrings" in target or
-                "strings/speechbubble" in target or
-                "strings/stringsfromcsfiles" in target or
-                "strings/stringsfrommaps" in target or
-                "strings/locations" in target or
-                "strings/schedules" in target or
-                "strings/ui" in target or
-                "strings/buffs" in target or
-                "strings/mail" in target or
-                "strings/speechbubbles" in target or
-                "strings/animationDescriptions" in target or
-                "madamstrings" in target or
-                target.startswith("dialogue/") or
-                "strings/events" in target):
+        target_lower = target.lower()
+        if ("characters/dialogue" in target_lower or
+                "strings/characters" in target_lower or
+                "data/engagementdialogue" in target_lower or
+                "Data/ExtraDialogue".lower() in target_lower or
+                "strings/specialorderstrings" in target_lower or
+                "strings/speechbubble" in target_lower or
+                "strings/stringsfromcsfiles" in target_lower or
+                "strings/stringsfrommaps" in target_lower or
+                "strings/locations" in target_lower or
+                "strings/schedules" in target_lower or
+                "strings/ui" in target_lower or
+                "strings/buffs" in target_lower or
+                "strings/mail" in target_lower or
+                "strings/speechbubbles" in target_lower or
+                "strings/animationDescriptions" in target_lower or
+                "madamstrings" in target_lower or
+                target_lower.startswith("dialogue/") or
+                "strings/events" in target_lower):
             return TargetAssetType.PlainText
-        elif "data/events/farmhouse" in target:
+        elif "data/events/farmhouse" in target_lower:
             return TargetAssetType.EventsLike
-        elif "data/quests" in target:
+        elif "data/quests" in target_lower:
             return TargetAssetType.Quests
-        elif "data/events" in target:
+        elif "data/events" in target_lower:
             return TargetAssetType.EventsLike
-        elif "data/festivals" in target:
+        elif "data/festivals" in target_lower:
             return TargetAssetType.Festivals
-        elif "data/npcdispositions" in target:
+        elif "data/npcdispositions" in target_lower:
             return TargetAssetType.NPCDispositions
-        elif "data/npcgifttastes" in target:
+        elif "data/npcgifttastes" in target_lower:
             return TargetAssetType.NPCGiftTastes
-        elif "data/moviesreactions" in target:
+        elif "data/moviesreactions" in target_lower:
             return TargetAssetType.MoviesReactions
-        elif "data/mail" in target:
+        elif "data/mail" in target_lower:
             return TargetAssetType.Mail
-        elif "data/objectinformation" in target:
+        elif "data/objectinformation" in target_lower:
             return TargetAssetType.ObjectInformation
-        elif "data/bigcraftablesinformation" in target:
+        elif "data/bigcraftablesinformation" in target_lower:
             return TargetAssetType.BigCraftablesInformation
-        elif "data/secretnotes" in target:
+        elif "data/secretnotes" in target_lower:
             return TargetAssetType.SecretNotes
-        elif "mods/bouhm.npcmaplocations/locations" == target:
+        elif "mods/bouhm.npcmaplocations/locations" == target_lower:
             return TargetAssetType.NPCMapLocations
-        elif "data/specialorders" == target:
+        elif "data/specialorders" == target_lower:
             return TargetAssetType.DataSpecialOrders
-        elif "Data/PassiveFestivals".lower() == target:
+        elif "Data/PassiveFestivals".lower() == target_lower:
             return TargetAssetType.PassiveFestivals
-        elif "Data/BigCraftables".lower() == target:
+        elif "Data/BigCraftables".lower() == target_lower:
             return TargetAssetType.BigCraftables
-        elif "Data/CookingRecipes".lower() in target:
+        elif "Data/CookingRecipes".lower() in target_lower:
             return TargetAssetType.CookingRecipes
-        elif "Data/Objects".lower() in target:
+        elif "Data/Objects".lower() in target_lower:
             return TargetAssetType.Objects
-        elif "Data/Weapons".lower() in target:
+        elif "Data/Weapons".lower() in target_lower:
             return TargetAssetType.Weapons
-        elif "Data/Locations".lower() in target:
+        elif "Data/Locations".lower() in target_lower:
             return TargetAssetType.Locations
-        elif "Data/WorldMap".lower() in target:
+        elif "Data/WorldMap".lower() in target_lower:
             return TargetAssetType.WorldMap
-        elif "Data/Characters".lower() in target:
+        elif "Data/Characters".lower() in target_lower:
             return TargetAssetType.Characters
-        elif "Data/JukeboxTracks".lower() in target:
+        elif "Data/JukeboxTracks".lower() in target_lower:
             return TargetAssetType.JukeboxTracks
-        elif "Data/Shirts".lower() in target:
+        elif "Data/Shirts".lower() in target_lower:
             return TargetAssetType.Shirts
-        elif "Data/FarmAnimal".lower() in target:
+        elif "Data/FarmAnimal".lower() in target_lower:
             return TargetAssetType.FarmAnimal
-        elif "Data/Hats".lower() in target:
+        elif "Data/Hats".lower() in target_lower:
             # {
             #     "LogName": "Hats Data",
             #     "Action": "EditData",
@@ -161,27 +161,27 @@ class TargetAssetType(Enum):
             #     }
             # }
             return TargetAssetType.Hats
-        elif "Data/Boots".lower() in target:
+        elif "Data/Boots".lower() in target_lower:
             return TargetAssetType.Boots
-        elif "Data/ClothingInformation".lower() in target:
+        elif "Data/ClothingInformation".lower() in target_lower:
             return TargetAssetType.ClothingInformation
-        elif "Data/Furniture".lower() in target:
+        elif "Data/Furniture".lower() in target_lower:
             return TargetAssetType.Furniture
-        elif "Data/Buildings".lower() in target:
+        elif "Data/Buildings".lower() in target_lower:
             return TargetAssetType.Buildings
-        elif "Data/Minecarts".lower() in target:
+        elif "Data/Minecarts".lower() in target_lower:
             return TargetAssetType.Minecarts
-        elif "Data/FruitTrees".lower() in target:
+        elif "Data/FruitTrees".lower() in target_lower:
             return TargetAssetType.FruitTrees
-        elif "Data/Pants".lower() in target:
+        elif "Data/Pants".lower() in target_lower:
             return TargetAssetType.Pants
-        elif "Data/CraftingRecipes".lower() in target:
+        elif "Data/CraftingRecipes".lower() in target_lower:
             return TargetAssetType.CraftingRecipes
-        elif "Mods/CJBok.CheatsMenu".lower() in target:
+        elif "Mods/CJBok.CheatsMenu".lower() in target_lower:
             return TargetAssetType.CheatsMenu
-        elif "UnlockableBundles/Bundles".lower() in target:
+        elif "UnlockableBundles/Bundles".lower() in target_lower:
             return TargetAssetType.Bundles
-        elif "Data/Shops".lower() in target:
+        elif "Data/Shops".lower() in target_lower:
             # {
             #     "Action": "EditData",
             #     "Target": "Data/Shops",

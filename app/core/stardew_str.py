@@ -163,10 +163,30 @@ class StardewStr:
                 })
 
             for random_data in random_data_list:
-                split = random_data["randomData"].split(random_data["separator"])
-                for i in range(len(split)):
-                    split[i] = self.deal_token(split[i])
-                value = value.replace(random_data["randomData"], " ".join(split))
+                separator = random_data["separator"]
+                split_str = random_data["randomData"].split(separator)
+                for i in range(len(split_str)):
+                    split_str[i] = self.deal_token(split_str[i])
+                
+                # 重新拼接字符串，检查每个部分与分隔符之间的空格
+                result = ""
+                for i, part in enumerate(split_str):
+                    if i > 0:
+                        # 检查当前部分的开头和前一个部分的结尾是否有空格
+                        need_left_space = not part.startswith(' ') 
+                        need_right_space = not split_str[i-1].endswith(' ')
+                        
+                        if need_left_space and need_right_space:
+                            result += f" {separator} "
+                        elif need_left_space:
+                            result += f" {separator}"
+                        elif need_right_space:
+                            result += f"{separator} "
+                        else:
+                            result += separator
+                    result += part
+                
+                value = value.replace(random_data["randomData"], result)
         else:
             value = self.deal_token(value)
         return value
