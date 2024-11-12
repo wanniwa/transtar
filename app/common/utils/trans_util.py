@@ -55,7 +55,7 @@ def batch_translate(dict_values):
     values = list(dict_values)
     print(f'translate_put: {values}')
     model = cfg.trans_model.value
-    if model == "google":
+    if model == "google" or model == "deepl":
         result = []
         for value in values:
             result.append(modTrans(value))
@@ -66,7 +66,7 @@ def batch_translate(dict_values):
         api_key=cfg.api_key.value,
     )
 
-    language_ = LANGUAGES[cfg.to_language.name]
+    language_ = cfg.to_language.value
     prompt = cfg.ai_prompt.value
     if prompt == '':
         prompt = 'You are currently a professional Stardew Valley mod translator.'

@@ -31,6 +31,7 @@ def handle_action(folder_path: str, action_type: ActionType):
         elif action_type == ActionType.IMPORT_ERROR:
             action.import_from_error(folder_path)
     except Exception as e:
+        print(e)
         notify_error(e, folder_path)
 
 
