@@ -15,7 +15,10 @@ LANGUAGES = {
     "Russian": "ru",
     "Spanish": "es",
     "Turkish": "tr",
+    "Vietnamese": "vi"
 }
+
+LANGUAGE_KEY_NAME = {v: k for k, v in LANGUAGES.items()}
 
 
 class ActionType(Enum):

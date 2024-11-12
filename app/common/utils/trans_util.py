@@ -10,7 +10,7 @@ from PySide6.QtWidgets import QMessageBox
 from openai import OpenAI
 from translatepy.translators.google import GoogleTranslateV2
 
-from app.common.constant import LANGUAGES
+from app.common.constant import LANGUAGE_KEY_NAME
 from app.common.config import cfg
 
 random_pattern = re.compile(r"\{\{Random:(.*?)\|inputSeparator=(.*?)}}")
@@ -32,12 +32,12 @@ def translate(value):
         api_key=cfg.api_key.value
     )
 
-    language_ = cfg.to_language.value
+    language_name = LANGUAGE_KEY_NAME[cfg.to_language.value]
     chat_completion = client.chat.completions.create(
         messages=[
             {
                 "role": "system",
-                "content": f"You are currently a professional Stardew Valley mod translator. Translate the input text to {language_}. Respond only with the translated text.",
+                "content": f"You are currently a professional Stardew Valley mod translator. Translate the input text to {language_name}. Respond only with the translated text.",
             },
             {
                 "role": "user",
@@ -66,7 +66,7 @@ def batch_translate(dict_values):
         api_key=cfg.api_key.value,
     )
 
-    language_ = cfg.to_language.value
+    language_name = LANGUAGE_KEY_NAME[cfg.to_language.value]
     prompt = cfg.ai_prompt.value
     if prompt == '':
         prompt = 'You are currently a professional Stardew Valley mod translator.'
@@ -75,7 +75,7 @@ def batch_translate(dict_values):
         messages=[
             {
                 "role": "system",
-                "content": prompt + f" Translate the text in array to {language_}. Respond only with the translated text in array",
+                "content": prompt + f" Translate the text in array to {language_name}. Respond only with the translated text in array",
             },
             {
                 "role": "user",
