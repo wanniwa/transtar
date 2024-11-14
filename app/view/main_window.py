@@ -1,5 +1,5 @@
 # coding: utf-8
-from PySide6.QtCore import QUrl, QSize
+from PySide6.QtCore import QUrl, QSize, Qt, QTimer
 from PySide6.QtGui import QIcon, QColor
 from PySide6.QtWidgets import QApplication
 
@@ -34,6 +34,15 @@ class MainWindow(MSFluentWindow):
 
         # add items to navigation interface
         self.initNavigation()
+
+        # 如果启用了自动检查更新，延迟几秒后检查
+        if cfg.checkUpdateAtStartUp.value:
+            # 延迟3秒后检查更新，让主窗口完全加载
+            QTimer.singleShot(3000, self._checkUpdate)
+
+    def _checkUpdate(self):
+        """检查更新"""
+        signalBus.checkUpdateSig.emit()
 
     def initNavigation(self):
         # self.navigationInterface.setAcrylicEnabled(True)

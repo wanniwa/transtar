@@ -1,27 +1,29 @@
 # coding:utf-8
-from PySide6.QtCore import Qt, QUrl
+import platform
+import subprocess
+import traceback
+from pathlib import Path
+
+from PySide6.QtCore import Qt, QUrl, QCoreApplication
 from PySide6.QtGui import QDesktopServices, QFont
-from PySide6.QtWidgets import QWidget, QLabel
-from qfluentwidgets import FluentIcon as FIF, OptionsSettingCard, RangeSettingCard
-from qfluentwidgets import InfoBar
-from qfluentwidgets import SettingCardGroup as CardGroup
+from PySide6.QtWidgets import QWidget, QLabel, QApplication
+from packaging import version
+from qfluentwidgets import FluentIcon as FIF, OptionsSettingCard, RangeSettingCard, MessageBox, InfoBar, StateToolTip
+from qfluentwidgets import SettingCardGroup
 from qfluentwidgets import (SwitchSettingCard,
                             HyperlinkCard, PrimaryPushSettingCard, ScrollArea,
                             ComboBoxSettingCard, ExpandLayout,
                             setTheme, setFont)
 
+from .components.check_update_thread import CheckUpdateThread
+from .components.download_thread import DownloadThread
 from .components.setting_card import LineEditSettingCard, TextEditSettingCard
-from ..common.config import cfg,models
+from ..common.config import cfg, models
 from ..common.setting import HELP_URL, FEEDBACK_URL, AUTHOR, VERSION, YEAR
 from ..common.signal_bus import signalBus
 from ..common.style_sheet import StyleSheet
-
-
-class SettingCardGroup(CardGroup):
-
-    def __init__(self, title: str, parent=None):
-        super().__init__(title, parent)
-        setFont(self.titleLabel, 14, QFont.Weight.DemiBold)
+from ..common.utils import file_util
+from ..common.window_manager import get_window
 
 
 class SettingInterface(ScrollArea):
@@ -29,6 +31,7 @@ class SettingInterface(ScrollArea):
 
     def __init__(self, parent=None):
         super().__init__(parent=parent)
+        self.current_download_filename = None
         self.scrollWidget = QWidget()
         self.expandLayout = ExpandLayout(self.scrollWidget)
 
@@ -79,7 +82,8 @@ class SettingInterface(ScrollArea):
             FIF.FLAG,
             self.tr('AI prompt'),
             self.tr('Prompt get shown to the AI on all chat.'),
-            self.tr('Please enter the prompt word. If empty, the default prompt will be used. like: You are currently a professional Stardew Valley mod translator.'),
+            self.tr(
+                'Please enter the prompt word. If empty, the default prompt will be used. like: You are currently a professional Stardew Valley mod translator.'),
             configItem=cfg.ai_prompt,
             parent=self.translationGroup
         )
@@ -118,16 +122,16 @@ class SettingInterface(ScrollArea):
             parent=self.personalGroup
         )
 
-        # # update software
-        # self.updateSoftwareGroup = SettingCardGroup(
-        #     self.tr("Software update"), self.scrollWidget)
-        # self.updateOnStartUpCard = SwitchSettingCard(
-        #     FIF.UPDATE,
-        #     self.tr('Check for updates when the application starts'),
-        #     self.tr('The new version will be more stable and have more features'),
-        #     configItem=cfg.checkUpdateAtStartUp,
-        #     parent=self.updateSoftwareGroup
-        # )
+        # update software
+        self.updateSoftwareGroup = SettingCardGroup(
+            self.tr("Software update"), self.scrollWidget)
+        self.updateOnStartUpCard = SwitchSettingCard(
+            FIF.UPDATE,
+            self.tr('Check for updates when the application starts'),
+            self.tr('The new version will be more stable and have more features'),
+            configItem=cfg.checkUpdateAtStartUp,
+            parent=self.updateSoftwareGroup
+        )
 
         # application
         self.aboutGroup = SettingCardGroup(self.tr('About'), self.scrollWidget)
@@ -154,6 +158,9 @@ class SettingInterface(ScrollArea):
             self.tr('Version') + " " + VERSION,
             self.aboutGroup
         )
+
+        # 添加检查更新线程
+        self.check_update_thread = None
 
         self.__initWidget()
 
@@ -190,7 +197,7 @@ class SettingInterface(ScrollArea):
         self.personalGroup.addSettingCard(self.zoomCard)
         self.personalGroup.addSettingCard(self.languageCard)
 
-        # self.updateSoftwareGroup.addSettingCard(self.updateOnStartUpCard)
+        self.updateSoftwareGroup.addSettingCard(self.updateOnStartUpCard)
 
         self.aboutGroup.addSettingCard(self.helpCard)
         self.aboutGroup.addSettingCard(self.feedbackCard)
@@ -201,7 +208,7 @@ class SettingInterface(ScrollArea):
         self.expandLayout.setContentsMargins(36, 10, 36, 0)
         self.expandLayout.addWidget(self.translationGroup)
         self.expandLayout.addWidget(self.personalGroup)
-        # self.expandLayout.addWidget(self.updateSoftwareGroup)
+        self.expandLayout.addWidget(self.updateSoftwareGroup)
         self.expandLayout.addWidget(self.aboutGroup)
 
     def _showRestartTooltip(self):
@@ -221,8 +228,162 @@ class SettingInterface(ScrollArea):
         cfg.themeChanged.connect(setTheme)
 
         # check update
+        # self.aboutCard.clicked.connect(self.check_for_updates())
+        signalBus.checkUpdateSig.connect(self.check_for_updates)
         self.aboutCard.clicked.connect(signalBus.checkUpdateSig)
 
         # about
         self.feedbackCard.clicked.connect(
             lambda: QDesktopServices.openUrl(QUrl(FEEDBACK_URL)))
+
+    def check_for_updates(self):
+        # 禁用按钮并显示加载状态
+        self.aboutCard.button.setEnabled(False)
+        self.aboutCard.button.setText(self.tr("Checking..."))
+        
+        # 创建并启动检查更新线程
+        self.check_update_thread = CheckUpdateThread()
+        self.check_update_thread.finished_signal.connect(self.handle_update_check_result)
+        self.check_update_thread.start()
+
+    def handle_update_check_result(self, success, data, error_msg):
+        # 恢复按钮状态
+        self.aboutCard.button.setEnabled(True)
+        self.aboutCard.button.setText(self.tr("Check update"))
+        
+        if success:
+            try:
+                latest_version = data.get('tag_name')
+                current_version = VERSION
+                
+                if version.parse(latest_version) > version.parse(current_version):
+                    assets = data.get('assets', [])
+                    if assets:
+                        download_url = assets[0].get('browser_download_url')
+                        
+                        w = MessageBox(
+                            self.tr('Update Available'),
+                            self.tr('Current version: {0}\nNew version: {1}\n\nDo you want to update?').format(current_version, latest_version),
+                            parent=get_window()
+                        )
+
+                        if w.exec():
+                            self.download_update(download_url)
+                else:
+                    # 使用 tr 的第二个参数传递变量
+                    message = self.tr("You are already using the latest version ({0})",).format(current_version)
+                    InfoBar.info(
+                        self.tr("No Update"), 
+                        message,
+                        parent=self
+                    )
+            except Exception as e:
+                print(f"Handle update result error: {str(e)}")
+                print("Traceback:")
+                print(traceback.format_exc())
+                InfoBar.error(
+                    self.tr("Update Check Failed"), 
+                    str(e), 
+                    parent=self
+                )
+        else:
+            InfoBar.error(
+                self.tr("Update Check Failed"), 
+                error_msg, 
+                parent=self
+            )
+
+    def download_update(self, url):
+        try:
+            # 创建AppData目录
+            app_data_dir = Path('AppData').absolute()
+            self.current_download_filename = url.split('/')[-1]  # 保存当前下载的文件名
+            file_path = app_data_dir / self.current_download_filename
+            
+            # 创建状态提示
+            self.state_tooltip = StateToolTip(
+                self.tr('Downloading Update'),
+                self.tr('Downloading, please wait...'),
+                parent=self
+            )
+            self.state_tooltip.move(self.state_tooltip.getSuitablePos())
+            self.state_tooltip.show()
+            
+            # 创建下载线程
+            self.download_thread = DownloadThread(url, str(file_path))
+            self.download_thread.progress_signal.connect(self.update_progress)
+            self.download_thread.finished_signal.connect(self.download_finished)
+            
+            # 开始下载
+            self.download_thread.start()
+            
+        except Exception as e:
+            print(f"Download setup error: {str(e)}")
+            print("Traceback:")
+            print(traceback.format_exc())
+            InfoBar.error(
+                self.tr("Download Failed"),
+                str(e),
+                parent=self
+            )
+
+    def update_progress(self, progress):
+        """更新进度提示"""
+        # 使用 tr 的第二个参数传递变量
+        message = self.tr('Downloading... {0}%').format(progress)
+        self.state_tooltip.setContent(message)
+
+    def download_finished(self, success, error_msg):
+        """下载完成的处理"""
+        self.state_tooltip.close()
+        
+        if success:
+            app_data_dir = Path('AppData').absolute()
+            file_path = app_data_dir / self.current_download_filename
+            
+            if platform.system() == 'Windows' and file_path.suffix.lower() == '.exe':
+                # 下载完成后询问是否立即安装
+                w = MessageBox(
+                    self.tr('Installation'),
+                    self.tr('Download completed. Do you want to install it now?'),
+                    parent=get_window()
+                )
+                
+                if w.exec():
+                    try:
+                        # Windows平台直接执行安装包并关闭程序
+                        subprocess.Popen([str(file_path)], shell=True)
+                        QApplication.quit()
+                    except Exception as e:
+                        print(f"Execute installer error: {str(e)}")
+                        print("Traceback:")
+                        print(traceback.format_exc())
+                        # 如果执行失败，退回到打开文件夹
+                        file_util.open_folder(str(app_data_dir))
+                        InfoBar.warning(
+                            self.tr("Launch Failed"),
+                            self.tr("Could not launch installer, opening download folder instead"),
+                            parent=self
+                        )
+                else:
+                    # 用户选择不立即安装，打开下载目录
+                    file_util.open_folder(str(app_data_dir))
+                    InfoBar.success(
+                        self.tr("Download Complete"),
+                        self.tr("Update has been downloaded to AppData folder"),
+                        parent=self
+                    )
+            else:
+                InfoBar.success(
+                    self.tr("Download Complete"),
+                    self.tr("Update has been downloaded successfully"),
+                    parent=self
+                )
+                # 非Windows平台或非exe文件，打开下载目录
+                file_util.open_folder(str(app_data_dir))
+        else:
+            InfoBar.error(
+                self.tr("Download Failed"),
+                error_msg,
+                parent=self
+            )
