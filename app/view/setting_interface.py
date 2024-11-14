@@ -275,7 +275,7 @@ class SettingInterface(ScrollArea):
                     InfoBar.info(
                         self.tr("No Update"), 
                         message,
-                        parent=self
+                        parent=get_window()
                     )
             except Exception as e:
                 print(f"Handle update result error: {str(e)}")
@@ -284,13 +284,13 @@ class SettingInterface(ScrollArea):
                 InfoBar.error(
                     self.tr("Update Check Failed"), 
                     str(e), 
-                    parent=self
+                    parent=get_window()
                 )
         else:
             InfoBar.error(
                 self.tr("Update Check Failed"), 
                 error_msg, 
-                parent=self
+                parent=get_window()
             )
 
     def download_update(self, url):
@@ -304,7 +304,7 @@ class SettingInterface(ScrollArea):
             self.state_tooltip = StateToolTip(
                 self.tr('Downloading Update'),
                 self.tr('Downloading, please wait...'),
-                parent=self
+                parent=get_window()
             )
             self.state_tooltip.move(self.state_tooltip.getSuitablePos())
             self.state_tooltip.show()
@@ -324,7 +324,7 @@ class SettingInterface(ScrollArea):
             InfoBar.error(
                 self.tr("Download Failed"),
                 str(e),
-                parent=self
+                parent=get_window()
             )
 
     def update_progress(self, progress):
@@ -363,7 +363,7 @@ class SettingInterface(ScrollArea):
                         InfoBar.warning(
                             self.tr("Launch Failed"),
                             self.tr("Could not launch installer, opening download folder instead"),
-                            parent=self
+                            parent=get_window()
                         )
                 else:
                     # 用户选择不立即安装，打开下载目录
@@ -371,13 +371,13 @@ class SettingInterface(ScrollArea):
                     InfoBar.success(
                         self.tr("Download Complete"),
                         self.tr("Update has been downloaded to AppData folder"),
-                        parent=self
+                        parent=get_window()
                     )
             else:
                 InfoBar.success(
                     self.tr("Download Complete"),
                     self.tr("Update has been downloaded successfully"),
-                    parent=self
+                    parent=get_window()
                 )
                 # 非Windows平台或非exe文件，打开下载目录
                 file_util.open_folder(str(app_data_dir))
@@ -385,5 +385,5 @@ class SettingInterface(ScrollArea):
             InfoBar.error(
                 self.tr("Download Failed"),
                 error_msg,
-                parent=self
+                parent=get_window()
             )
