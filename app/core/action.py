@@ -64,7 +64,7 @@ def generate(mod_path: str) -> None:
         shutil.rmtree(file_util.get_out_path(mod_path), ignore_errors=True)
 
     for file_type, files in files_by_type.items():
-        context = TransContext(mod_path, False, True, ActionType.GENERATE, file_type)
+        context = TransContext(mod_path, False, True, ActionType.GENERATE, file_type ,files_by_type)
         handler = HandlerFactory.get_trans_handler(file_type)(context)
         handler.batch_handle(files)
         handler.create_error_dict_file()

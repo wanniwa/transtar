@@ -16,8 +16,5 @@ FEEDBACK_URL = "https://github.com/wanniwa/transtar/issues"
 DOC_URL = "https://www.nexusmods.com/stardewvalley/mods/20435"
 
 
-CONFIG_FOLDER = appdirs.user_config_dir("transtar")
-# 如果配置文件夹不存在则创建
-Path(CONFIG_FOLDER).mkdir(parents=True, exist_ok=True)
-
+CONFIG_FOLDER = appdirs.user_config_dir("Transtar")
 CONFIG_FILE = Path(CONFIG_FOLDER).joinpath("config.json")
