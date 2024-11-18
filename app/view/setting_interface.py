@@ -264,11 +264,7 @@ class SettingInterface(ScrollArea):
                             current_version, latest_version),
                         parent=get_window()
                     )
-                    # 设置为非模态对话框
-                    w.setWindowModality(Qt.WindowModality.NonModal)
-                    # 允许点击遮罩关闭
-                    w.setClosableOnMaskClicked(True)
-                    
+
                     # 连接确认按钮的信号
                     w.yesButton.clicked.connect(
                         lambda: QDesktopServices.openUrl(QUrl("https://www.nexusmods.com/stardewvalley/mods/20435?tab=files"))
@@ -356,8 +352,6 @@ class SettingInterface(ScrollArea):
                     self.tr('Download completed. Do you want to install it now?'),
                     parent=get_window()
                 )
-                # 设置点击遮罩时关闭对话框
-                w.setMaskClosable(True)
 
                 if w.exec():
                     try:
