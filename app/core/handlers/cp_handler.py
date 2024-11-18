@@ -1,5 +1,7 @@
+import logging
 import os
 import re
+import json
 
 import hjson
 
@@ -7,6 +9,8 @@ from app.common.constant import FileType, TargetAssetType
 from .base_handler import BaseTransHandler
 from app.common.config import cfg
 from app.common.utils import file_util
+from .i18n_handler import I18nTransHandler
+from .trans_context import TransContext
 
 
 def get_random_list(path):
@@ -46,16 +50,92 @@ class CPTransHandler(BaseTransHandler):
     def handle(self, file_path):
         print(f"CPTransHandler translations:{file_path}")
 
-        if cfg.i18n_ignore_cp and os.path.exists(file_util.get_i18n_folder(file_path)):
-            print(f"exist i18n folder ignore CP ：{file_path}")
-            return
-        if os.path.basename(file_path) == "content.json":
-            self.cp_path = os.path.dirname(file_path)
-        relative_path = file_util.get_relative_path(file_path, self.context.mod_path)
+        i18n_folder = os.path.exists(file_util.get_i18n_folder(file_path))
+
         with open(file_path, 'r', encoding='utf-8') as f:
             content = hjson.load(f, encoding='utf-8')
         if content is None:
             return
+        dynamicTokens = content.get("ConfigSchema")
+        if dynamicTokens is not None:
+            i18n_folder = file_util.get_i18n_folder(file_path)
+            default_json_path = os.path.join(i18n_folder, "default.json")
+            existing_translations = {}
+            has_changes = False
+            default_json_path_exist = os.path.exists(default_json_path)
+            if default_json_path_exist:
+                try:
+                    with open(default_json_path, 'r', encoding='utf-8') as f:
+                        existing_translations = hjson.load(f)
+                except Exception as e:
+                    logging.error(f"Error reading default.json: {e}")
+                    existing_translations = {}
+
+            existing_keys_lower = {k.lower(): k for k in existing_translations.keys()}
+
+            for key, value in dynamicTokens.items():
+                default_value = value.get("Default")
+                if default_value is not None and isinstance(default_value, (int, float)):
+                    continue
+
+                # Handle basic name
+                name_key = f"config.{key}.name"
+                if name_key.lower() not in existing_keys_lower:
+                    self.dynamicTokens[name_key] = key
+                    existing_translations[name_key] = key
+                    has_changes = True
+
+                # Handle Section if exists
+                if "Section" in value:
+                    section_key = f"config.{key}.section"
+                    if section_key.lower() not in existing_keys_lower:
+                        self.dynamicTokens[section_key] = value["Section"]
+                        existing_translations[section_key] = value["Section"]
+                        has_changes = True
+
+                # Handle Description if exists
+                if "Description" in value:
+                    desc_key = f"config.{key}.description"
+                    if desc_key.lower() not in existing_keys_lower:
+                        self.dynamicTokens[desc_key] = value["Description"]
+                        existing_translations[desc_key] = value["Description"]
+                        has_changes = True
+
+                # Handle AllowValues if exists
+                if "AllowValues" in value:
+                    values = [v.strip() for v in value["AllowValues"].split(",")]
+                    for val in values:
+                        if val.replace(".", "").isdigit() or val.lower() == 'true' or val.lower() == 'false':
+                            continue
+                        
+                        value_key = f"config.{key}.values.{val}"
+                        if value_key.lower() not in existing_keys_lower:
+                            self.dynamicTokens[value_key] = val
+                            existing_translations[value_key] = val
+                            has_changes = True
+
+            if has_changes:
+                os.makedirs(i18n_folder, exist_ok=True)
+
+                try:
+                    with open(default_json_path, 'w', encoding='utf-8') as f:
+                        json.dump(existing_translations, f, ensure_ascii=False, indent=2)
+                except Exception as e:
+                    logging.error(f"Error writing to default.json: {e}")
+
+                if not default_json_path_exist:
+                    if FileType.I18N in self.context.files_by_type:
+                        if default_json_path not in self.context.files_by_type[FileType.I18N]:
+                            self.context.files_by_type[FileType.I18N].append(default_json_path)
+                    else:
+                        self.context.files_by_type[FileType.I18N] = [default_json_path]
+
+        if not cfg.i18n_extract_cp and i18n_folder:
+            logging.info(f"exist i18n folder ignore extra CP ：{file_path}")
+            return
+        if os.path.basename(file_path) == "content.json":
+            self.cp_path = os.path.dirname(file_path)
+        relative_path = file_util.get_relative_path(file_path, self.context.mod_path)
 
         dynamicTokens = content.get("DynamicTokens")
         if dynamicTokens:
@@ -76,7 +156,7 @@ class CPTransHandler(BaseTransHandler):
             action = change.get("Action", "load")
 
             when = change.get("When")
-            if "When" in change and when.get("Language") is not None and when.get(
+            if when is not None and "When" in change and when.get("Language") is not None and when.get(
                     "Language") != cfg.source_language.value:
                 continue
             target = change.get("Target")
@@ -102,6 +182,8 @@ class CPTransHandler(BaseTransHandler):
                                 form_file1 = form_file1.replace("{{Target}}", target1)
                                 self.batch_handle([os.path.join(self.cp_path, form_file1)])
                         else:
+                            print(self.cp_path)
+                            print(form_file)
                             self.batch_handle([os.path.join(self.cp_path, form_file)])
             elif action.lower() == "EditData".lower():
                 target_field = change.get("TargetField")

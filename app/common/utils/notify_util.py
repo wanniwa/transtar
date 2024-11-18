@@ -1,3 +1,5 @@
+import logging
+
 from qfluentwidgets import Dialog
 
 from app.common.window_manager import get_window
@@ -18,5 +20,6 @@ def notify_common_error(title: str, content: str):
 
 
 def notify_error(e, tb):
+    logging.error(e, stacklevel=1, exc_info=True)
     msg = FileErrorDialog(e, tb, get_window())
     msg.exec()

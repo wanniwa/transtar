@@ -5,7 +5,7 @@ from PySide6.QtCore import QObject, Signal
 class SignalBus(QObject):
     """ Signal bus """
 
-    checkUpdateSig = Signal()
+    checkUpdateSig = Signal(bool)
     micaEnableChanged = Signal(bool)
 
 

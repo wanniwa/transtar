@@ -44,7 +44,7 @@ class Config(QConfig):
 
     # 翻译配置
     """ Config of application """
-    i18n_ignore_cp = ConfigItem("Translation", "i18n_ignore_cp", True, BoolValidator())
+    i18n_extract_cp = ConfigItem("Translation", "i18n_extract_cp", False, BoolValidator())
     i18n_source_flag = ConfigItem("Translation", "i18n_source_flag", False, BoolValidator())
     trans_model = OptionsConfigItem("Translation", "trans_model", "google", OptionsValidator(models))
     ai_batch_size = RangeConfigItem("Translation", "ai_batch_size", 5, RangeValidator(1, 20))

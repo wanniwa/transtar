@@ -42,7 +42,7 @@ class MainWindow(MSFluentWindow):
 
     def _checkUpdate(self):
         """检查更新"""
-        signalBus.checkUpdateSig.emit()
+        signalBus.checkUpdateSig.emit(False)  # 启动时检查更新不显示"无更新"提示
 
     def initNavigation(self):
         # self.navigationInterface.setAcrylicEnabled(True)

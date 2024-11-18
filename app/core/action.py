@@ -22,21 +22,26 @@ def extract(mod_path: str) -> None:
         i18n_language = cfg.source_language.value
     files_by_type = file_util.get_files_by_type(mod_path, i18n_language)
     if not files_by_type:
-        return
+        files_by_type = {}
+        
     if os.path.exists(file_util.get_error_dict_path(mod_path)):
         shutil.rmtree(file_util.get_error_dict_path(mod_path), ignore_errors=True)
 
-    total_file_num = 0
-    for file_type, files in files_by_type.items():
-        total_file_num += len(files)
-
-    current_num = 0
-    for file_type, files in files_by_type.items():
-        context = TransContext(mod_path, True, False, ActionType.EXTRACT, file_type)
-        handler = HandlerFactory.get_trans_handler(file_type)(context)
-        handler.batch_handle(files)
+    # Process non-I18N files first
+    for file_type, files in list(files_by_type.items()): 
+        if file_type != FileType.I18N:
+            context = TransContext(mod_path, True, False, ActionType.EXTRACT, file_type, files_by_type)
+            handler = HandlerFactory.get_trans_handler(file_type)(context)
+            handler.batch_handle(files)
+            handler.create_dict_file()
+    
+    # Finally process all I18N files together
+    if FileType.I18N in files_by_type:
+        context = TransContext(mod_path, True, False, ActionType.EXTRACT, FileType.I18N, files_by_type)
+        handler = HandlerFactory.get_trans_handler(FileType.I18N)(context)
+        handler.batch_handle(files_by_type[FileType.I18N])
         handler.create_dict_file()
-        current_num += len(files)
+
     InfoBar.success(get_window().tr("Success"), get_window().tr(f"Extract completed"), duration=3000,
                     parent=get_window())
     file_util.open_folder(file_util.get_dict_path(mod_path))
@@ -68,7 +73,7 @@ def generate(mod_path: str) -> None:
 
 
 def validate(mod_path):
-    # 删除文件夹中所有文件
+    # Delete all files in the folder
     if os.path.exists(file_util.get_error_dict_path(mod_path)):
         shutil.rmtree(file_util.get_error_dict_path(mod_path), ignore_errors=True)
     json_files = file_util.get_all_json_files(file_util.get_dict_path(mod_path))
@@ -131,7 +136,6 @@ def import_from_error(mod_path):
                         json.dump(dict_json, dict_out_f, indent=4, ensure_ascii=False)
     InfoBar.success(get_window().tr("Error"), get_window().tr("import success, you can validate again"), duration=3000,
                     parent=get_window())
-
 
 
 def translate(mod_path, thread, batch_size):

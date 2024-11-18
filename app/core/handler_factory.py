@@ -2,7 +2,8 @@ from typing import Dict, Type
 from app.common.constant import FileType
 from app.core.handlers.base_handler import BaseTransHandler
 from app.core.handlers.cp_handler import CPTransHandler
-from app.core.handlers.simple_handler import MailTransHandler
+from app.core.handlers.simple_handler import MailTransHandler, JATransHandler, BLTransHandler, STFTransHandler, \
+    QFTransHandler
 from app.core.handlers.i18n_handler import I18nTransHandler
 
 UNKNOWN = "UNKNOWN"
@@ -19,7 +20,10 @@ class HandlerFactory:
         FileType.CP: CPTransHandler,
         FileType.I18N: I18nTransHandler,
         FileType.MAIL: MailTransHandler,
-
+        FileType.JA: JATransHandler,
+        FileType.BL: BLTransHandler,
+        FileType.STF: STFTransHandler,
+        FileType.QF: QFTransHandler
     }
 
     @classmethod

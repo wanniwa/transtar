@@ -175,12 +175,12 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../view/main_window.py" line="42"/>
+        <location filename="../../view/main_window.py" line="51"/>
         <source>Home</source>
         <translation>主页</translation>
     </message>
     <message>
-        <location filename="../../view/main_window.py" line="46"/>
+        <location filename="../../view/main_window.py" line="55"/>
         <source>Settings</source>
         <translation>设置</translation>
     </message>
@@ -332,124 +332,102 @@
         <translation>发现并了解关于 Transtar 的新特性</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="242"/>
+        <location filename="../../view/setting_interface.py" line="241"/>
         <source>Checking...</source>
         <translation>检查中</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="265"/>
+        <location filename="../../view/setting_interface.py" line="262"/>
         <source>Update Available</source>
         <translation>可用更新</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="266"/>
+        <location filename="../../view/setting_interface.py" line="263"/>
         <source>Current version: {0}
 New version: {1}
 
-Do you want to update?</source>
-        <translation type="unfinished">当前版本: {0}
+Do you want to download the latest version?</source>
+        <translation>当前版本: {0}
 新版本: {1}
 
-是否更新？</translation>
-    </message>
-    <message>
-        <location filename="../../view/setting_interface.py" line="274"/>
-        <source>You are already using the latest version ({0})</source>
-        <translation type="unfinished">您已经使用了最新版本({0})</translation>
-    </message>
-    <message>
-        <source>You are already using the latest version (%1)</source>
-        <translation type="obsolete">您已经使用了最新版本(%1)</translation>
-    </message>
-    <message>
-        <location filename="../../view/setting_interface.py" line="333"/>
-        <source>Downloading... {0}%</source>
-        <translation type="unfinished">下载中…… {0}%</translation>
-    </message>
-    <message>
-        <source>Downloading... %1%</source>
-        <translation type="obsolete">下载中…… %1%</translation>
-    </message>
-    <message>
-        <source>Current version: {current_version}
-New version: {latest_version}
-
-Do you want to update?</source>
-        <translation type="vanished">当前版本：{current_version}
-新版本: {latest_version}
-
-是否更新？</translation>
-    </message>
-    <message>
-        <source>You are already using the latest version ({current_version})</source>
-        <translation type="obsolete">您使用的已经是最新版本({current_version})</translation>
+您想要下载最新版本吗?</translation>
     </message>
     <message>
         <location filename="../../view/setting_interface.py" line="285"/>
-        <location filename="../../view/setting_interface.py" line="291"/>
+        <source>You are already using the latest version ({0})</source>
+        <translation>您已经使用了最新版本({0})</translation>
+    </message>
+    <message>
+        <location filename="../../view/setting_interface.py" line="343"/>
+        <source>Downloading... {0}%</source>
+        <translation>下载中…… {0}%</translation>
+    </message>
+    <message>
+        <location filename="../../view/setting_interface.py" line="295"/>
+        <location filename="../../view/setting_interface.py" line="302"/>
         <source>Update Check Failed</source>
-        <translation type="unfinished">更新检查失败</translation>
+        <translation>更新检查失败</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="305"/>
+        <location filename="../../view/setting_interface.py" line="315"/>
         <source>Downloading Update</source>
-        <translation type="unfinished">下载更新</translation>
+        <translation>下载更新</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="306"/>
+        <location filename="../../view/setting_interface.py" line="316"/>
         <source>Downloading, please wait...</source>
-        <translation type="unfinished">下载中，请耐心等待……</translation>
+        <translation>下载中，请耐心等待……</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="325"/>
-        <location filename="../../view/setting_interface.py" line="386"/>
+        <location filename="../../view/setting_interface.py" line="335"/>
+        <location filename="../../view/setting_interface.py" line="399"/>
         <source>Download Failed</source>
-        <translation type="unfinished">下载失败</translation>
+        <translation>下载失败</translation>
     </message>
     <message>
         <source>Downloading... {progress}%</source>
         <translation type="vanished">下载中……{progress}%</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="347"/>
+        <location filename="../../view/setting_interface.py" line="355"/>
         <source>Installation</source>
-        <translation type="unfinished">安装</translation>
+        <translation>安装</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="348"/>
+        <location filename="../../view/setting_interface.py" line="356"/>
         <source>Download completed. Do you want to install it now?</source>
-        <translation type="unfinished">下载完成。是否立即安装？</translation>
+        <translation>下载完成。是否立即安装？</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="364"/>
+        <location filename="../../view/setting_interface.py" line="374"/>
         <source>Launch Failed</source>
-        <translation type="unfinished">启动失败</translation>
+        <translation>启动失败</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="365"/>
+        <location filename="../../view/setting_interface.py" line="375"/>
         <source>Could not launch installer, opening download folder instead</source>
-        <translation type="unfinished">启动安装包失败，请打开下载目录自行安装</translation>
+        <translation>启动安装包失败，请打开下载目录自行安装</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="372"/>
-        <location filename="../../view/setting_interface.py" line="378"/>
+        <location filename="../../view/setting_interface.py" line="383"/>
+        <location filename="../../view/setting_interface.py" line="390"/>
         <source>Download Complete</source>
-        <translation type="unfinished">下载完成</translation>
+        <translation>下载完成</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="373"/>
+        <location filename="../../view/setting_interface.py" line="384"/>
         <source>Update has been downloaded to AppData folder</source>
-        <translation type="unfinished">更新文件已经下载到了AppData文件夹</translation>
+        <translation>更新文件已经下载到了AppData文件夹</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="379"/>
+        <location filename="../../view/setting_interface.py" line="391"/>
         <source>Update has been downloaded successfully</source>
-        <translation type="unfinished">更新已经下载成功</translation>
+        <translation>更新已经下载成功</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="276"/>
+        <location filename="../../view/setting_interface.py" line="287"/>
         <source>No Update</source>
-        <translation type="unfinished">没有更新</translation>
+        <translation>没有更新</translation>
     </message>
     <message>
         <location filename="../../view/setting_interface.py" line="127"/>
@@ -503,7 +481,7 @@ Do you want to update?</source>
     </message>
     <message>
         <location filename="../../view/setting_interface.py" line="154"/>
-        <location filename="../../view/setting_interface.py" line="252"/>
+        <location filename="../../view/setting_interface.py" line="253"/>
         <source>Check update</source>
         <translation>检查更新</translation>
     </message>
