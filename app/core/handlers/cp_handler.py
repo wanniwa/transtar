@@ -130,7 +130,7 @@ class CPTransHandler(BaseTransHandler):
                     else:
                         self.context.files_by_type[FileType.I18N] = [default_json_path]
 
-        if not cfg.i18n_extract_cp and i18n_folder:
+        if not cfg.i18n_extract_cp.value and i18n_folder:
             logging.info(f"exist i18n folder ignore extra CP ：{file_path}")
             return
         if os.path.basename(file_path) == "content.json":
