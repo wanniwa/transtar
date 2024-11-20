@@ -47,6 +47,7 @@ class Config(QConfig):
     i18n_extract_cp = ConfigItem("Translation", "i18n_extract_cp", False, BoolValidator())
     i18n_source_flag = ConfigItem("Translation", "i18n_source_flag", False, BoolValidator())
     trans_model = OptionsConfigItem("Translation", "trans_model", "google", OptionsValidator(models))
+    ai_base_url = OptionsConfigItem("Translation", "ai_base_url", "")
     ai_batch_size = RangeConfigItem("Translation", "ai_batch_size", 5, RangeValidator(1, 20))
     ai_prompt = ConfigItem("Translation", "ai_prompt",
                            "You are currently a professional Stardew Valley mod translator. ", None)

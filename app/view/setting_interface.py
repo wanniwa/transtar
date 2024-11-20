@@ -70,7 +70,14 @@ class SettingInterface(ScrollArea):
             configItem=cfg.api_key,
             parent=self.translationGroup
         )
-        self.ai_batch_size = RangeSettingCard(
+        self.ai_base_url_card = LineEditSettingCard(
+            FIF.FLAG,
+            self.tr('Base URL'),
+            self.tr('Base URL for AI. If empty, use default URL.'),
+            configItem=cfg.ai_base_url,
+            parent=self.translationGroup
+        )
+        self.ai_batch_size_card = RangeSettingCard(
             cfg.ai_batch_size,
             FIF.FLAG,
             self.tr("AI batch size"),
@@ -190,7 +197,8 @@ class SettingInterface(ScrollArea):
         self.translationGroup.addSettingCard(self.i18n_from_language_json_card)
         self.translationGroup.addSettingCard(self.trans_mode_card)
         self.translationGroup.addSettingCard(self.api_key_card)
-        self.translationGroup.addSettingCard(self.ai_batch_size)
+        self.translationGroup.addSettingCard(self.ai_base_url_card)
+        self.translationGroup.addSettingCard(self.ai_batch_size_card)
         self.translationGroup.addSettingCard(self.ai_prompt_card)
 
         self.personalGroup.addSettingCard(self.themeCard)

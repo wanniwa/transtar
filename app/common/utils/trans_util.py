@@ -64,6 +64,7 @@ def batch_translate(dict_values):
     client = OpenAI(
         # This is the default and can be omitted
         api_key=cfg.api_key.value,
+        base_url=cfg.ai_base_url.value.strip() or None
     )
 
     language_name = LANGUAGE_KEY_NAME[cfg.to_language.value]

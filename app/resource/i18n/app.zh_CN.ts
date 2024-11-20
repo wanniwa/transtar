@@ -203,12 +203,12 @@
         <translation>翻译模型</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="77"/>
+        <location filename="../../view/setting_interface.py" line="84"/>
         <source>Number of AI batch translate size.</source>
         <translation>AI 翻译时一次翻译句子的数量</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="83"/>
+        <location filename="../../view/setting_interface.py" line="90"/>
         <source>AI prompt</source>
         <translation>AI 提示词</translation>
     </message>
@@ -217,7 +217,7 @@
         <translation type="obsolete">请输入提示词</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="93"/>
+        <location filename="../../view/setting_interface.py" line="100"/>
         <source>Personalization</source>
         <translation>个性化</translation>
     </message>
@@ -255,6 +255,16 @@
         <translation>Google、OpenAI……</translation>
     </message>
     <message>
+        <location filename="../../view/setting_interface.py" line="75"/>
+        <source>Base URL</source>
+        <translation type="unfinished">AI地址</translation>
+    </message>
+    <message>
+        <location filename="../../view/setting_interface.py" line="76"/>
+        <source>Base URL for AI. If empty, use default URL.</source>
+        <translation type="unfinished">AI的请求地址，为空使用默认地址。</translation>
+    </message>
+    <message>
         <location filename="../../view/setting_interface.py" line="68"/>
         <source>APIKEY</source>
         <translation>模型密钥</translation>
@@ -265,84 +275,84 @@
         <translation>用来认证的密钥</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="76"/>
+        <location filename="../../view/setting_interface.py" line="83"/>
         <source>AI batch size</source>
         <translation>AI 批次数量</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="84"/>
+        <location filename="../../view/setting_interface.py" line="91"/>
         <source>Prompt get shown to the AI on all chat.</source>
         <translation>和 AI 会话中使用的提示词</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="86"/>
+        <location filename="../../view/setting_interface.py" line="93"/>
         <source>Please enter the prompt word. If empty, the default prompt will be used. like: You are currently a professional Stardew Valley mod translator.</source>
         <translation>请输入提示词。如果为空，使用会使用默认的提示词。比如：You are currently a professional Stardew Valley mod translator.</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="97"/>
+        <location filename="../../view/setting_interface.py" line="104"/>
         <source>Application theme</source>
         <translation>应用主题</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="98"/>
+        <location filename="../../view/setting_interface.py" line="105"/>
         <source>Change the appearance of your application</source>
         <translation>调整应用的外观</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="100"/>
+        <location filename="../../view/setting_interface.py" line="107"/>
         <source>Light</source>
         <translation>浅色</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="100"/>
+        <location filename="../../view/setting_interface.py" line="107"/>
         <source>Dark</source>
         <translation>深色</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="102"/>
-        <location filename="../../view/setting_interface.py" line="113"/>
-        <location filename="../../view/setting_interface.py" line="121"/>
+        <location filename="../../view/setting_interface.py" line="109"/>
+        <location filename="../../view/setting_interface.py" line="120"/>
+        <location filename="../../view/setting_interface.py" line="128"/>
         <source>Use system setting</source>
         <translation>跟随系统设置</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="108"/>
+        <location filename="../../view/setting_interface.py" line="115"/>
         <source>Interface zoom</source>
         <translation>界面缩放</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="109"/>
+        <location filename="../../view/setting_interface.py" line="116"/>
         <source>Change the size of widgets and fonts</source>
         <translation>调整组件和字体的大小</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="119"/>
+        <location filename="../../view/setting_interface.py" line="126"/>
         <source>Language</source>
         <translation>语言</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="120"/>
+        <location filename="../../view/setting_interface.py" line="127"/>
         <source>Set your preferred language for UI</source>
         <translation>设置界面的首选语言</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="143"/>
+        <location filename="../../view/setting_interface.py" line="150"/>
         <source>Discover new features about Transtar</source>
         <translation>发现并了解关于 Transtar 的新特性</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="241"/>
+        <location filename="../../view/setting_interface.py" line="249"/>
         <source>Checking...</source>
         <translation>检查中</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="262"/>
+        <location filename="../../view/setting_interface.py" line="270"/>
         <source>Update Available</source>
         <translation>可用更新</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="263"/>
+        <location filename="../../view/setting_interface.py" line="271"/>
         <source>Current version: {0}
 New version: {1}
 
@@ -353,34 +363,34 @@ Do you want to download the latest version?</source>
 您想要下载最新版本吗?</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="285"/>
+        <location filename="../../view/setting_interface.py" line="289"/>
         <source>You are already using the latest version ({0})</source>
         <translation>您已经使用了最新版本({0})</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="343"/>
+        <location filename="../../view/setting_interface.py" line="347"/>
         <source>Downloading... {0}%</source>
         <translation>下载中…… {0}%</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="295"/>
-        <location filename="../../view/setting_interface.py" line="302"/>
+        <location filename="../../view/setting_interface.py" line="299"/>
+        <location filename="../../view/setting_interface.py" line="306"/>
         <source>Update Check Failed</source>
         <translation>更新检查失败</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="315"/>
+        <location filename="../../view/setting_interface.py" line="319"/>
         <source>Downloading Update</source>
         <translation>下载更新</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="316"/>
+        <location filename="../../view/setting_interface.py" line="320"/>
         <source>Downloading, please wait...</source>
         <translation>下载中，请耐心等待……</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="335"/>
-        <location filename="../../view/setting_interface.py" line="399"/>
+        <location filename="../../view/setting_interface.py" line="339"/>
+        <location filename="../../view/setting_interface.py" line="401"/>
         <source>Download Failed</source>
         <translation>下载失败</translation>
     </message>
@@ -389,74 +399,74 @@ Do you want to download the latest version?</source>
         <translation type="vanished">下载中……{progress}%</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="355"/>
+        <location filename="../../view/setting_interface.py" line="359"/>
         <source>Installation</source>
         <translation>安装</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="356"/>
+        <location filename="../../view/setting_interface.py" line="360"/>
         <source>Download completed. Do you want to install it now?</source>
         <translation>下载完成。是否立即安装？</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="374"/>
+        <location filename="../../view/setting_interface.py" line="376"/>
         <source>Launch Failed</source>
         <translation>启动失败</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="375"/>
+        <location filename="../../view/setting_interface.py" line="377"/>
         <source>Could not launch installer, opening download folder instead</source>
         <translation>启动安装包失败，请打开下载目录自行安装</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="383"/>
-        <location filename="../../view/setting_interface.py" line="390"/>
+        <location filename="../../view/setting_interface.py" line="385"/>
+        <location filename="../../view/setting_interface.py" line="392"/>
         <source>Download Complete</source>
         <translation>下载完成</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="384"/>
+        <location filename="../../view/setting_interface.py" line="386"/>
         <source>Update has been downloaded to AppData folder</source>
         <translation>更新文件已经下载到了AppData文件夹</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="391"/>
+        <location filename="../../view/setting_interface.py" line="393"/>
         <source>Update has been downloaded successfully</source>
         <translation>更新已经下载成功</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="287"/>
+        <location filename="../../view/setting_interface.py" line="291"/>
         <source>No Update</source>
         <translation>没有更新</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="127"/>
+        <location filename="../../view/setting_interface.py" line="134"/>
         <source>Software update</source>
         <translation>软件更新</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="130"/>
+        <location filename="../../view/setting_interface.py" line="137"/>
         <source>Check for updates when the application starts</source>
         <translation>软件启动时检查更新</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="131"/>
+        <location filename="../../view/setting_interface.py" line="138"/>
         <source>The new version will be more stable and have more features</source>
         <translation>新版本更加稳定且拥有更多新特性</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="137"/>
-        <location filename="../../view/setting_interface.py" line="156"/>
+        <location filename="../../view/setting_interface.py" line="144"/>
+        <location filename="../../view/setting_interface.py" line="163"/>
         <source>About</source>
         <translation>关于</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="140"/>
+        <location filename="../../view/setting_interface.py" line="147"/>
         <source>Open help page</source>
         <translation>打开帮助页面</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="142"/>
+        <location filename="../../view/setting_interface.py" line="149"/>
         <source>Help</source>
         <translation>帮助</translation>
     </message>
@@ -465,13 +475,13 @@ Do you want to download the latest version?</source>
         <translation type="vanished">发现并了解关于 Transtar 的新特性和最佳实践</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="150"/>
+        <location filename="../../view/setting_interface.py" line="157"/>
         <source>Help us improve Transtar by providing feedback</source>
         <translation>提供反馈以帮助我们改善 Transtar</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="147"/>
-        <location filename="../../view/setting_interface.py" line="149"/>
+        <location filename="../../view/setting_interface.py" line="154"/>
+        <location filename="../../view/setting_interface.py" line="156"/>
         <source>Provide feedback</source>
         <translation>提供反馈</translation>
     </message>
@@ -480,28 +490,28 @@ Do you want to download the latest version?</source>
         <translation type="vanished">提供反馈以帮助我们改善 Transtar</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="154"/>
-        <location filename="../../view/setting_interface.py" line="253"/>
+        <location filename="../../view/setting_interface.py" line="161"/>
+        <location filename="../../view/setting_interface.py" line="261"/>
         <source>Check update</source>
         <translation>检查更新</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="157"/>
+        <location filename="../../view/setting_interface.py" line="164"/>
         <source>Copyright</source>
         <translation>版权所有</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="158"/>
+        <location filename="../../view/setting_interface.py" line="165"/>
         <source>Version</source>
         <translation>当前版本</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="217"/>
+        <location filename="../../view/setting_interface.py" line="225"/>
         <source>Updated successfully</source>
         <translation>更新成功</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="218"/>
+        <location filename="../../view/setting_interface.py" line="226"/>
         <source>Configuration takes effect after restart</source>
         <translation>配置在重启软件后生效</translation>
     </message>
