@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Transtar"
-#define MyAppVersion "2.1.0"
+#define MyAppVersion "2.1.1"
 #define MyAppPublisher "wanniwa"
 #define MyAppURL "https://github.com/wanniwa/transtar"
 #define MyAppExeName "main.exe"
@@ -30,7 +30,7 @@ ArchitecturesInstallIn64BitMode=x64compatible
 DisableProgramGroupPage=yes
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
-OutputBaseFilename=transtar installer
+OutputBaseFilename=transtarInstaller
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
