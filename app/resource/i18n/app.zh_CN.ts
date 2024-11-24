@@ -2,6 +2,197 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_CN" sourcelanguage="en">
 <context>
+    <name>DictInterface</name>
+    <message>
+        <location filename="../../view/dict_interface.py" line="359"/>
+        <source>Search folders</source>
+        <translation type="unfinished">搜索</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="363"/>
+        <source>Refresh</source>
+        <translation type="unfinished">刷新</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="364"/>
+        <location filename="../../view/dict_interface.py" line="846"/>
+        <source>New Folder</source>
+        <translation type="unfinished">新建文件夹</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="365"/>
+        <source>Refresh Local</source>
+        <translation type="unfinished">刷新本地</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="366"/>
+        <source>Download</source>
+        <translation type="unfinished">下载</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="367"/>
+        <source>Upload</source>
+        <translation type="unfinished">上传</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="368"/>
+        <source>Open in Browser</source>
+        <translation type="unfinished">在浏览器中打开</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="369"/>
+        <source>ParaTranz Settings</source>
+        <translation type="unfinished">ParaTranz 配置</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="401"/>
+        <location filename="../../view/dict_interface.py" line="1056"/>
+        <source>No folder selected</source>
+        <translation type="unfinished">没有选择文件夹</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="461"/>
+        <location filename="../../view/dict_interface.py" line="506"/>
+        <source>Name</source>
+        <translation type="unfinished">名称</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="462"/>
+        <location filename="../../view/dict_interface.py" line="507"/>
+        <source>Total</source>
+        <translation type="unfinished">总数</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="464"/>
+        <location filename="../../view/dict_interface.py" line="509"/>
+        <source>Modified</source>
+        <translation type="unfinished">修改时间</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="482"/>
+        <source>Remote Files</source>
+        <translation type="unfinished">云端文件</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="498"/>
+        <source>Local Files</source>
+        <translation type="unfinished">本地文件</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="606"/>
+        <source>Loading</source>
+        <translation type="unfinished">加载</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="607"/>
+        <source>Loading file list...</source>
+        <translation type="unfinished">加载文件中</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="660"/>
+        <location filename="../../view/dict_interface.py" line="802"/>
+        <source>Error</source>
+        <translation type="unfinished">异常</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="735"/>
+        <location filename="../../view/dict_interface.py" line="743"/>
+        <location filename="../../view/dict_interface.py" line="753"/>
+        <location filename="../../view/dict_interface.py" line="833"/>
+        <location filename="../../view/dict_interface.py" line="861"/>
+        <location filename="../../view/dict_interface.py" line="874"/>
+        <location filename="../../view/dict_interface.py" line="926"/>
+        <location filename="../../view/dict_interface.py" line="936"/>
+        <location filename="../../view/dict_interface.py" line="946"/>
+        <location filename="../../view/dict_interface.py" line="961"/>
+        <source>Warning</source>
+        <translation type="unfinished">警告</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="736"/>
+        <location filename="../../view/dict_interface.py" line="834"/>
+        <location filename="../../view/dict_interface.py" line="927"/>
+        <source>Please select a mod folder in Home page first</source>
+        <translation type="unfinished">请先在主页选择一个文件夹</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="744"/>
+        <location filename="../../view/dict_interface.py" line="937"/>
+        <source>Please select a remote folder first</source>
+        <translation type="unfinished">请选择一个文件夹</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="754"/>
+        <source>No files in selected folder</source>
+        <translation type="unfinished">现在文件夹中没有文件</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="768"/>
+        <source>Downloading</source>
+        <translation type="unfinished">下载中</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="769"/>
+        <source>Downloading files from {}...</source>
+        <translation type="unfinished">从 {} 下载文件……</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="788"/>
+        <source>Downloading files from {}... ({}/{})</source>
+        <translation type="unfinished">从 {} 下载文件…… ({}/{})</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="848"/>
+        <source>Enter folder name:</source>
+        <translation type="unfinished">输入文件夹名称</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="862"/>
+        <source>Folder name must include Nexus ID &quot;{}&quot;</source>
+        <translation type="unfinished">文件夹名称必须包含 Nexus ID &quot;{}&quot;</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="875"/>
+        <source>Folder name already exists</source>
+        <translation type="unfinished">文件夹名称已存在</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="947"/>
+        <source>No local files found</source>
+        <translation type="unfinished">没有本地文件</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="963"/>
+        <source>The selected folder &quot;{}&quot; does not contain Nexus ID &quot;{}&quot;. Are you sure you want to upload to this folder?</source>
+        <translation type="unfinished">所选文件夹 &quot;{}&quot; 中不包含 Nexus ID &quot;{}&quot;。您确定要上传到该文件夹吗？</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="982"/>
+        <source>Confirm Upload</source>
+        <translation type="unfinished">确认上传</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="983"/>
+        <source>Are you sure you want to upload {} files?</source>
+        <translation type="unfinished">你确定要上传{}个文件吗?</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="995"/>
+        <source>Uploading</source>
+        <translation type="unfinished">上传中</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="996"/>
+        <source>Uploading files...</source>
+        <translation type="unfinished">上传文件……</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="1025"/>
+        <source>Uploading {}...</source>
+        <translation type="unfinished">上传 {} 中...</translation>
+    </message>
+</context>
+<context>
     <name>DropArea</name>
     <message>
         <location filename="../../view/components/drop_area.py" line="74"/>
@@ -60,6 +251,25 @@
         <location filename="../../view/components/error_dialog.py" line="21"/>
         <source>OK</source>
         <translation>确认</translation>
+    </message>
+</context>
+<context>
+    <name>FileItem</name>
+    <message>
+        <source>Confirm Upload</source>
+        <translation type="obsolete">确认上传</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to upload {} files?</source>
+        <translation type="obsolete">你确定要上传{}个文件吗?</translation>
+    </message>
+    <message>
+        <source>Uploading</source>
+        <translation type="obsolete">上传中</translation>
+    </message>
+    <message>
+        <source>Uploading files...</source>
+        <translation type="obsolete">上传文件……</translation>
     </message>
 </context>
 <context>
@@ -175,14 +385,117 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../view/main_window.py" line="51"/>
+        <location filename="../../view/main_window.py" line="53"/>
         <source>Home</source>
         <translation>主页</translation>
     </message>
     <message>
-        <location filename="../../view/main_window.py" line="55"/>
+        <location filename="../../view/main_window.py" line="59"/>
+        <source>Dictionary</source>
+        <translation type="unfinished">字典</translation>
+    </message>
+    <message>
+        <location filename="../../view/main_window.py" line="75"/>
         <source>Settings</source>
         <translation>设置</translation>
+    </message>
+    <message>
+        <location filename="../../view/main_window.py" line="124"/>
+        <source>Warning</source>
+        <translation type="unfinished">警告</translation>
+    </message>
+    <message>
+        <location filename="../../view/main_window.py" line="125"/>
+        <source>Please select a mod folder in Home page first</source>
+        <translation type="unfinished">请先在主页选择一个文件夹</translation>
+    </message>
+</context>
+<context>
+    <name>NewFolderDialog</name>
+    <message>
+        <location filename="../../view/dict_interface.py" line="116"/>
+        <source>New Folder</source>
+        <translation type="unfinished">新建文件夹</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="129"/>
+        <source>Enter folder name</source>
+        <translation type="unfinished">输入文件夹名称</translation>
+    </message>
+</context>
+<context>
+    <name>ParatranzConfigInterface</name>
+    <message>
+        <location filename="../../view/paratranz_config_interface.py" line="25"/>
+        <source>ParaTranz Configuration</source>
+        <translation type="unfinished">ParaTranz 配置</translation>
+    </message>
+    <message>
+        <location filename="../../view/paratranz_config_interface.py" line="45"/>
+        <source>Follow these steps to start using the dictionary feature:&lt;br&gt;
+
+1. Register an account at &lt;a href=&quot;https://paratranz.cn&quot;&gt;paratranz.cn&lt;/a&gt; &lt;br&gt;
+2. Create a new project at &lt;a href=&quot;https://paratranz.cn/projects/create&quot;&gt;paratranz.cn/projects/create&lt;/a&gt; &lt;br&gt;
+3. Get your token from &lt;a href=&quot;https://paratranz.cn/settings&quot;&gt;https://paratranz.cn/users/my&lt;/a&gt; (Click your avatar at top-right -&gt; Settings)&lt;br&gt;
+4. Get project ID from your project URL (e.g., for paratranz.cn/projects/3135, ID is 3135)&lt;br&gt;
+5. Configure your token and project ID below</source>
+        <translation type="unfinished">以下是使用字典功能的步骤：&lt;br&gt;
+
+1. 在 &lt;a href=&quot;https://paratranz.cn&quot;&gt;paratranz.cn&lt;/a&gt; 注册一个账号 &lt;br&gt;
+2. 在 &lt;a href=&quot;https://paratranz.cn/projects/create&quot;&gt;paratranz.cn/projects/create&lt;/a&gt; 创建一个新项目 &lt;br&gt;
+3. 从 &lt;a href=&quot;https://paratranz.cn/settings&quot;&gt;https://paratranz.cn/users/my&lt;/a&gt; 获取您的令牌 (点击右上角的头像 -&gt; 设置)&lt;br&gt;
+4. 从您的项目 URL 中获取项目 ID (例如，对于 paratranz.cn/projects/3135，ID 是 3135)&lt;br&gt;
+5. 在下方配置您的令牌和项目 ID</translation>
+    </message>
+    <message>
+        <location filename="../../view/paratranz_config_interface.py" line="57"/>
+        <source>ParaTranz Token</source>
+        <translation type="unfinished">ParaTranz 口令</translation>
+    </message>
+    <message>
+        <location filename="../../view/paratranz_config_interface.py" line="69"/>
+        <source>Found in your ParaTranz profile settings</source>
+        <translation type="unfinished">在你的 ParaTranz 个人配置中寻找</translation>
+    </message>
+    <message>
+        <location filename="../../view/paratranz_config_interface.py" line="72"/>
+        <source>Enter your ParaTranz token</source>
+        <translation type="unfinished">输入你的 ParaTranz 口令</translation>
+    </message>
+    <message>
+        <location filename="../../view/paratranz_config_interface.py" line="86"/>
+        <source>Project ID</source>
+        <translation type="unfinished">项目 ID</translation>
+    </message>
+    <message>
+        <location filename="../../view/paratranz_config_interface.py" line="98"/>
+        <source>The number in your project URL</source>
+        <translation type="unfinished">项目 URL 中的编号</translation>
+    </message>
+    <message>
+        <location filename="../../view/paratranz_config_interface.py" line="101"/>
+        <source>Enter your project ID</source>
+        <translation type="unfinished">输入项目 ID</translation>
+    </message>
+    <message>
+        <location filename="../../view/paratranz_config_interface.py" line="114"/>
+        <source>Go to ParaTranz</source>
+        <translation type="unfinished">跳转 ParaTranz</translation>
+    </message>
+    <message>
+        <location filename="../../view/paratranz_config_interface.py" line="118"/>
+        <source>Confirm</source>
+        <translation type="unfinished">确认</translation>
+    </message>
+    <message>
+        <location filename="../../view/paratranz_config_interface.py" line="134"/>
+        <source>Warning</source>
+        <translation type="unfinished">警告</translation>
+    </message>
+    <message>
+        <location filename="../../view/paratranz_config_interface.py" line="135"/>
+        <source>Please enter both token and project ID</source>
+        <translation type="unfinished">请输入口令和项目 ID</translation>
     </message>
 </context>
 <context>
@@ -342,17 +655,32 @@
         <translation>发现并了解关于 Transtar 的新特性</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="249"/>
+        <location filename="../../view/setting_interface.py" line="169"/>
+        <source>Open Config Folder</source>
+        <translation type="unfinished">打开文件夹</translation>
+    </message>
+    <message>
+        <location filename="../../view/setting_interface.py" line="171"/>
+        <source>Config Folder</source>
+        <translation type="unfinished">配置文件夹</translation>
+    </message>
+    <message>
+        <location filename="../../view/setting_interface.py" line="172"/>
+        <source>Open the configuration folder</source>
+        <translation type="unfinished">打开配置文件夹</translation>
+    </message>
+    <message>
+        <location filename="../../view/setting_interface.py" line="264"/>
         <source>Checking...</source>
         <translation>检查中</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="270"/>
+        <location filename="../../view/setting_interface.py" line="285"/>
         <source>Update Available</source>
         <translation>可用更新</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="271"/>
+        <location filename="../../view/setting_interface.py" line="287"/>
         <source>Current version: {0}
 New version: {1}
 
@@ -363,79 +691,75 @@ Do you want to download the latest version?</source>
 您想要下载最新版本吗?</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="289"/>
+        <location filename="../../view/setting_interface.py" line="306"/>
         <source>You are already using the latest version ({0})</source>
         <translation>您已经使用了最新版本({0})</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="347"/>
+        <location filename="../../view/setting_interface.py" line="364"/>
         <source>Downloading... {0}%</source>
         <translation>下载中…… {0}%</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="299"/>
-        <location filename="../../view/setting_interface.py" line="306"/>
+        <location filename="../../view/setting_interface.py" line="316"/>
+        <location filename="../../view/setting_interface.py" line="323"/>
         <source>Update Check Failed</source>
         <translation>更新检查失败</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="319"/>
+        <location filename="../../view/setting_interface.py" line="336"/>
         <source>Downloading Update</source>
         <translation>下载更新</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="320"/>
+        <location filename="../../view/setting_interface.py" line="337"/>
         <source>Downloading, please wait...</source>
         <translation>下载中，请耐心等待……</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="339"/>
-        <location filename="../../view/setting_interface.py" line="401"/>
+        <location filename="../../view/setting_interface.py" line="356"/>
+        <location filename="../../view/setting_interface.py" line="418"/>
         <source>Download Failed</source>
         <translation>下载失败</translation>
     </message>
     <message>
-        <source>Downloading... {progress}%</source>
-        <translation type="vanished">下载中……{progress}%</translation>
-    </message>
-    <message>
-        <location filename="../../view/setting_interface.py" line="359"/>
+        <location filename="../../view/setting_interface.py" line="376"/>
         <source>Installation</source>
         <translation>安装</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="360"/>
+        <location filename="../../view/setting_interface.py" line="377"/>
         <source>Download completed. Do you want to install it now?</source>
         <translation>下载完成。是否立即安装？</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="376"/>
+        <location filename="../../view/setting_interface.py" line="393"/>
         <source>Launch Failed</source>
         <translation>启动失败</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="377"/>
+        <location filename="../../view/setting_interface.py" line="394"/>
         <source>Could not launch installer, opening download folder instead</source>
         <translation>启动安装包失败，请打开下载目录自行安装</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="385"/>
-        <location filename="../../view/setting_interface.py" line="392"/>
+        <location filename="../../view/setting_interface.py" line="402"/>
+        <location filename="../../view/setting_interface.py" line="409"/>
         <source>Download Complete</source>
         <translation>下载完成</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="386"/>
+        <location filename="../../view/setting_interface.py" line="403"/>
         <source>Update has been downloaded to AppData folder</source>
         <translation>更新文件已经下载到了AppData文件夹</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="393"/>
+        <location filename="../../view/setting_interface.py" line="410"/>
         <source>Update has been downloaded successfully</source>
         <translation>更新已经下载成功</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="291"/>
+        <location filename="../../view/setting_interface.py" line="308"/>
         <source>No Update</source>
         <translation>没有更新</translation>
     </message>
@@ -471,10 +795,6 @@ Do you want to download the latest version?</source>
         <translation>帮助</translation>
     </message>
     <message>
-        <source>Discover new features and learn useful tips about Transtar</source>
-        <translation type="vanished">发现并了解关于 Transtar 的新特性和最佳实践</translation>
-    </message>
-    <message>
         <location filename="../../view/setting_interface.py" line="157"/>
         <source>Help us improve Transtar by providing feedback</source>
         <translation>提供反馈以帮助我们改善 Transtar</translation>
@@ -486,12 +806,8 @@ Do you want to download the latest version?</source>
         <translation>提供反馈</translation>
     </message>
     <message>
-        <source>Help us improve Fluent Client by providing feedback</source>
-        <translation type="vanished">提供反馈以帮助我们改善 Transtar</translation>
-    </message>
-    <message>
         <location filename="../../view/setting_interface.py" line="161"/>
-        <location filename="../../view/setting_interface.py" line="261"/>
+        <location filename="../../view/setting_interface.py" line="276"/>
         <source>Check update</source>
         <translation>检查更新</translation>
     </message>
@@ -506,14 +822,65 @@ Do you want to download the latest version?</source>
         <translation>当前版本</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="225"/>
+        <location filename="../../view/setting_interface.py" line="237"/>
         <source>Updated successfully</source>
         <translation>更新成功</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="226"/>
+        <location filename="../../view/setting_interface.py" line="238"/>
         <source>Configuration takes effect after restart</source>
         <translation>配置在重启软件后生效</translation>
+    </message>
+</context>
+<context>
+    <name>UploadProgressDialog</name>
+    <message>
+        <location filename="../../view/dict_interface.py" line="201"/>
+        <source>Uploading Files</source>
+        <translation type="unfinished">正在上传文件</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="211"/>
+        <source>File</source>
+        <translation type="unfinished">文件</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="213"/>
+        <source>Status</source>
+        <translation type="unfinished">状态</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="238"/>
+        <source>Progress: {}/{} ({:.1f}%)</source>
+        <translation type="unfinished">进度: {}/{} ({:.1f}%)</translation>
+    </message>
+</context>
+<context>
+    <name>UploadResultDialog</name>
+    <message>
+        <location filename="../../view/dict_interface.py" line="153"/>
+        <source>Upload Results</source>
+        <translation type="unfinished">上传结果</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="160"/>
+        <source>File</source>
+        <translation type="unfinished">文件</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="161"/>
+        <source>Added</source>
+        <translation type="unfinished">新增</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="162"/>
+        <source>Updated</source>
+        <translation type="unfinished">更新</translation>
+    </message>
+    <message>
+        <location filename="../../view/dict_interface.py" line="164"/>
+        <source>Removed</source>
+        <translation type="unfinished">删除</translation>
     </message>
 </context>
 </TS>

@@ -23,18 +23,18 @@ def extract(mod_path: str) -> None:
     files_by_type = file_util.get_files_by_type(mod_path, i18n_language)
     if not files_by_type:
         files_by_type = {}
-        
+
     if os.path.exists(file_util.get_error_dict_path(mod_path)):
         shutil.rmtree(file_util.get_error_dict_path(mod_path), ignore_errors=True)
 
     # Process non-I18N files first
-    for file_type, files in list(files_by_type.items()): 
+    for file_type, files in list(files_by_type.items()):
         if file_type != FileType.I18N:
             context = TransContext(mod_path, True, False, ActionType.EXTRACT, file_type, files_by_type)
             handler = HandlerFactory.get_trans_handler(file_type)(context)
             handler.batch_handle(files)
             handler.create_dict_file()
-    
+
     # Finally process all I18N files together
     if FileType.I18N in files_by_type:
         context = TransContext(mod_path, True, False, ActionType.EXTRACT, FileType.I18N, files_by_type)
@@ -64,7 +64,7 @@ def generate(mod_path: str) -> None:
         shutil.rmtree(file_util.get_out_path(mod_path), ignore_errors=True)
 
     for file_type, files in files_by_type.items():
-        context = TransContext(mod_path, False, True, ActionType.GENERATE, file_type ,files_by_type)
+        context = TransContext(mod_path, False, True, ActionType.GENERATE, file_type, files_by_type)
         handler = HandlerFactory.get_trans_handler(file_type)(context)
         handler.batch_handle(files)
         handler.create_error_dict_file()
@@ -239,7 +239,7 @@ def process_dict(mod_path, i18n_file_name):
         return
     result = {}
     for file_type, files in files_by_type.items():
-        context = TransContext(mod_path, True, False, ActionType.EXTRACT, file_type)
+        context = TransContext(mod_path, True, False, ActionType.EXTRACT, file_type, files_by_type)
         handler = HandlerFactory.get_trans_handler(file_type)(context)
         handler.batch_handle(files)
         if len(context.star_dicts) > 0:

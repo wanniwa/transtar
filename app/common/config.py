@@ -61,6 +61,10 @@ class Config(QConfig):
     # software update
     checkUpdateAtStartUp = ConfigItem("Update", "CheckUpdateAtStartUp", True, BoolValidator())
 
+    # Paratranz configuration
+    paratranz_token = ConfigItem("Paratranz", "token", None, )
+    paratranz_project_id = ConfigItem("Paratranz", "project_id", None)
+
 
 cfg = Config()
 cfg.themeMode.value = Theme.AUTO

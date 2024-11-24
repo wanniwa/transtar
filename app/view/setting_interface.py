@@ -165,6 +165,13 @@ class SettingInterface(ScrollArea):
             self.tr('Version') + " " + VERSION,
             self.aboutGroup
         )
+        self.openConfigCard = PrimaryPushSettingCard(
+            self.tr('Open Config Folder'),
+            FIF.FOLDER,
+            self.tr('Config Folder'),
+            self.tr('Open the configuration folder'),
+            self.aboutGroup
+        )
 
         # 添加检查更新线程
         self.check_update_thread = None
@@ -210,6 +217,10 @@ class SettingInterface(ScrollArea):
         self.aboutGroup.addSettingCard(self.helpCard)
         self.aboutGroup.addSettingCard(self.feedbackCard)
         self.aboutGroup.addSettingCard(self.aboutCard)
+        self.aboutGroup.addSettingCard(self.openConfigCard)
+
+        # self.paratranzGroup.addSettingCard(self.paratranz_token_card)
+        # self.paratranzGroup.addSettingCard(self.paratranz_project_id_card)
 
         # add setting card group to layout
         self.expandLayout.setSpacing(28)
@@ -218,6 +229,7 @@ class SettingInterface(ScrollArea):
         self.expandLayout.addWidget(self.personalGroup)
         self.expandLayout.addWidget(self.updateSoftwareGroup)
         self.expandLayout.addWidget(self.aboutGroup)
+        # self.expandLayout.addWidget(self.paratranzGroup)
 
     def _showRestartTooltip(self):
         """ show restart tooltip """
@@ -242,6 +254,9 @@ class SettingInterface(ScrollArea):
         # about
         self.feedbackCard.clicked.connect(
             lambda: QDesktopServices.openUrl(QUrl(FEEDBACK_URL)))
+        self.openConfigCard.clicked.connect(
+            lambda: file_util.open_folder(str(CONFIG_FOLDER))
+        )
 
     def check_for_updates(self, manual=True):
         # 禁用按钮并显示加载状态
@@ -268,20 +283,22 @@ class SettingInterface(ScrollArea):
                 if version.parse(latest_version) > version.parse(current_version):
                     w = MessageBox(
                         self.tr('Update Available'),
-                        self.tr('Current version: {0}\nNew version: {1}\n\nDo you want to download the latest version?').format(
+                        self.tr(
+                            'Current version: {0}\nNew version: {1}\n\nDo you want to download the latest version?').format(
                             current_version, latest_version),
                         parent=get_window()
                     )
 
                     # 连接确认按钮的信号
                     w.yesButton.clicked.connect(
-                        lambda: QDesktopServices.openUrl(QUrl("https://www.nexusmods.com/stardewvalley/mods/20435?tab=files"))
+                        lambda: QDesktopServices.openUrl(
+                            QUrl("https://www.nexusmods.com/stardewvalley/mods/20435?tab=files"))
                     )
                     # 连接确认按钮的信号到关闭对话框
                     w.yesButton.clicked.connect(w.close)
                     # 连接取消按钮的信号到关闭对话框
                     w.cancelButton.clicked.connect(w.close)
-                    
+
                     w.show()
                 else:
                     # 只在手动检查时显示"已是最新版本"的提示
