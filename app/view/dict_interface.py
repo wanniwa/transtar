@@ -1,4 +1,4 @@
-import json
+import wjson
 import os
 from datetime import datetime
 from pathlib import Path
@@ -94,7 +94,7 @@ class DownloadThread(QThread):
 
                 # 保存文件
                 with open(file_path, 'w', encoding='utf-8') as f:
-                    json.dump(dict_entries, f, ensure_ascii=False, indent=2)
+                    wjson.dump(dict_entries, f)
 
                 # 发送完成信号
                 self.file_downloaded.emit(file.filename)
@@ -576,7 +576,7 @@ class DictInterface(QWidget):
                         formatted_time = mtime_dt.strftime('%Y-%m-%d %H:%M:%S')
 
                         with open(file_path, 'r', encoding='utf-8') as f:
-                            local_content = json.load(f)
+                            local_content = wjson.load(f)
                             entries_count = len(local_content) if isinstance(local_content, list) else 0
 
                             self.localFileList.insertRow(row)

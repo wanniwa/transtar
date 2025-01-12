@@ -1,4 +1,4 @@
-import json
+import wjson
 import os
 import shutil
 
@@ -83,11 +83,11 @@ def validate(mod_path):
 
     for file in json_files:
         with open(file, 'r', encoding='utf-8') as f:
-            content = json.load(f)
+            content = wjson.load(f)
             total_file_num += len(content)
     for file in json_files:
         with open(file, 'r', encoding='utf-8') as f:
-            content = json.load(f)
+            content = wjson.load(f)
             error_dict_list = []
             for item in content:
                 translation_trait = trans_util.trait(item['translation'])
@@ -103,7 +103,7 @@ def validate(mod_path):
                     os.makedirs(file_util.get_error_dict_path(mod_path))
                 with open(file_util.get_error_dict_path(mod_path) + "/" + os.path.basename(file), 'w',
                           encoding='utf-8') as f1:
-                    json.dump(error_dict_list, f1, indent=4, ensure_ascii=False)
+                    wjson.dump(error_dict_list, f1)
     if total > 0:
         InfoBar.success(get_window().tr("Success"), get_window().tr(f"Task completed, total {total} error translation"),
                         duration=3000,
@@ -126,14 +126,14 @@ def import_from_error(mod_path):
         dict_json_path = os.path.join(file_util.get_dict_path(mod_path), filename)
         if os.path.exists(dict_json_path):
             with open(error_dict_path, 'r', encoding='utf-8') as error_f:
-                error_dict = json.load(error_f)
+                error_dict = wjson.load(error_f)
                 with open(dict_json_path, 'r', encoding='utf-8') as dict_f:
-                    dict_json = json.load(dict_f)
+                    dict_json = wjson.load(dict_f)
                     dict_map = {item['key']: item for item in dict_json}
                     for item in error_dict:
                         dict_map[item['key']]['translation'] = item['translation']
                     with open(dict_json_path, 'w', encoding='utf-8') as dict_out_f:
-                        json.dump(dict_json, dict_out_f, indent=4, ensure_ascii=False)
+                        wjson.dump(dict_json, dict_out_f)
     InfoBar.success(get_window().tr("Error"), get_window().tr("import success, you can validate again"), duration=3000,
                     parent=get_window())
 
@@ -149,12 +149,12 @@ def translate(mod_path, thread, batch_size):
     real_trans_num = 0
     for file in json_files:
         with open(file, 'r', encoding='utf-8') as f:
-            content = json.load(f)
+            content = wjson.load(f)
             total_file_num += len(content)
     thread.total_entries_signal.emit(total_file_num)
     for file in json_files:
         with open(file, 'r', encoding='utf-8') as f:
-            content = json.load(f)
+            content = wjson.load(f)
             batch = {}
             try:
                 for index, item in enumerate(content):
@@ -172,7 +172,7 @@ def translate(mod_path, thread, batch_size):
                     thread.progress_signal.emit(current_file_num)
                     if not thread.running:
                         with open(file, 'w', encoding='utf-8') as f1:
-                            json.dump(content, f1, indent=4, ensure_ascii=False)
+                            wjson.dump(content, f1)
                         return real_trans_num
                 if batch:
                     translations = trans_util.batch_translate(batch.values())
@@ -181,10 +181,10 @@ def translate(mod_path, thread, batch_size):
                     real_trans_num += len(batch)
             except Exception as e:
                 with open(file, 'w', encoding='utf-8') as f1:
-                    json.dump(content, f1, indent=4, ensure_ascii=False)
+                    wjson.dump(content, f1)
                 raise e
             with open(file, 'w', encoding='utf-8') as f1:
-                json.dump(content, f1, indent=4, ensure_ascii=False)
+                wjson.dump(content, f1)
     return real_trans_num
 
 
@@ -223,7 +223,7 @@ def process_old_common(mod_path, old_folder_path, old_trans_folder_path):
             noTransdict['translation'] = transDict['original']
         if len(v) > 0:
             dict_file_path = file_util.get_dict_path(mod_path) + "/" + k.file_name
-            dict_json = json.dumps(v, indent=4, ensure_ascii=False)
+            dict_json = wjson.dumps(v, indent=4)
             with open(dict_file_path, 'w', encoding='utf-8') as file:
                 file.write(dict_json)
     try:

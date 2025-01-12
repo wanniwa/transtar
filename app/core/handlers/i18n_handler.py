@@ -1,4 +1,4 @@
-import hjson
+import wjson
 import os
 
 from app.common.constant import FileType, TargetAssetType
@@ -13,7 +13,7 @@ class I18nTransHandler(BaseTransHandler):
 
     def handle(self, file_path):
         with open(file_path, 'r', encoding='utf-8') as f:
-            content = hjson.load(f)
+            content = wjson.load(f)
 
         relative_path = file_util.get_relative_path(file_path, self.context.mod_path)
         for key in content.keys():

@@ -9,7 +9,7 @@ from qfluentwidgets import (qconfig, QConfig, ConfigItem, OptionsConfigItem, Boo
 from .setting import CONFIG_FILE
 from .constant import LANGUAGES
 
-models = ['google', 'deepl', 'gpt-3.5-turbo', 'gpt-4', 'gpt-4-turbo-2024-04-09', 'gpt-4o', 'gpt-4o-mini','deepseek-chat']
+models = ['google', 'deepl', 'gpt-3.5-turbo', 'gpt-4', 'gpt-4-turbo-2024-04-09', 'gpt-4o', 'gpt-4o-mini', 'custom model']
 
 
 class Language(Enum):
@@ -48,6 +48,8 @@ class Config(QConfig):
     i18n_source_flag = ConfigItem("Translation", "i18n_source_flag", False, BoolValidator())
     trans_model = OptionsConfigItem("Translation", "trans_model", "google", OptionsValidator(models))
     ai_base_url = OptionsConfigItem("Translation", "ai_base_url", "")
+    trans_custom_model = OptionsConfigItem("Translation", "trans_custom_model", "")
+
     ai_batch_size = RangeConfigItem("Translation", "ai_batch_size", 5, RangeValidator(1, 20))
     ai_prompt = ConfigItem("Translation", "ai_prompt",
                            "You are currently a professional Stardew Valley mod translator. ", None)

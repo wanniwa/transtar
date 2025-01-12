@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 import os
-import json
+import wjson
 from app.common.constant import FileType, TargetAssetType, ActionType
 from app.common.utils.notify_util import notify_error
 from app.common.utils.file_util import get_dict_path, get_error_dict_path, get_out_path
@@ -18,7 +18,7 @@ class BaseTransHandler(ABC):
         dict_file_path = self.dict_path + "/" + self.get_file_type().file_name
         if os.path.exists(dict_file_path):
             with open(dict_file_path, 'r', encoding='utf-8') as f:
-                data = json.load(f)
+                data = wjson.load(f)
                 for entry in data:
                     if 'original' in entry and 'translation' in entry:
                         if entry['translation'] != '' and entry['translation'] != entry['original']:
@@ -48,15 +48,12 @@ class BaseTransHandler(ABC):
             return
         out_file_path = get_out_path(self.context.mod_path) + "/" + os.path.relpath(file_path,
                                                                                     self.context.mod_path)
-
-        out_json = json.dumps(out_obj, indent=4, ensure_ascii=False)
-
         # 检查文件是否存在
         if not os.path.exists(out_file_path):
             # 创建文件夹
             os.makedirs(os.path.dirname(out_file_path), exist_ok=True)
         with open(out_file_path, 'w', encoding='utf-8') as file:
-            file.write(out_json)
+            wjson.dump(out_obj, file)
 
     def create_dict_file(self):
         if not os.path.exists(self.dict_path):
@@ -64,10 +61,8 @@ class BaseTransHandler(ABC):
         if len(self.context.star_dicts) > 0:
             print("create dict【" + self.get_file_type().file_name + "】 num:" + str(len(self.context.star_dicts)))
             dict_file_path = self.dict_path + "/" + self.get_file_type().file_name
-            dict_json = json.dumps(self.context.star_dicts, indent=4, ensure_ascii=False)
-
             with open(dict_file_path, 'w', encoding='utf-8') as file:
-                file.write(dict_json)
+                wjson.dump(self.context.star_dicts, file)
 
     def create_error_dict_file(self):
         if len(self.context.error_star_dicts) > 0:
@@ -76,10 +71,7 @@ class BaseTransHandler(ABC):
             print("find error dict【" + self.get_file_type().file_name + "】 num:" + str(
                 len(self.context.error_star_dicts)))
             dict_file_path = self.error_dict_path + "/" + self.get_file_type().file_name
-            dict_json = json.dumps(self.context.error_star_dicts, indent=4, ensure_ascii=False)
-
-            with open(dict_file_path, 'w', encoding='utf-8') as file:
-                file.write(dict_json)
+            wjson.dump(self.context.error_star_dicts, dict_file_path)
             return True
         else:
             return False

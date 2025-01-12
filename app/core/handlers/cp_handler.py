@@ -1,16 +1,13 @@
 import logging
 import os
 import re
-import json
 
-import hjson
+import wjson
 
 from app.common.constant import FileType, TargetAssetType
 from .base_handler import BaseTransHandler
 from app.common.config import cfg
 from app.common.utils import file_util
-from .i18n_handler import I18nTransHandler
-from .trans_context import TransContext
 
 
 def get_random_list(path):
@@ -53,7 +50,7 @@ class CPTransHandler(BaseTransHandler):
         i18n_folder = os.path.exists(file_util.get_i18n_folder(file_path))
 
         with open(file_path, 'r', encoding='utf-8') as f:
-            content = hjson.load(f, encoding='utf-8')
+            content = wjson.load(f)
         if content is None:
             return
         dynamicTokens = content.get("ConfigSchema")
@@ -64,12 +61,8 @@ class CPTransHandler(BaseTransHandler):
             has_changes = False
             default_json_path_exist = os.path.exists(default_json_path)
             if default_json_path_exist:
-                try:
-                    with open(default_json_path, 'r', encoding='utf-8') as f:
-                        existing_translations = hjson.load(f)
-                except Exception as e:
-                    logging.error(f"Error reading default.json: {e}")
-                    existing_translations = {}
+                with open(default_json_path, 'r', encoding='utf-8') as f:
+                    existing_translations = wjson.load(f)
 
             existing_keys_lower = {k.lower(): k for k in existing_translations.keys()}
 
@@ -107,7 +100,7 @@ class CPTransHandler(BaseTransHandler):
                     for val in values:
                         if val.replace(".", "").isdigit() or val.lower() == 'true' or val.lower() == 'false':
                             continue
-                        
+
                         value_key = f"config.{key}.values.{val}"
                         if value_key.lower() not in existing_keys_lower:
                             self.dynamicTokens[value_key] = val
@@ -119,7 +112,7 @@ class CPTransHandler(BaseTransHandler):
 
                 try:
                     with open(default_json_path, 'w', encoding='utf-8') as f:
-                        json.dump(existing_translations, f, ensure_ascii=False, indent=2)
+                        wjson.dump(existing_translations, f)
                 except Exception as e:
                     logging.error(f"Error writing to default.json: {e}")
 
@@ -215,11 +208,11 @@ class CPTransHandler(BaseTransHandler):
                             form_file1 = form_file1.replace("{{Target}}", target1)
                             with open(os.path.join(self.cp_path, form_file1.replace("{{Language}}", "default")), 'r',
                                       encoding='utf-8') as f:
-                                entries = hjson.load(f)
+                                entries = wjson.load(f)
                             if entries is None:
                                 with open(os.path.join(self.cp_path, form_file1.replace("{{Language}}", "en")), 'r',
                                           encoding='utf-8') as f:
-                                    entries = hjson.load(f)
+                                    entries = wjson.load(f)
                             target_type = TargetAssetType.get_target_asset_type(target1)
                             if self.traverse_editdata_entries(target_type, entries, base_key):
                                 if "{{Language}}" in form_file1:

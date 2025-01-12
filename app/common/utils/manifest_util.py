@@ -1,7 +1,7 @@
 import os
 from typing import Optional
 
-import hjson
+import wjson
 
 from app.common.utils.file_util import get_all_json_files
 
@@ -28,7 +28,7 @@ def parse_manifest(file_path: str) -> Optional[ManifestInfo]:
     """解析manifest.json文件"""
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
-            data = hjson.load(f)
+            data = wjson.load(f)
             info = ManifestInfo(file_path=file_path)
 
             # 获取mod名称

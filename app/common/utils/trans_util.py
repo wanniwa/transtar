@@ -1,4 +1,4 @@
-import json
+import wjson
 import os
 import platform
 import re
@@ -71,7 +71,8 @@ def batch_translate(dict_values):
     prompt = cfg.ai_prompt.value
     if prompt == '':
         prompt = 'You are currently a professional Stardew Valley mod translator.'
-
+    if model == 'custom model':
+        model = cfg.trans_custom_model.value
     chat_completion = client.chat.completions.create(
         messages=[
             {
@@ -80,16 +81,16 @@ def batch_translate(dict_values):
             },
             {
                 "role": "user",
-                "content": json.dumps(values),
+                "content": wjson.dumps(values),
             }
         ],
         max_tokens=4000,
-        model=model,
+        model=model
     )
 
     content = chat_completion.choices[0].message.content
     print(f'translate_out: {content}')
-    return json.loads(content)
+    return wjson.loads(content)
 
 
 cache = {}

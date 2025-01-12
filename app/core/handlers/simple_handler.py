@@ -1,6 +1,6 @@
 import os
 
-import hjson
+import wjson
 
 from app.common.constant import FileType, TargetAssetType
 from app.common.utils.file_util import get_i18n_folder, get_relative_path
@@ -18,7 +18,7 @@ class MailTransHandler(BaseTransHandler):
             contentStr = f.read()
             if "Changes" in contentStr:
                 return
-            content = hjson.loads(contentStr)
+            content = wjson.loads(contentStr)
 
         for i in range(len(content)):
             mail_content = content[i]
@@ -48,7 +48,7 @@ class BLTransHandler(BaseTransHandler):
     def handle(self, file_path):
         relative_path = get_relative_path(file_path, self.context.mod_path)
         with open(file_path, 'r', encoding='utf-8') as f:
-            content = hjson.load(f)
+            content = wjson.load(f)
         if content is None:
             return
         display_name = content["displayname"]
@@ -65,7 +65,7 @@ class STFTransHandler(BaseTransHandler):
     def handle(self, file_path):
         relative_path = get_relative_path(file_path, self.context.mod_path)
         with open(file_path, 'r', encoding='utf-8') as f:
-            content = hjson.load(f)
+            content = wjson.load(f)
         if content is None:
             return
         shops = content.get("Shops")
@@ -106,7 +106,7 @@ class QFTransHandler(BaseTransHandler):
     def handle(self, file_path):
         relative_path = get_relative_path(file_path, self.context.mod_path)
         with open(file_path, 'r', encoding='utf-8') as f:
-            content = hjson.load(f)
+            content = wjson.load(f)
         if content is None:
             return
         quests = content.get("Quests")
@@ -150,7 +150,7 @@ class JATransHandler(BaseTransHandler):
             return
 
         with open(file_path, 'r', encoding='utf-8') as f:
-            content = hjson.load(f)
+            content = wjson.load(f)
         if content is None:
             return
         if "TranslationKey" in content:

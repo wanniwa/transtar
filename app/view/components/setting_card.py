@@ -75,7 +75,7 @@ class TextEditSettingCard(ExpandSettingCard):
         self.textEdit = TextEdit(self.view)
         self.textEdit.setText(configItem.value)
         self.textEdit.setFixedHeight(100)
-        
+
         # 设置占位符文本
         if placeholder:
             self.textEdit.setPlaceholderText(placeholder)
