@@ -71,7 +71,8 @@ class BaseTransHandler(ABC):
             print("find error dict【" + self.get_file_type().file_name + "】 num:" + str(
                 len(self.context.error_star_dicts)))
             dict_file_path = self.error_dict_path + "/" + self.get_file_type().file_name
-            wjson.dump(self.context.error_star_dicts, dict_file_path)
+            with open(dict_file_path, 'w', encoding='utf-8') as file:
+                wjson.dump(self.context.error_star_dicts, file)
             return True
         else:
             return False

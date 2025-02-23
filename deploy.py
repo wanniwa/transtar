@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 from shutil import copy, copytree
-from distutils.sysconfig import get_python_lib
+import  sysconfig
 
 # https://blog.csdn.net/qq_25262697/article/details/129302819
 # https://www.cnblogs.com/happylee666/articles/16158458.html
@@ -27,7 +27,8 @@ os.system(' '.join(args))
 
 # copy site-packages to dist folder
 dist_folder = Path("dist/main/main.dist")
-site_packages = Path(get_python_lib())
+paths = sysconfig.get_paths()
+site_packages = Path(paths['purelib'])
 
 copied_libs = []
 

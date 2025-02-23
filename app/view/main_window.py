@@ -19,6 +19,7 @@ from qframelesswindow.utils import getSystemAccentColor
 from ..common.window_manager import set_window
 from .dict_interface import DictInterface
 from .paratranz_interface import ParatranzInterface
+from .local_dict_interface import LocalDictInterface
 
 
 class MainWindow(MSFluentWindow):
@@ -33,6 +34,7 @@ class MainWindow(MSFluentWindow):
         self.settingInterface = SettingInterface(self)
         self.homeInterface = HomeInterface(self)
         self.paratranzInterface = ParatranzInterface(self)
+        self.localDictInterface = LocalDictInterface(self)
 
         # add items to navigation interface
         self.initNavigation()
@@ -59,6 +61,14 @@ class MainWindow(MSFluentWindow):
             self.tr('Dictionary'),
             position=NavigationItemPosition.TOP
         )
+
+        # # 添加本地字典界面
+        # self.addSubInterface(
+        #     self.localDictInterface,
+        #     FIF.LIBRARY,
+        #     self.tr('Local Dict'),
+        #     position=NavigationItemPosition.TOP
+        # )
 
         # 获取 paratranzInterface 的导航项并重新绑定点击事件
         paratranzItem = self.navigationInterface.widget(self.paratranzInterface.objectName())

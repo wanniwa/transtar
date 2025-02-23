@@ -388,27 +388,32 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../view/main_window.py" line="53"/>
+        <location filename="../../view/main_window.py" line="55"/>
         <source>Home</source>
         <translation>主页</translation>
     </message>
     <message>
-        <location filename="../../view/main_window.py" line="59"/>
+        <location filename="../../view/main_window.py" line="61"/>
         <source>Dictionary</source>
         <translation>字典</translation>
     </message>
     <message>
-        <location filename="../../view/main_window.py" line="75"/>
+        <location filename="../../view/main_window.py" line="69"/>
+        <source>Local Dict</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../view/main_window.py" line="85"/>
         <source>Settings</source>
         <translation>设置</translation>
     </message>
     <message>
-        <location filename="../../view/main_window.py" line="124"/>
+        <location filename="../../view/main_window.py" line="134"/>
         <source>Warning</source>
         <translation>警告</translation>
     </message>
     <message>
-        <location filename="../../view/main_window.py" line="125"/>
+        <location filename="../../view/main_window.py" line="135"/>
         <source>Please select a mod folder in Home page first</source>
         <translation>请先在主页选择一个文件夹</translation>
     </message>

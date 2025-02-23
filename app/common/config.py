@@ -67,6 +67,9 @@ class Config(QConfig):
     paratranz_token = ConfigItem("Paratranz", "token", None, )
     paratranz_project_id = ConfigItem("Paratranz", "project_id", None)
 
+    # 本地字典界面每页显示条数
+    localDictPageSize = ConfigItem("LocalDict", "pageSize", 100)
+
 
 cfg = Config()
 cfg.themeMode.value = Theme.AUTO
