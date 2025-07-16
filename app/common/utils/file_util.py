@@ -54,14 +54,39 @@ def get_target_type(file_path, i18n_language):
     file_name = os.path.basename(file_path)
 
     if "i18n" in file_folder_path.lower():
+        # Scenario 1: File name directly indicates language (i18n/zh.json, i18n/default.json)
         if i18n_language is not None:
             i18n_target_file_name = i18n_language + ".json"
         else:
             i18n_target_file_name = "default.json"
+        
         if file_name == i18n_target_file_name:
             return FileType.I18N
-        else:
+        
+        # Scenario 2: Language indicated by folder name (i18n/zh/lucy.json)
+        # Get the parent folder name (should be the language folder)
+        parent_folder_name = os.path.basename(file_folder_path)
+        
+        # Check if the parent folder is directly i18n (meaning we're in i18n/somefile.json)
+        if parent_folder_name.lower() == "i18n":
             return FileType.UNKNOWN
+        
+        # Check if we're in a language subfolder under i18n
+        grandparent_folder_path = os.path.dirname(file_folder_path)
+        grandparent_folder_name = os.path.basename(grandparent_folder_path)
+        
+        if grandparent_folder_name.lower() == "i18n":
+            # We're in i18n/language_folder/file.json structure
+            if i18n_language is not None:
+                # Check if the folder name matches the target language
+                if parent_folder_name == i18n_language:
+                    return FileType.I18N
+            else:
+                # If no specific language is set, check for default folder
+                if parent_folder_name == "default":
+                    return FileType.I18N
+        
+        return FileType.UNKNOWN
     elif (("[JA]" in file_folder_path or (
             "[CC]" in file_folder_path and file_name == "object.json"))
           and file_name.endswith(".json")
