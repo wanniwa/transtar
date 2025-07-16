@@ -29,9 +29,12 @@ def trait(s):
 
 def translate(value):
     client = OpenAI(
-        api_key=cfg.api_key.value
+        api_key=cfg.api_key.value,
+        base_url=cfg.ai_base_url.value.strip() or None
     )
-
+    model = cfg.trans_model.value
+    if model == 'custom model':
+        model = cfg.trans_custom_model.value
     language_name = LANGUAGE_KEY_NAME[cfg.to_language.value]
     chat_completion = client.chat.completions.create(
         messages=[
@@ -45,7 +48,7 @@ def translate(value):
             }
         ],
         max_tokens=4000,
-        model=cfg.trans_model.value,
+        model=model,
     )
     content = chat_completion.choices[0].message.content
     return content

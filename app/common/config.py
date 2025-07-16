@@ -50,7 +50,8 @@ class Config(QConfig):
     ai_base_url = OptionsConfigItem("Translation", "ai_base_url", "")
     trans_custom_model = OptionsConfigItem("Translation", "trans_custom_model", "")
 
-    ai_batch_size = RangeConfigItem("Translation", "ai_batch_size", 5, RangeValidator(1, 20))
+    ai_batch_size = RangeConfigItem("Translation", "ai_batch_size", 5, RangeValidator(1, 50))
+    thread_count = RangeConfigItem("Translation", "thread_count", 5, RangeValidator(1, 20))
     ai_prompt = ConfigItem("Translation", "ai_prompt",
                            "You are currently a professional Stardew Valley mod translator. ", None)
     api_key = ConfigItem("Translation", "api_key", "", None)

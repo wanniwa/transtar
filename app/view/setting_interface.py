@@ -86,10 +86,18 @@ class SettingInterface(ScrollArea):
         )
         self.ai_batch_size_card = RangeSettingCard(
             cfg.ai_batch_size,
-            FIF.FLAG,
-            self.tr("AI batch size"),
-            self.tr("Number of AI batch translate size."),
-            parent=self.translationGroup
+            FIF.UPDATE,
+            self.tr('AI Batch Size'),
+            self.tr('Number of texts sent to AI at once'),
+            self
+        )
+
+        self.thread_count_card = RangeSettingCard(
+            cfg.thread_count,
+            FIF.TRANSPARENT,
+            self.tr('Thread Count'),
+            self.tr('Number of concurrent translation threads'),
+            self
         )
 
         self.ai_prompt_card = TextEditSettingCard(
@@ -214,6 +222,7 @@ class SettingInterface(ScrollArea):
         self.translationGroup.addSettingCard(self.ai_base_url_card)
         self.translationGroup.addSettingCard(self.trans_custom_model_card)
         self.translationGroup.addSettingCard(self.ai_batch_size_card)
+        self.translationGroup.addSettingCard(self.thread_count_card)
         self.translationGroup.addSettingCard(self.ai_prompt_card)
 
         self.personalGroup.addSettingCard(self.themeCard)

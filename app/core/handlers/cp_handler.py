@@ -78,20 +78,20 @@ class CPTransHandler(BaseTransHandler):
                     existing_translations[name_key] = key
                     has_changes = True
 
-                # Handle Section if exists
-                if "Section" in value:
-                    section_key = f"config.{key}.section"
-                    if section_key.lower() not in existing_keys_lower:
-                        self.dynamicTokens[section_key] = value["Section"]
-                        existing_translations[section_key] = value["Section"]
-                        has_changes = True
-
                 # Handle Description if exists
                 if "Description" in value:
                     desc_key = f"config.{key}.description"
                     if desc_key.lower() not in existing_keys_lower:
                         self.dynamicTokens[desc_key] = value["Description"]
                         existing_translations[desc_key] = value["Description"]
+                        has_changes = True
+
+                # Handle Section if exists
+                if "Section" in value:
+                    section_key = f"config.section.{key}.name"
+                    if section_key.lower() not in existing_keys_lower:
+                        self.dynamicTokens[section_key] = value["Section"]
+                        existing_translations[section_key] = value["Section"]
                         has_changes = True
 
                 # Handle AllowValues if exists
