@@ -6,7 +6,7 @@ import wjson
 
 from app.common.constant import FileType, TargetAssetType
 from .base_handler import BaseTransHandler
-from app.common.config import cfg
+from app.common.config import uiConfig
 from app.common.utils import file_util
 
 
@@ -123,7 +123,7 @@ class CPTransHandler(BaseTransHandler):
                     else:
                         self.context.files_by_type[FileType.I18N] = [default_json_path]
 
-        if not cfg.i18n_extract_cp.value and i18n_folder:
+        if not uiConfig.i18n_extract_cp.value and i18n_folder:
             logging.info(f"exist i18n folder ignore extra CP ：{file_path}")
             return
         if os.path.basename(file_path) == "content.json":
@@ -150,7 +150,7 @@ class CPTransHandler(BaseTransHandler):
 
             when = change.get("When")
             if when is not None and "When" in change and when.get("Language") is not None and when.get(
-                    "Language") != cfg.source_language.value:
+                    "Language") != uiConfig.source_language.value:
                 continue
             target = change.get("Target")
             base_key = get_base_key(relative_path, target, when)
@@ -216,7 +216,7 @@ class CPTransHandler(BaseTransHandler):
                             target_type = TargetAssetType.get_target_asset_type(target1)
                             if self.traverse_editdata_entries(target_type, entries, base_key):
                                 if "{{Language}}" in form_file1:
-                                    form_file1 = form_file1.replace("{{Language}}", cfg.to_language.value)
+                                    form_file1 = form_file1.replace("{{Language}}", uiConfig.to_language.value)
                                 self.create_out_file(os.path.join(self.cp_path, form_file1), entries)
             elif action.lower == "EditMap".lower():
                 # {

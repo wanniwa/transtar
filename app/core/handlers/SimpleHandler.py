@@ -5,7 +5,7 @@ import wjson
 from app.common.constant import FileType, TargetAssetType
 from app.common.utils.file_util import get_i18n_folder, get_relative_path
 from app.core.handlers.base_handler import BaseTransHandler
-from app.common.config import cfg
+from app.common.config import uiConfig
 
 
 class MailTransHandler(BaseTransHandler):
@@ -80,8 +80,8 @@ class STFTransHandler(BaseTransHandler):
                     localized_quote = {}
                     jsonObject["LocalizedQuote"] = localized_quote
                 quote_key = f"{relative_path}#{shop_name}#Quote"
-                localized_quote[cfg.to_language.value] = self.get_new_value(quote_key, quote,
-                                                                            TargetAssetType.PlainText)
+                localized_quote[uiConfig.to_language.value] = self.get_new_value(quote_key, quote,
+                                                                                 TargetAssetType.PlainText)
 
             closed_message = jsonObject.get("ClosedMessage")
             if closed_message:
@@ -90,9 +90,9 @@ class STFTransHandler(BaseTransHandler):
                     localized_closed_message = {}
                     jsonObject["LocalizedClosedMessage"] = localized_closed_message
                 closed_message_key = f"{relative_path}#{shop_name}#ClosedMessage"
-                localized_closed_message[cfg.to_language.value] = self.get_new_value(closed_message_key,
-                                                                                     closed_message,
-                                                                                     TargetAssetType.PlainText)
+                localized_closed_message[uiConfig.to_language.value] = self.get_new_value(closed_message_key,
+                                                                                          closed_message,
+                                                                                          TargetAssetType.PlainText)
 
         print(f"STFTransHandler translations {file_path}")
 
@@ -191,7 +191,7 @@ class JATransHandler(BaseTransHandler):
     def do_ja_localization(self, localization, key, value, relative_path):
         trans_key = relative_path + "#" + key
         if self.context.trans_flag:
-            localization[cfg.to_language.value] = self.get_new_value(trans_key, value, TargetAssetType.PlainText)
+            localization[uiConfig.to_language.value] = self.get_new_value(trans_key, value, TargetAssetType.PlainText)
         elif self.context.dict_flag:
             self.get_new_value(trans_key, value, TargetAssetType.PlainText)
 

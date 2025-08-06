@@ -3,7 +3,7 @@ from typing import Union
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon
 from qfluentwidgets import LineEdit, SettingCard, FluentIconBase, ConfigItem, TextEdit, ExpandSettingCard
-from app.common.config import cfg
+from app.common.config import uiConfig
 
 
 class LineEditSettingCard(SettingCard):
@@ -39,7 +39,7 @@ class LineEditSettingCard(SettingCard):
         self.lineEdit.textChanged.connect(self.setValue)
 
     def setValue(self, value):
-        cfg.set(self.configItem, value)
+        uiConfig.set(self.configItem, value)
 
 
 class TextEditSettingCard(ExpandSettingCard):
@@ -91,4 +91,4 @@ class TextEditSettingCard(ExpandSettingCard):
 
     def _handleTextChanged(self):
         """ 处理文本变化 """
-        cfg.set(self.configItem, self.textEdit.toPlainText())
+        uiConfig.set(self.configItem, self.textEdit.toPlainText())
