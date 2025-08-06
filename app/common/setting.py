@@ -18,3 +18,4 @@ DOC_URL = "https://www.nexusmods.com/stardewvalley/mods/20435"
 
 CONFIG_FOLDER = appdirs.user_config_dir("Transtar")
 CONFIG_FILE = Path(CONFIG_FOLDER).joinpath("config.json")
+TRANS_CONFIG_FILE = Path(CONFIG_FOLDER).joinpath("trans_config.json")

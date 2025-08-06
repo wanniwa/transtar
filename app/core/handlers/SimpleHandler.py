@@ -4,7 +4,7 @@ import wjson
 
 from app.common.constant import FileType, TargetAssetType
 from app.common.utils.file_util import get_i18n_folder, get_relative_path
-from app.core.handlers.base_handler import BaseTransHandler
+from app.core.handlers.BaseTransHandler import BaseTransHandler
 from app.common.config import uiConfig
 
 

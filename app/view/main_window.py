@@ -8,9 +8,10 @@ from qfluentwidgets import NavigationItemPosition, MSFluentWindow, SplashScreen,
 from qfluentwidgets import FluentIcon as FIF
 
 from . import dict_interface
+from .platform.PlatformPage import PlatformPage
 from .setting_interface import SettingInterface
 from .home_interface import HomeInterface
-from ..common.config import cfg
+from ..common.config import uiConfig
 from ..common.icon import Icon
 from ..common.signal_bus import signalBus
 from ..common import resource
@@ -35,12 +36,13 @@ class MainWindow(MSFluentWindow):
         self.homeInterface = HomeInterface(self)
         self.paratranzInterface = ParatranzInterface(self)
         self.localDictInterface = LocalDictInterface(self)
+        self.platformPage = PlatformPage("platform_page", self)
 
         # add items to navigation interface
         self.initNavigation()
 
         # 如果启用了自动检查更新，延迟几秒后检查
-        if cfg.checkUpdateAtStartUp.value:
+        if uiConfig.checkUpdateAtStartUp.value:
             # 延迟3秒后检查更新，让主窗口完全加载
             QTimer.singleShot(3000, self._checkUpdate)
 
@@ -53,13 +55,17 @@ class MainWindow(MSFluentWindow):
 
         # 添加主页
         self.addSubInterface(self.homeInterface, FIF.HOME, self.tr('Home'))
+        self.addSubInterface(
+            self.platformPage,
+            FIF.STOP_WATCH,
+            self.tr('Interface Management'),
+        )
 
         # 添加字典界面
         self.addSubInterface(
-            self.paratranzInterface, 
-            FIF.DICTIONARY, 
+            self.paratranzInterface,
+            FIF.DICTIONARY,
             self.tr('Dictionary'),
-            position=NavigationItemPosition.TOP
         )
 
         # # 添加本地字典界面
@@ -80,9 +86,9 @@ class MainWindow(MSFluentWindow):
 
         # add custom widget to bottom
         self.addSubInterface(
-            self.settingInterface, 
-            Icon.SETTINGS, 
-            self.tr('Settings'), 
+            self.settingInterface,
+            Icon.SETTINGS,
+            self.tr('Settings'),
             Icon.SETTINGS_FILLED,
             NavigationItemPosition.BOTTOM
         )
@@ -139,10 +145,10 @@ class MainWindow(MSFluentWindow):
             # 切换到主页
             self.stackedWidget.setCurrentWidget(self.homeInterface)
             return
-        
+
         # 如果已选择文件夹，切换到ParaTranz界面
         self.stackedWidget.setCurrentWidget(self.paratranzInterface)
-        
+
         # 刷新本地文件列表
         if hasattr(self.paratranzInterface, 'dictInterface'):
             self.paratranzInterface.dictInterface.refresh_local_files()

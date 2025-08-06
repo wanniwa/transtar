@@ -4,8 +4,8 @@ import wjson
 from app.common.constant import FileType, TargetAssetType, ActionType
 from app.common.utils.notify_util import notify_error
 from app.common.utils.file_util import get_dict_path, get_error_dict_path, get_out_path
-from app.core.handlers.trans_context import TransContext
-from app.core.stardew_str import StardewStr
+from app.core.handlers.TransContext import TransContext
+from app.core.StardewStr import StardewStr
 from app.common.config import uiConfig
 
 

@@ -5,7 +5,7 @@ import re
 import wjson
 
 from app.common.constant import FileType, TargetAssetType
-from .base_handler import BaseTransHandler
+from .BaseTransHandler import BaseTransHandler
 from app.common.config import uiConfig
 from app.common.utils import file_util
 

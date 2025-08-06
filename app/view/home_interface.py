@@ -5,12 +5,12 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout, QGroupBox, QGridLayout, QFor
     QMessageBox
 from qfluentwidgets import ComboBoxSettingCard, FluentIcon as FIF, PushButton, CardWidget, SimpleCardWidget
 from app.common.constant import LANGUAGES, ActionType
-from app.common.config import cfg
-from app.view.components.drop_area import DropArea
+from app.common.config import uiConfig
+from app.core import Action
+from app.view.components.DropArea import DropArea
 from app.common.utils.notify_util import notify_common_error, notify_error
 from app.common.utils.file_util import get_all_json_files, get_dict_path, get_error_dict_path
-from app.view.components.progress_bar import CustomProgressBar
-from app.core import action
+from app.view.components.ProgressBar import CustomProgressBar
 
 
 def handle_action(folder_path: str, action_type: ActionType):
@@ -23,13 +23,13 @@ def handle_action(folder_path: str, action_type: ActionType):
     """
     try:
         if action_type == ActionType.EXTRACT:
-            action.extract(folder_path)
+            Action.extract(folder_path)
         elif action_type == ActionType.GENERATE:
-            action.generate(folder_path)
+            Action.generate(folder_path)
         elif action_type == ActionType.VALIDATE:
-            action.validate(folder_path)
+            Action.validate(folder_path)
         elif action_type == ActionType.IMPORT_ERROR:
-            action.import_from_error(folder_path)
+            Action.import_from_error(folder_path)
     except Exception as e:
         print(e)
         notify_error(e, folder_path)
@@ -48,10 +48,10 @@ class TranslationThread(QThread):
     def run(self):
         self.progress_signal.emit(0)
         batch_size = 1
-        if cfg.trans_model.value != "google" and cfg.trans_model.value != "deepl":
-            batch_size = cfg.ai_batch_size.value
+        if uiConfig.trans_model.value != "google" and uiConfig.trans_model.value != "deepl":
+            batch_size = uiConfig.ai_batch_size.value
         try:
-            action.translate(self.folder_path, self, batch_size)
+            Action.translate(self.folder_path, self, batch_size)
         except Exception as e:
             print(e)
             self.error_signal.emit(str(e))
@@ -103,7 +103,7 @@ class ExtractOldDialog(QDialog):
     def execute_action(self):
         pass
         if self.old_folder_path is not None and self.translated_folder_path is not None:
-            action.process_old_common(self.parent().drop_area.folderPath, self.old_folder_path,
+            Action.process_old_common(self.parent().drop_area.folderPath, self.old_folder_path,
                                       self.translated_folder_path)
         else:
             notify_common_error(self.tr("Notice"), self.tr("Please select both folders"))
@@ -118,7 +118,7 @@ class HomeInterface(QWidget):
 
         # 创建源语言和目标语言选择器
         self.source_language = ComboBoxSettingCard(
-            configItem=cfg.source_language,
+            configItem=uiConfig.source_language,
             icon=FIF.PLAY,
             title=self.tr('From'),
             content=self.tr('Select source language'),
@@ -127,7 +127,7 @@ class HomeInterface(QWidget):
         )
 
         self.to_language = ComboBoxSettingCard(
-            configItem=cfg.to_language,
+            configItem=uiConfig.to_language,
             icon=FIF.PLAY,
             title=self.tr('To'),
             content=self.tr('Select target language'),
@@ -237,7 +237,7 @@ class HomeInterface(QWidget):
             notify_common_error(self.tr("No dict files"), self.tr("Please generate dict files first"))
             return
 
-        if cfg.trans_model.value != "google" and cfg.api_key.value == "":
+        if uiConfig.trans_model.value != "google" and uiConfig.api_key.value == "":
             notify_common_error(self.tr("No api key"), self.tr("Please input api key config"))
             return
 

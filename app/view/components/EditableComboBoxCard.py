@@ -1,13 +1,13 @@
-from PyQt5.QtGui import QColor
-from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QVBoxLayout, QWidget
-from PyQt5.QtCore import pyqtSignal
+from PySide6.QtGui import QColor
+from PySide6.QtWidgets import QHBoxLayout, QVBoxLayout, QVBoxLayout, QWidget
+from PySide6.QtCore import Signal
 
 from qfluentwidgets import CardWidget, CaptionLabel, LineEdit, MessageBoxBase, PushButton, StrongBodyLabel, EditableComboBox, SubtitleLabel,FluentIcon, ToolButton
 
 
 
 class EditableComboBoxCard(CardWidget):
-    items_changed = pyqtSignal(list)  # 添加一个信号，用于通知外部选项列表已更改
+    items_changed = Signal(list)  # 添加一个信号，用于通知外部选项列表已更改
 
     def __init__(self, title: str, description: str, items: list[str], init = None, current_text_changed = None, current_index_changed = None):
         super().__init__(None)

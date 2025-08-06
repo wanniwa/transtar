@@ -1,14 +1,15 @@
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QWidget
-from PyQt5.QtWidgets import QVBoxLayout
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QWidget
+from PySide6.QtWidgets import QVBoxLayout
 
 from qfluentwidgets import MessageBoxBase
 from qfluentwidgets import SingleDirectionScrollArea
 
-from Base.Base import Base
-from Widget.SpinCard import SpinCard
+from app.core.TransBase import TransBase
+from app.view.components.SpinCard import SpinCard
 
-class LimitEditPage(MessageBoxBase, Base):
+
+class LimitEditPage(MessageBoxBase, TransBase):
 
     def __init__(self, window, key):
         super().__init__(window)
@@ -17,8 +18,8 @@ class LimitEditPage(MessageBoxBase, Base):
         self.key = key
 
         # 设置框体
-        self.widget.setFixedSize(960, 720)
-        self.yesButton.setText(self.tra("关闭"))
+        # self.widget.setFixedSize(960, 720)
+        self.yesButton.setText(self.tr("Close"))
         self.cancelButton.hide()
 
         # 载入配置文件
@@ -27,19 +28,13 @@ class LimitEditPage(MessageBoxBase, Base):
         # 设置主布局
         self.viewLayout.setContentsMargins(0, 0, 0, 0)
 
-        # 设置滚动器
-        self.scroller = SingleDirectionScrollArea(self, orient = Qt.Vertical)
-        self.scroller.setWidgetResizable(True)
-        self.scroller.setStyleSheet("QScrollArea { border: none; background: transparent; }")
-        self.viewLayout.addWidget(self.scroller)
-
         # 设置滚动控件
         self.vbox_parent = QWidget(self)
         self.vbox_parent.setStyleSheet("QWidget { background: transparent; }")
         self.vbox = QVBoxLayout(self.vbox_parent)
         self.vbox.setSpacing(8)
-        self.vbox.setContentsMargins(24, 24, 24, 24) # 左、上、右、下
-        self.scroller.setWidget(self.vbox_parent)
+        self.vbox.setContentsMargins(24, 24, 24, 24)  # 左、上、右、下
+        self.viewLayout.addWidget(self.vbox_parent)
 
         # 添加控件
         self.add_widget_rpm(self.vbox, config)
@@ -61,10 +56,10 @@ class LimitEditPage(MessageBoxBase, Base):
 
         parent.addWidget(
             SpinCard(
-                self.tra("每分钟请求数"),
-                self.tra("RPM，即每个密钥在一分钟内能响应的请求的最大数量"),
-                init = init,
-                value_changed = value_changed,
+                self.tr("Requests per minute"),
+                self.tr("RPM, the maximum number of requests each key can respond to in one minute"),
+                init=init,
+                value_changed=value_changed,
             )
         )
 
@@ -81,9 +76,9 @@ class LimitEditPage(MessageBoxBase, Base):
 
         parent.addWidget(
             SpinCard(
-                self.tra("每分钟 Token 数"),
-                self.tra("TPM，即每个密钥在一分钟内能生成的 Token 的最大数量"),
-                init = init,
-                value_changed = value_changed,
+                self.tr("Tokens per minute"),
+                self.tr("TPM, the maximum number of tokens each key can generate in one minute"),
+                init=init,
+                value_changed=value_changed,
             )
         )

@@ -1,5 +1,5 @@
-from PyQt5.QtGui import QColor 
-from PyQt5.QtWidgets import QFrame, QHBoxLayout, QVBoxLayout, QWidget 
+from PySide6.QtGui import QColor
+from PySide6.QtWidgets import QFrame, QHBoxLayout, QVBoxLayout, QWidget
 
 from qfluentwidgets import (
     CardWidget, FlowLayout, CaptionLabel, StrongBodyLabel,HorizontalSeparator,

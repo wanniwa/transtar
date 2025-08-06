@@ -2,7 +2,7 @@ import wjson
 import os
 
 from app.common.constant import FileType, TargetAssetType
-from .base_handler import BaseTransHandler
+from .BaseTransHandler import BaseTransHandler
 from ...common.utils import file_util
 from ...common.config import uiConfig
 

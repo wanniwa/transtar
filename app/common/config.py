@@ -1,4 +1,6 @@
 # coding:utf-8
+import json
+import os
 import sys
 from enum import Enum
 
@@ -6,10 +8,11 @@ from PySide6.QtCore import QLocale
 from qfluentwidgets import (qconfig, QConfig, ConfigItem, OptionsConfigItem, BoolValidator,
                             OptionsValidator, Theme, ConfigSerializer, RangeConfigItem, RangeValidator)
 
-from .setting import CONFIG_FILE
+from .setting import CONFIG_FILE, TRANS_CONFIG_FILE
 from .constant import LANGUAGES
 
-models = ['google', 'deepl', 'gpt-3.5-turbo', 'gpt-4', 'gpt-4-turbo-2024-04-09', 'gpt-4o', 'gpt-4o-mini', 'custom model']
+models = ['google', 'deepl', 'gpt-3.5-turbo', 'gpt-4', 'gpt-4-turbo-2024-04-09', 'gpt-4o', 'gpt-4o-mini',
+          'custom model']
 
 
 class Language(Enum):
@@ -72,6 +75,17 @@ class Config(QConfig):
     localDictPageSize = ConfigItem("LocalDict", "pageSize", 100)
 
 
-cfg = Config()
-cfg.themeMode.value = Theme.AUTO
-qconfig.load(str(CONFIG_FILE.absolute()), cfg)
+# 载入配置文件
+def load_config(path) -> dict:
+    config = {}
+    if os.path.exists(path):
+        with open(path, "r", encoding="utf-8") as reader:
+            config = json.load(reader)
+    return config
+
+
+uiConfig = Config()
+uiConfig.themeMode.value = Theme.AUTO
+qconfig.load(str(CONFIG_FILE.absolute()), uiConfig)
+
+# transConfig = load_config(str(TRANS_CONFIG_FILE.absolute()))

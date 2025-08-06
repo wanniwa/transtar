@@ -1,22 +1,23 @@
 import os
 import json
 
-from PyQt5.QtCore import Qt
-from PyQt5.QtCore import QUrl
-from PyQt5.QtWidgets import QWidget
-from PyQt5.QtWidgets import QVBoxLayout
+from PySide6.QtCore import Qt
+from PySide6.QtCore import QUrl
+from PySide6.QtWidgets import QWidget
+from PySide6.QtWidgets import QVBoxLayout
 
 from qfluentwidgets import HyperlinkLabel, PlainTextEdit
 from qfluentwidgets import MessageBoxBase
 from qfluentwidgets import SingleDirectionScrollArea
 
-from Base.Base import Base
-from Widget.SliderCard import SliderCard
-from Widget.GroupCard import GroupCard
-from Widget.SwitchButtonCard import SwitchButtonCard
-from Widget.ComboBoxCard import ComboBoxCard
+from app.core.TransBase import TransBase
+from app.view.components.SliderCard import SliderCard
+from app.view.components.GroupCard import GroupCard
+from app.view.components.SwitchButtonCard import SwitchButtonCard
+from app.view.components.ComboBoxCard import ComboBoxCard
 
-class ArgsEditPage(MessageBoxBase, Base):
+
+class ArgsEditPage(MessageBoxBase, TransBase):
 
     def __init__(self, window, key):
         super().__init__(window)
@@ -25,19 +26,19 @@ class ArgsEditPage(MessageBoxBase, Base):
         self.key = key
 
         # 设置框体
-        self.widget.setFixedSize(960, 720)
-        self.yesButton.setText(self.tra("关闭"))
+        self.widget.setFixedSize(700, 600)
+        self.yesButton.setText("关闭")
         self.cancelButton.hide()
 
         # 载入配置文件
         config = self.load_config()
-        preset = self.load_file("./Resource/platforms/preset.json")
+        preset = self.load_file("app/resource/platforms/preset.json")
 
         # 设置主布局
         self.viewLayout.setContentsMargins(0, 0, 0, 0)
 
         # 设置滚动器
-        self.scroller = SingleDirectionScrollArea(self, orient = Qt.Vertical)
+        self.scroller = SingleDirectionScrollArea(self, orient=Qt.Orientation.Horizontal)
         self.scroller.setWidgetResizable(True)
         self.scroller.setStyleSheet("QScrollArea { border: none; background: transparent; }")
         self.viewLayout.addWidget(self.scroller)
@@ -47,9 +48,8 @@ class ArgsEditPage(MessageBoxBase, Base):
         self.vbox_parent.setStyleSheet("QWidget { background: transparent; }")
         self.vbox = QVBoxLayout(self.vbox_parent)
         self.vbox.setSpacing(8)
-        self.vbox.setContentsMargins(24, 24, 24, 24) # 左、上、右、下
+        self.vbox.setContentsMargins(24, 24, 24, 24)  # 左、上、右、下
         self.scroller.setWidget(self.vbox_parent)
-
 
         # extra_body
         if "extra_body" in config.get("platforms").get(self.key).get("key_in_settings"):
@@ -95,13 +95,12 @@ class ArgsEditPage(MessageBoxBase, Base):
         result = {}
 
         if os.path.exists(path):
-            with open(path, "r", encoding = "utf-8") as reader:
+            with open(path, "r", encoding="utf-8") as reader:
                 result = json.load(reader)
         else:
             self.error(f"未找到 {path} 文件 ...")
 
         return result
-
 
     # 思考开关
     def add_widget_think_switch(self, parent, config):
@@ -115,10 +114,10 @@ class ArgsEditPage(MessageBoxBase, Base):
 
         parent.addWidget(
             SwitchButtonCard(
-                self.tra("think_switch"),
-                self.tra("思考模式开关"),
-                init = init,
-                checked_changed = checked_changed,
+                "think_switch",
+                self.tr("思考模式开关"),
+                init=init,
+                checked_changed=checked_changed
             )
         )
 
@@ -127,7 +126,7 @@ class ArgsEditPage(MessageBoxBase, Base):
         def init(widget):
             platform = config.get("platforms").get(self.key)
 
-            widget.set_items(["low","medium","high"])
+            widget.set_items(["low", "medium", "high"])
             widget.set_current_index(max(0, widget.find_text(platform.get("think_depth"))))
 
         def current_text_changed(widget, text: str):
@@ -137,11 +136,11 @@ class ArgsEditPage(MessageBoxBase, Base):
 
         parent.addWidget(
             ComboBoxCard(
-                self.tra("think_depth"),
-                self.tra("思考深度"),
+                self.tr("think_depth"),
+                self.tr("Thinking depth"),
                 [],
-                init = init,
-                current_text_changed = current_text_changed,
+                init=init,
+                current_text_changed=current_text_changed,
             )
         )
 
@@ -164,13 +163,13 @@ class ArgsEditPage(MessageBoxBase, Base):
         else:
             default_value = -1
 
-        info_cont = self.tra("请谨慎设置，对于目标接口，此参数的默认值为") + f" {default_value} (-1代表自动)"
+        info_cont = self.tr("Please set carefully, for the target interface, the default value of this parameter is") + f" {default_value} (-1 means auto)"
         parent.addWidget(
             SliderCard(
                 "thinking_budget",
                 info_cont,
-                init = init,
-                value_changed = value_changed,
+                init=init,
+                value_changed=value_changed,
             )
         )
 
@@ -188,7 +187,7 @@ class ArgsEditPage(MessageBoxBase, Base):
                     extra_body_dict = json.loads(extra_body_str.replace("'", "\""))
                     if extra_body_dict is None:
                         extra_body_dict = {}
-                        
+
                     config["platforms"][self.key]["extra_body"] = extra_body_dict
 
                 self.save_config(config)
@@ -204,7 +203,7 @@ class ArgsEditPage(MessageBoxBase, Base):
             else:
                 plain_text_edit.setPlainText(json.dumps(extra_body))
 
-            info_cont = self.tra("请输入自定义Body")
+            info_cont = self.tr("Please enter custom Body")
             plain_text_edit.setPlaceholderText(info_cont)
             plain_text_edit.textChanged.connect(lambda: text_changed(plain_text_edit))
             widget.addWidget(plain_text_edit)
@@ -212,8 +211,9 @@ class ArgsEditPage(MessageBoxBase, Base):
         parent.addWidget(
             GroupCard(
                 "extra_body",
-                self.tra("请输入自定义Body，例如 {\"provider\": {\"order\": [\"DeepInfra\", \"Together\"], \"allow_fallbacks\": false}}"),
-                init = init,
+                self.tr(
+                    "请输入自定义Body，例如 {\"provider\": {\"order\": [\"DeepInfra\", \"Together\"], \"allow_fallbacks\": false}}"),
+                init=init,
             )
         )
 
@@ -236,13 +236,13 @@ class ArgsEditPage(MessageBoxBase, Base):
         else:
             default_value = preset.get("platforms").get("openai").get("top_p")
 
-        info_cont = self.tra("请谨慎设置，对于目标接口，此参数的默认值为") + f" {default_value}"
+        info_cont = self.tr("Please set carefully, for the target interface, the default value of this parameter is") + f" {default_value}"
         parent.addWidget(
             SliderCard(
                 "top_p",
                 info_cont,
-                init = init,
-                value_changed = value_changed,
+                init=init,
+                value_changed=value_changed,
             )
         )
 
@@ -265,13 +265,13 @@ class ArgsEditPage(MessageBoxBase, Base):
         else:
             default_value = preset.get("platforms").get("openai").get("temperature")
 
-        info_cont = self.tra("请谨慎设置，对于目标接口，此参数的默认值为") + f" {default_value}"
+        info_cont = self.tr("Please set carefully, for the target interface, the default value of this parameter is") + f" {default_value}"
         parent.addWidget(
             SliderCard(
                 "temperature",
                 info_cont,
-                init = init,
-                value_changed = value_changed,
+                init=init,
+                value_changed=value_changed,
             )
         )
 
@@ -294,13 +294,13 @@ class ArgsEditPage(MessageBoxBase, Base):
         else:
             default_value = preset.get("platforms").get("openai").get("presence_penalty")
 
-        info_cont = self.tra("请谨慎设置，对于目标接口，此参数的默认值为") + f" {default_value}"
+        info_cont = self.tr("Please set carefully, for the target interface, the default value of this parameter is") + f" {default_value}"
         parent.addWidget(
             SliderCard(
                 "presence_penalty",
                 info_cont,
-                init = init,
-                value_changed = value_changed,
+                init=init,
+                value_changed=value_changed,
             )
         )
 
@@ -323,12 +323,12 @@ class ArgsEditPage(MessageBoxBase, Base):
         else:
             default_value = preset.get("platforms").get("openai").get("frequency_penalty")
 
-        info_cont = self.tra("请谨慎设置，对于目标接口，此参数的默认值为") + f" {default_value}"
+        info_cont = self.tr("Please set carefully, for the target interface, the default value of this parameter is") + f" {default_value}"
         parent.addWidget(
             SliderCard(
                 "frequency_penalty",
                 info_cont,
-                init = init,
-                value_changed = value_changed,
+                init=init,
+                value_changed=value_changed,
             )
         )

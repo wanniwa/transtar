@@ -1,19 +1,20 @@
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QWidget
-from PyQt5.QtWidgets import QVBoxLayout
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QWidget
+from PySide6.QtWidgets import QVBoxLayout
 
 from qfluentwidgets import PlainTextEdit
 from qfluentwidgets import MessageBoxBase
 from qfluentwidgets import SingleDirectionScrollArea
 
-from Base.Base import Base
-from Widget.GroupCard import GroupCard
-from Widget.ComboBoxCard import ComboBoxCard
-from Widget.LineEditCard import LineEditCard
-from Widget.SwitchButtonCard import SwitchButtonCard
-from Widget.EditableComboBoxCard import EditableComboBoxCard
+from app.core.TransBase import TransBase
+from app.view.components.GroupCard import GroupCard
+from app.view.components.ComboBoxCard import ComboBoxCard
+from app.view.components.LineEditCard import LineEditCard
+from app.view.components.SwitchButtonCard import SwitchButtonCard
+from app.view.components.EditableComboBoxCard import EditableComboBoxCard
 
-class APIEditPage(MessageBoxBase, Base):
+
+class APIEditPage(MessageBoxBase, TransBase):
 
     def __init__(self, window, key):
         super().__init__(window)
@@ -22,8 +23,8 @@ class APIEditPage(MessageBoxBase, Base):
         self.key = key
 
         # 设置框体
-        self.widget.setFixedSize(960, 720)
-        self.yesButton.setText(self.tra("关闭"))
+        # self.widget.setFixedSize(960, 720)
+        self.yesButton.setText(self.tr("Close"))
         self.cancelButton.hide()
 
         # 载入配置文件
@@ -32,19 +33,22 @@ class APIEditPage(MessageBoxBase, Base):
         # 设置主布局
         self.viewLayout.setContentsMargins(0, 0, 0, 0)
 
-        # 设置滚动器
-        self.scroller = SingleDirectionScrollArea(self, orient = Qt.Vertical)
-        self.scroller.setWidgetResizable(True)
-        self.scroller.setStyleSheet("QScrollArea { border: none; background: transparent; }")
-        self.viewLayout.addWidget(self.scroller)
+        # # 设置滚动器
+        # self.scroller = SingleDirectionScrollArea(self, orient=Qt.Orientation.Vertical)
+        # self.scroller.setWidgetResizable(True)
+        # self.scroller.setStyleSheet("QScrollArea { border: none; background: transparent; }")
+        # self.viewLayout.addWidget(self.scroller)
 
         # 设置滚动控件
         self.vbox_parent = QWidget(self)
         self.vbox_parent.setStyleSheet("QWidget { background: transparent; }")
         self.vbox = QVBoxLayout(self.vbox_parent)
         self.vbox.setSpacing(8)
-        self.vbox.setContentsMargins(24, 24, 24, 24) # 左、上、右、下
-        self.scroller.setWidget(self.vbox_parent)
+        self.vbox.setContentsMargins(24, 24, 24, 24)  # 左、上、右、下
+        # self.scroller.setWidget(self.vbox_parent)
+        self.viewLayout.addWidget(self.vbox_parent)
+
+
 
         # 接口地址
         if "api_url" in config.get("platforms").get(self.key).get("key_in_settings"):
@@ -86,7 +90,7 @@ class APIEditPage(MessageBoxBase, Base):
         def init(widget):
             widget.set_text(config.get("platforms").get(self.key).get("api_url"))
             widget.set_fixed_width(256)
-            info_cont = self.tra("请输入接口地址") + " ..."
+            info_cont = self.tr("Please enter interface URL") + " ..."
             widget.set_placeholder_text(info_cont)
 
         def text_changed(widget, text: str):
@@ -96,10 +100,10 @@ class APIEditPage(MessageBoxBase, Base):
 
         parent.addWidget(
             LineEditCard(
-                self.tra("接口地址"),
-                self.tra("请输入接口地址，例如 https://api.deepseek.com"),
-                init = init,
-                text_changed = text_changed,
+                self.tr("Interface URL"),
+                self.tr("Please enter interface URL, for example https://api.deepseek.com"),
+                init=init,
+                text_changed=text_changed,
             )
         )
 
@@ -115,10 +119,10 @@ class APIEditPage(MessageBoxBase, Base):
 
         parent.addWidget(
             SwitchButtonCard(
-                self.tra("接口地址自动补全"),
-                self.tra("将自动为你填写接口地址，例如 https://api.deepseek.com -> https://api.deepseek.com/v1"),
-                init = init,
-                checked_changed = checked_changed,
+                self.tr("Interface URL auto-completion"),
+                self.tr("Will automatically fill in the interface URL for you, for example https://api.deepseek.com -> https://api.deepseek.com/v1"),
+                init=init,
+                checked_changed=checked_changed,
             )
         )
 
@@ -133,22 +137,21 @@ class APIEditPage(MessageBoxBase, Base):
         def init(widget):
             plain_text_edit = PlainTextEdit(self)
             plain_text_edit.setPlainText(config.get("platforms").get(self.key).get("api_key"))
-            plain_text_edit.setPlaceholderText(self.tra("请输入接口密钥"))
+            plain_text_edit.setPlaceholderText(self.tr("Please enter interface key"))
             plain_text_edit.textChanged.connect(lambda: text_changed(plain_text_edit))
             widget.addWidget(plain_text_edit)
 
         parent.addWidget(
             GroupCard(
-                self.tra("接口密钥"),
-                self.tra("请输入接口密钥，例如 sk-d0daba12345678fd8eb7b8d31c123456，多个密钥之间请使用半角逗号（,）分隔"),
-                init = init,
+                self.tr("Interface key"),
+                self.tr("Please enter interface key, for example sk-d0daba12345678fd8eb7b8d31c123456, separate multiple keys with comma (,)"),
+                init=init,
             )
         )
 
-
-     # 接口密钥
+    # 接口密钥
     def add_widget_access_key(self, parent, config):
-        
+
         def text_changed(widget):
             config = self.load_config()
             config["platforms"][self.key]["access_key"] = widget.toPlainText().strip()
@@ -157,19 +160,19 @@ class APIEditPage(MessageBoxBase, Base):
         def init(widget):
             plain_text_edit = PlainTextEdit(self)
             plain_text_edit.setPlainText(config.get("platforms").get(self.key).get("access_key"))
-            plain_text_edit.setPlaceholderText(self.tra("请输入AWS Access Key"))
+            plain_text_edit.setPlaceholderText(self.tr("Please enter AWS Access Key"))
             plain_text_edit.textChanged.connect(lambda: text_changed(plain_text_edit))
             widget.addWidget(plain_text_edit)
 
         parent.addWidget(
             GroupCard(
-                self.tra("AWS Access Key"),
-                self.tra("请输入AWS Access Key"),
-                init = init,
+                self.tr("AWS Access Key"),
+                self.tr("Please enter AWS Access Key"),
+                init=init,
             )
         )
 
-     # 接口密钥
+    # 接口密钥
     def add_widget_secret_key(self, parent, config):
 
         def text_changed(widget):
@@ -180,15 +183,15 @@ class APIEditPage(MessageBoxBase, Base):
         def init(widget):
             plain_text_edit = PlainTextEdit(self)
             plain_text_edit.setPlainText(config.get("platforms").get(self.key).get("secret_key"))
-            plain_text_edit.setPlaceholderText(self.tra("请输入AWS Secret Key"))
+            plain_text_edit.setPlaceholderText(self.tr("Please enter AWS Secret Key"))
             plain_text_edit.textChanged.connect(lambda: text_changed(plain_text_edit))
             widget.addWidget(plain_text_edit)
 
         parent.addWidget(
             GroupCard(
-                self.tra("AWS Secret Key"),
-                self.tra("请输入AWS Secret Key"),
-                init = init,
+                self.tr("AWS Secret Key"),
+                self.tr("Please enter AWS Secret Key"),
+                init=init,
             )
         )
 
@@ -206,28 +209,27 @@ class APIEditPage(MessageBoxBase, Base):
             widget.set_items(items)
             widget.set_fixed_width(256)
             widget.set_current_index(max(0, widget.find_text(platforms.get("region"))))
-            widget.set_placeholder_text(self.tra("请输入区域"))
+            widget.set_placeholder_text(self.tr("Please enter region"))
 
         def current_text_changed(widget, text: str):
             config = self.load_config()
             config["platforms"][self.key]["region"] = text.strip()
             self.save_config(config)
 
-        def items_changed(widget, items: list[str]): # 处理 items_changed 信号的槽函数
+        def items_changed(widget, items: list[str]):  # 处理 items_changed 信号的槽函数
             config = self.load_config()
-            config["platforms"][self.key]["region_datas"] = items # 更新 region_datas
-            self.save_config(config) # 保存配置
+            config["platforms"][self.key]["region_datas"] = items  # 更新 region_datas
+            self.save_config(config)  # 保存配置
 
         card = EditableComboBoxCard(
-            self.tra("区域(可编辑)"),
-            self.tra("请选择或者输入要使用的区域"),
+                            self.tr("Region (editable)"),
+                self.tr("Please select or enter the region to use"),
             [],
-            init = init,
-            current_text_changed = current_text_changed,
+            init=init,
+            current_text_changed=current_text_changed,
         )
-        card.items_changed.connect(lambda items: items_changed(card, items)) # 连接信号
+        card.items_changed.connect(lambda items: items_changed(card, items))  # 连接信号
         parent.addWidget(card)
-
 
     # 接口格式
     def add_widget_format(self, parent, config):
@@ -244,14 +246,13 @@ class APIEditPage(MessageBoxBase, Base):
 
         parent.addWidget(
             ComboBoxCard(
-                self.tra("接口格式"),
-                self.tra("请选择接口格式，大部分模型使用 OpenAI 格式，部分中转站的 Claude 模型则使用 Anthropic 格式"),
+                self.tr("Interface format"),
+                self.tr("Please select interface format, most models use OpenAI format, some relay station Claude models use Anthropic format"),
                 [],
-                init = init,
-                current_text_changed = current_text_changed,
+                init=init,
+                current_text_changed=current_text_changed,
             )
         )
-
 
     # 模型名称
     def add_widget_model(self, parent, config):
@@ -266,24 +267,24 @@ class APIEditPage(MessageBoxBase, Base):
             widget.set_items(items)
             widget.set_fixed_width(256)
             widget.set_current_index(max(0, widget.find_text(platforms.get("model"))))
-            widget.set_placeholder_text(self.tra("请输入模型名称"))
+            widget.set_placeholder_text(self.tr("Please enter model name"))
 
         def current_text_changed(widget, text: str):
             config = self.load_config()
             config["platforms"][self.key]["model"] = text.strip()
             self.save_config(config)
 
-        def items_changed(widget, items: list[str]): # 处理 items_changed 信号的槽函数
+        def items_changed(widget, items: list[str]):  # 处理 items_changed 信号的槽函数
             config = self.load_config()
-            config["platforms"][self.key]["model_datas"] = items # 更新 model_datas
-            self.save_config(config) # 保存配置
+            config["platforms"][self.key]["model_datas"] = items  # 更新 model_datas
+            self.save_config(config)  # 保存配置
 
         card = EditableComboBoxCard(
-            self.tra("模型名称(可编辑)"),
-            self.tra("请选择或者输入要使用的模型的名称"),
+                            self.tr("Model name (editable)"),
+                self.tr("Please select or enter the name of the model to use"),
             [],
-            init = init,
-            current_text_changed = current_text_changed,
+            init=init,
+            current_text_changed=current_text_changed,
         )
-        card.items_changed.connect(lambda items: items_changed(card, items)) # 连接信号
+        card.items_changed.connect(lambda items: items_changed(card, items))  # 连接信号
         parent.addWidget(card)
