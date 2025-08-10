@@ -71,8 +71,7 @@ class DropArea(QLabel):
                 self.delete_button.show()
 
     def clear(self):
-        self.setText(self.tr("Drop a folder here or click to select"))
+        self.setText(self.tr("Drop folder here or click to select"))
         self.folderPath = ""
-        self.setToolTip(self.tr("Drop a folder here"))
         self.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.delete_button.hide()

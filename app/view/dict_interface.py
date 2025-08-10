@@ -16,7 +16,7 @@ from qfluentwidgets import (TreeWidget, PushButton, InfoBar, StateToolTip,
 from ..api.paratranz.api import ParatranzAPI
 from ..api.paratranz.exceptions import ParatranzAPIError
 from ..api.paratranz.models import FileManager
-from ..common.config import uiConfig
+from ..common.config import appConfig
 from ..common.utils.file_util import get_dict_path
 from ..common.utils.manifest_util import get_mod_infos, ManifestInfo
 from ..common.window_manager import get_window
@@ -1064,7 +1064,7 @@ class DictInterface(QWidget):
 
     def open_paratranz_web(self):
         """打开 ParaTranz 网站"""
-        project_id = uiConfig.paratranz_project_id.value
+        project_id = appConfig.paratranz_project_id.value
         if project_id:
             url = f"https://paratranz.cn/projects/{project_id}/files"
         else:

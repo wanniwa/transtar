@@ -6,7 +6,7 @@ from app.common.utils.notify_util import notify_error
 from app.common.utils.file_util import get_dict_path, get_error_dict_path, get_out_path
 from app.core.handlers.TransContext import TransContext
 from app.core.StardewStr import StardewStr
-from app.common.config import uiConfig
+from app.common.config import appConfig
 
 
 class BaseTransHandler(ABC):
@@ -78,7 +78,7 @@ class BaseTransHandler(ABC):
             return False
 
     def get_trans_after_path(self):
-        return self.context.mod_path + " " + uiConfig.to_language.value
+        return self.context.mod_path + " " + appConfig.to_language.value
 
     def get_new_value(self, key, raw, target_type: TargetAssetType):
         # max length of key is 230,can change,not suggest

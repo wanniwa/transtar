@@ -7,19 +7,19 @@ from PySide6.QtWidgets import QMessageBox
 from app.common.constant import FileType, ActionType
 from app.core.HandlerFactory import HandlerFactory
 from app.core.handlers.TransContext import TransContext
-from ..common.config import uiConfig
+from app.common.config import appConfig
 
 from qfluentwidgets import InfoBar
 
-from ..common.utils import trans_util, file_util, notify_util
-from ..common.window_manager import get_window
+from app.common.utils import trans_util, file_util, notify_util
+from app.common.window_manager import get_window
 
 
 def extract(mod_path: str) -> None:
     i18n_language = None
-    i18n_language_flag = uiConfig.i18n_source_flag.value
+    i18n_language_flag = appConfig.i18n_source_flag.value
     if i18n_language_flag:
-        i18n_language = uiConfig.source_language.value
+        i18n_language = appConfig.source_language.value
     files_by_type = file_util.get_files_by_type(mod_path, i18n_language)
     if not files_by_type:
         files_by_type = {}
@@ -50,9 +50,9 @@ def extract(mod_path: str) -> None:
 def generate(mod_path: str) -> None:
     """Generate translations for mod files"""
     i18n_language = None
-    i18n_language_flag = uiConfig.i18n_source_flag.value
+    i18n_language_flag = appConfig.i18n_source_flag.value
     if i18n_language_flag:
-        i18n_language = uiConfig.source_language.value
+        i18n_language = appConfig.source_language.value
 
     files_by_type = file_util.get_files_by_type(mod_path, i18n_language)
     if not files_by_type:
@@ -189,8 +189,8 @@ def translate(mod_path, thread, batch_size):
 
 
 def process_old_common(mod_path, old_folder_path, old_trans_folder_path):
-    if uiConfig.i18n_source_flag.value:
-        i18n_file_name = uiConfig.source_language.value
+    if appConfig.i18n_source_flag.value:
+        i18n_file_name = appConfig.source_language.value
     else:
         i18n_file_name = "default"
     try:
@@ -199,7 +199,7 @@ def process_old_common(mod_path, old_folder_path, old_trans_folder_path):
         notify_util.notify_error(e, old_folder_path)
         return
     try:
-        oldTransDicts = process_dict(old_trans_folder_path, uiConfig.to_language.value)
+        oldTransDicts = process_dict(old_trans_folder_path, appConfig.to_language.value)
     except Exception as e:
         notify_util.notify_error(e, old_trans_folder_path)
         return
@@ -214,7 +214,7 @@ def process_old_common(mod_path, old_folder_path, old_trans_folder_path):
             transDictsMap[transDict['key']] = transDict
         for noTransdict in v:
             if k == FileType.I18N:
-                key = noTransdict['key'].replace(i18n_file_name, uiConfig.to_language.value)
+                key = noTransdict['key'].replace(i18n_file_name, appConfig.to_language.value)
             else:
                 key = noTransdict['key']
             transDict = transDictsMap.get(key, None)

@@ -10,7 +10,7 @@ import wjson
 import os
 from pathlib import Path
 import json
-from app.common.config import uiConfig
+from app.common.config import appConfig
 
 class LocalDictInterface(QWidget):
     def __init__(self, parent=None):
@@ -18,7 +18,7 @@ class LocalDictInterface(QWidget):
         self.setObjectName("LocalDictInterface")
         self.current_file = None
         self.current_data = []
-        self.page_size = uiConfig.localDictPageSize.value  # 从配置文件读取页面大小
+        self.page_size = appConfig.localDictPageSize.value  # 从配置文件读取页面大小
         self.current_page = 1
         self.total_pages = 1
         
@@ -249,7 +249,7 @@ class LocalDictInterface(QWidget):
         self.page_size = value
         self.current_page = 1
         # 保存到配置文件
-        uiConfig.localDictPageSize.value = value
+        appConfig.localDictPageSize.value = value
         self.update_table()
         
     def prev_page(self):

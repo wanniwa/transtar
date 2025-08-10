@@ -1,5 +1,5 @@
 from typing import List, Dict
-from ...common.config import uiConfig
+from ...common.config import appConfig
 from ..base import BaseAPI
 from .exceptions import ParatranzAPIError
 import wjson
@@ -12,17 +12,17 @@ class ParatranzAPI(BaseAPI):
 
     def get_headers(self) -> Dict[str, str]:
         """获取请求头"""
-        if not uiConfig.paratranz_token.value:
+        if not appConfig.paratranz_token.value:
             raise ParatranzAPIError("Paratranz token not configured")
         return {
-            'Authorization': uiConfig.paratranz_token.value,
+            'Authorization': appConfig.paratranz_token.value,
         }
 
     def _get_project_id(self) -> str:
         """获取项目ID"""
-        if not uiConfig.paratranz_project_id.value:
+        if not appConfig.paratranz_project_id.value:
             raise ParatranzAPIError("Paratranz project ID not configured")
-        return uiConfig.paratranz_project_id.value
+        return appConfig.paratranz_project_id.value
 
     def get_project_files(self) -> List[dict]:
         """获取项目文件列表"""

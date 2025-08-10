@@ -32,7 +32,7 @@ class ArgsEditPage(MessageBoxBase, TransBase):
 
         # 载入配置文件
         config = self.load_config()
-        preset = self.load_file("app/resource/platforms/preset.json")
+        preset = self.load_file("app/resource/default/preset.json")
 
         # 设置主布局
         self.viewLayout.setContentsMargins(0, 0, 0, 0)

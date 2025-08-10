@@ -4,7 +4,7 @@ from PySide6.QtGui import QDesktopServices
 from qfluentwidgets import (TitleLabel, SubtitleLabel, LineEdit,
                             PrimaryPushButton, SimpleCardWidget, FluentIcon as FIF,
                             InfoBar, TextBrowser)
-from ..common.config import uiConfig
+from ..common.config import appConfig
 
 
 class ParatranzConfigInterface(QWidget):
@@ -70,7 +70,7 @@ class ParatranzConfigInterface(QWidget):
         tokenTip.setFixedHeight(25)
         self.tokenEdit = LineEdit(self)
         self.tokenEdit.setPlaceholderText(self.tr('Enter your ParaTranz token'))
-        self.tokenEdit.setText(uiConfig.paratranz_token.value)
+        self.tokenEdit.setText(appConfig.paratranz_token.value)
 
         tokenLayout.addWidget(tokenLabel)
         tokenLayout.addWidget(tokenTip)
@@ -99,7 +99,7 @@ class ParatranzConfigInterface(QWidget):
         projectTip.setFixedHeight(25)
         self.projectEdit = LineEdit(self)
         self.projectEdit.setPlaceholderText(self.tr('Enter your project ID'))
-        self.projectEdit.setText(uiConfig.paratranz_project_id.value)
+        self.projectEdit.setText(appConfig.paratranz_project_id.value)
 
         projectLayout.addWidget(projectLabel)
         projectLayout.addWidget(projectTip)
@@ -138,8 +138,8 @@ class ParatranzConfigInterface(QWidget):
             return
 
         # 保存配置
-        uiConfig.set(uiConfig.paratranz_token, token)
-        uiConfig.set(uiConfig.paratranz_project_id, project_id)
+        appConfig.set(appConfig.paratranz_token, token)
+        appConfig.set(appConfig.paratranz_project_id, project_id)
 
         # 发送配置完成信号
         self.configCompleted.emit()

@@ -11,7 +11,7 @@ from openai import OpenAI
 from translatepy.translators.google import GoogleTranslateV2
 
 from app.common.constant import LANGUAGE_KEY_NAME
-from app.common.config import uiConfig
+from app.common.config import appConfig
 
 random_pattern = re.compile(r"\{\{Random:(.*?)\|inputSeparator=(.*?)}}")
 
@@ -29,13 +29,13 @@ def trait(s):
 
 def translate(value):
     client = OpenAI(
-        api_key=uiConfig.api_key.value,
-        base_url=uiConfig.ai_base_url.value.strip() or None
+        api_key=appConfig.api_key.value,
+        base_url=appConfig.ai_base_url.value.strip() or None
     )
-    model = uiConfig.trans_model.value
+    model = appConfig.trans_model.value
     if model == 'custom model':
-        model = uiConfig.trans_custom_model.value
-    language_name = LANGUAGE_KEY_NAME[uiConfig.to_language.value]
+        model = appConfig.trans_custom_model.value
+    language_name = LANGUAGE_KEY_NAME[appConfig.to_language.value]
     chat_completion = client.chat.completions.create(
         messages=[
             {
@@ -57,7 +57,7 @@ def translate(value):
 def batch_translate(dict_values):
     values = list(dict_values)
     print(f'translate_put: {values}')
-    model = uiConfig.trans_model.value
+    model = appConfig.trans_model.value
     if model == "google" or model == "deepl":
         result = []
         for value in values:
@@ -66,16 +66,16 @@ def batch_translate(dict_values):
 
     client = OpenAI(
         # This is the default and can be omitted
-        api_key=uiConfig.api_key.value,
-        base_url=uiConfig.ai_base_url.value.strip() or None
+        api_key=appConfig.api_key.value,
+        base_url=appConfig.ai_base_url.value.strip() or None
     )
 
-    language_name = LANGUAGE_KEY_NAME[uiConfig.to_language.value]
-    prompt = uiConfig.ai_prompt.value
+    language_name = LANGUAGE_KEY_NAME[appConfig.to_language.value]
+    prompt = appConfig.ai_prompt.value
     if prompt == '':
         prompt = 'You are currently a professional Stardew Valley mod translator.'
     if model == 'custom model':
-        model = uiConfig.trans_custom_model.value
+        model = appConfig.trans_custom_model.value
     chat_completion = client.chat.completions.create(
         messages=[
             {
@@ -105,7 +105,7 @@ def google_translate(text, source_language, target_language):
 
 
 def deepl_translate(text, source_language, target_language):
-    translator = deepl.Translator(uiConfig.api_key.value)
+    translator = deepl.Translator(appConfig.api_key.value)
     result = translator.translate_text(text, source_lang=source_language, target_lang=target_language)
     return result.text
 
@@ -120,7 +120,7 @@ def transText(text, source_language, target_language):
     if text in cache and cache[text]:
         return cache[text]
 
-    if uiConfig.trans_model.value == "deepl":
+    if appConfig.trans_model.value == "deepl":
         result = deepl_translate(text, source_language, target_language)
     else:
         result = google_translate(text, source_language, target_language)
@@ -131,8 +131,8 @@ def transText(text, source_language, target_language):
 
 def modTrans(value):
     print(f'translate_put: {value}')
-    source_language = uiConfig.source_language.value
-    to_language = uiConfig.to_language.value
+    source_language = appConfig.source_language.value
+    to_language = appConfig.to_language.value
     if value == "":
         return value
 
@@ -143,7 +143,7 @@ def modTrans(value):
         return cache[value]
     new_value = value
 
-    if uiConfig.trans_model.value != "google" and uiConfig.trans_model.value != "deepl":
+    if appConfig.trans_model.value != "google" and appConfig.trans_model.value != "deepl":
         new_value = translate(value)
         print(f'translate_out: {new_value}')
         return new_value

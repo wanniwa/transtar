@@ -2,7 +2,7 @@ from PySide6.QtWidgets import QWidget, QStackedWidget, QVBoxLayout
 
 from .dict_interface import DictInterface 
 from .paratranz_config_interface import ParatranzConfigInterface
-from ..common.config import uiConfig
+from ..common.config import appConfig
 
 
 class ParatranzInterface(QWidget):
@@ -38,14 +38,14 @@ class ParatranzInterface(QWidget):
 
     def check_and_switch_interface(self):
         """检查配置并切换到相应界面"""
-        if uiConfig.paratranz_token.value and uiConfig.paratranz_project_id.value:
+        if appConfig.paratranz_token.value and appConfig.paratranz_project_id.value:
             self.stackedWidget.setCurrentWidget(self.dictInterface)
         else:
             self.stackedWidget.setCurrentWidget(self.configInterface)
 
     def on_config_completed(self):
         """配置完成时的处理"""
-        if uiConfig.paratranz_token.value and uiConfig.paratranz_project_id.value:
+        if appConfig.paratranz_token.value and appConfig.paratranz_project_id.value:
             self.stackedWidget.setCurrentWidget(self.dictInterface)
             # 刷新字典界面
             self.dictInterface.refresh_files()

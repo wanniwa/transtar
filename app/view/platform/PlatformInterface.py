@@ -6,7 +6,7 @@ from functools import partial
 
 from PySide6.QtCore import QUrl, Signal, Qt, QMimeData
 from PySide6.QtGui import QDesktopServices, QIcon, QDrag
-from PySide6.QtWidgets import QFrame, QVBoxLayout, QHBoxLayout
+from PySide6.QtWidgets import QFrame, QVBoxLayout, QHBoxLayout, QLabel
 
 from qfluentwidgets import Action, CaptionLabel, DropDownPushButton, HorizontalSeparator, PrimaryPushButton, InfoBar, \
     InfoBarPosition, StrongBodyLabel
@@ -15,6 +15,7 @@ from qfluentwidgets import FluentIcon
 from qfluentwidgets import PushButton
 
 from app.core.TransBase import TransBase
+from app.common.config import appConfig
 from app.view.components.APITypeCard import APITypeCard
 from app.view.components.LineEditMessageBox import LineEditMessageBox
 from app.view.platform.APIEditPage import APIEditPage
@@ -26,11 +27,10 @@ from app.view.platform.LimitEditPage import LimitEditPage
 class DraggableAPIButton(DropDownPushButton):
     def __init__(self, *args, api_tag: str = "", **kwargs):
         super().__init__(*args, **kwargs)
-
         self.api_tag = api_tag  # 存储接口的唯一标识
 
 
-class PlatformPage(QFrame, TransBase):
+class PlatformInterface(QFrame, TransBase):
     # 自定义平台默认配置
     CUSTOM = {
         "tag": "",
@@ -58,9 +58,9 @@ class PlatformPage(QFrame, TransBase):
             "claude-3-5-sonnet",
         ],
         "format_datas": [
-            "OpenAI",
-            "Anthropic",
-            "Google"
+            "ChatGPT",
+            "Claude",
+            "Gemini"
         ],
         "extra_body": {},
         "key_in_settings": [
@@ -82,9 +82,9 @@ class PlatformPage(QFrame, TransBase):
         ],
     }
 
-    def __init__(self, text: str, window):
+    def __init__(self, window):
         super().__init__(window)
-        self.setObjectName(text)
+        self.setObjectName("platform_interface")
 
         self.window = window  # 全局变量
         self.load_preset()  # 读取合并配置
@@ -96,16 +96,87 @@ class PlatformPage(QFrame, TransBase):
         # 读取合并配置
         config = self.save_config(self.load_config_from_default())
 
+        # 顶部：当前翻译提供方展示
+        self.add_current_translation_widget(self.container, config)
+
         # 布局组件
-        self.add_head_widget(self.container, config)
-        self.add_body_widget(self.container, config)
-        self.add_foot_widget(self.container, config)
+        self.add_api_widget(self.container, config)
+        self.add_official_widget(self.container, config)
+        self.add_custom_widget(self.container, config)
 
         # 添加分割线
         self.container.addWidget(HorizontalSeparator())
 
         self.container.addStretch(1)
         self.subscribe(TransBase.EVENT.API_TEST_DONE, self.api_test_done)
+
+    # 顶部展示：当前翻译提供方
+    def add_current_translation_widget(self, parent, config):
+        wrapper = QFrame(self)
+        wrapper.setObjectName("current_provider_card")
+        # 更明显的外观：描边、圆角、浅底色
+        wrapper.setStyleSheet(
+            """
+            QFrame#current_provider_card {
+                border: 1px solid rgba(120, 120, 120, 0.30);
+                border-radius: 8px;
+                background-color: rgba(127, 127, 127, 0.05);
+            }
+            """
+        )
+        h = QHBoxLayout(wrapper)
+        h.setContentsMargins(16, 12, 16, 12)
+        h.setSpacing(12)
+
+        title_label = StrongBodyLabel(self.tr("Current translation provider: "), self)
+        self.current_provider_icon = QLabel(self)
+        self.current_provider_icon.setFixedSize(24, 24)
+        self.current_provider_value = CaptionLabel("", self)
+        self.current_provider_model = CaptionLabel("", self)
+
+        h.addWidget(title_label)
+        h.addWidget(self.current_provider_icon)
+        h.addWidget(self.current_provider_value)
+        h.addWidget(self.current_provider_model)
+        h.addStretch(1)
+
+        parent.addWidget(wrapper)
+        self.update_current_translation_display(config)
+
+    def update_current_translation_display(self, config=None):
+        if config is None:
+            config = self.load_config()
+
+        name, icon, model = self.get_current_translation_info(config)
+        self.current_provider_value.setText(name)
+        # 模型（仅 AI 展示）
+        if model:
+            self.current_provider_model.setText(f"({model})")
+            self.current_provider_model.show()
+        else:
+            self.current_provider_model.clear()
+            self.current_provider_model.hide()
+
+        # 设置图标
+        if icon:
+            icon_name = icon + '.png'
+            icon_path = os.path.join("app", "resource", "images", "platforms", icon_name)
+            if os.path.exists(icon_path):
+                self.current_provider_icon.setPixmap(QIcon(icon_path).pixmap(24, 24))
+            else:
+                self.current_provider_icon.clear()
+        else:
+            self.current_provider_icon.clear()
+
+    def get_current_translation_info(self, config) -> tuple[str, str | None, str | None]:
+        # 优先根据保存的 trans_platform（平台 tag）确定
+        trans_tag = config.get("trans_platform")
+        platforms = config.get("platforms", {})
+        if trans_tag and trans_tag in platforms:
+            v = platforms[trans_tag]
+            return v.get("name", trans_tag), v.get("icon"), v.get("model")
+        # 回退默认 Google
+        return "Google", "google", None
 
     # 从文件加载
     def load_file(self, path: str) -> dict:
@@ -142,16 +213,28 @@ class PlatformPage(QFrame, TransBase):
         TransBase.work_status = TransBase.STATUS.IDLE
 
         if len(data.get("failure", [])) > 0:
-            info_cont = self.tr("API test results: Success") + f"   {len(data.get('success', []))}" + "......" + self.tr("Failed") + f"{len(data.get('failure', []))}" + "......"
+            info_cont = self.tr(
+                "API test results: Success") + f"   {len(data.get('success', []))}" + "......" + self.tr(
+                "Failed") + f"   {len(data.get('failure', []))}" + "......"
             self.error_toast("", info_cont)
         else:
             info_cont = self.tr("API test results: Success") + f"   {len(data.get('success', []))}"
             self.success_toast("", info_cont)
 
+    # 设为翻译提供方
+    def set_as_translation_provider(self, tag: str, *args) -> None:
+        config = self.load_config()
+        # 使用 TransBase 配置保存所选平台 TAG，供全局翻译使用
+        config["trans_platform"] = tag
+        self.save_config(config)
+
+        # 更新顶部展示
+        self.update_current_translation_display(config)
+
     # 加载并更新预设配置
     def load_preset(self):
         # 这个函数的主要目的是保证可以通过预设文件对内置的接口的固定属性进行更新
-        preset = self.load_file("app/resource/platforms/preset.json")
+        preset = self.load_file("app/resource/default/preset.json")
         config = self.load_config()
 
         # 从配置文件中非自定义读取接口信息数据并使用预设数据更新
@@ -260,15 +343,32 @@ class PlatformPage(QFrame, TransBase):
                 "name": v.get("name"),
                 "icon": v.get("icon"),
             }
+
             if not is_custom:
-                base_data["menus"] = [
-                    (FluentIcon.EDIT, self.tr("Edit Interface"), partial(self.show_api_edit_page, k)),
-                    (FluentIcon.SCROLL, self.tr("Edit Rate Limit"), partial(self.show_limit_edit_page, k)),
-                    (FluentIcon.DEVELOPER_TOOLS, self.tr("Edit Parameters"), partial(self.show_args_edit_page, k)),
-                    (FluentIcon.SEND, self.tr("Test Interface"), partial(self.api_test, k)),
-                ]
+                if v.get("api_format") == "google":
+                    # 翻译接口：仅提供选择为翻译与测试
+                    base_data["menus"] = [
+                        (FluentIcon.ACCEPT, self.tr("Use For Translation"), partial(self.set_as_translation_provider, k)),
+                        (FluentIcon.SEND, self.tr("Test Interface"), partial(self.api_test, k)),
+                    ]
+                elif v.get("api_format") == "deepl":
+                    base_data["menus"] = [
+                        (FluentIcon.ACCEPT, self.tr("Use For Translation"), partial(self.set_as_translation_provider, k)),
+                        (FluentIcon.EDIT, self.tr("Edit Interface"), partial(self.show_api_edit_page, k)),
+                        (FluentIcon.SEND, self.tr("Test Interface"), partial(self.api_test, k)),
+                    ]
+                else:
+                    # AI 接口：完整菜单并提供选择为翻译
+                    base_data["menus"] = [
+                        (FluentIcon.ACCEPT, self.tr("Use For Translation"), partial(self.set_as_translation_provider, k)),
+                        (FluentIcon.EDIT, self.tr("Edit Interface"), partial(self.show_api_edit_page, k)),
+                        (FluentIcon.SCROLL, self.tr("Edit Rate Limit"), partial(self.show_limit_edit_page, k)),
+                        (FluentIcon.DEVELOPER_TOOLS, self.tr("Edit Parameters"), partial(self.show_args_edit_page, k)),
+                        (FluentIcon.SEND, self.tr("Test Interface"), partial(self.api_test, k)),
+                    ]
             else:
                 base_data["menus"] = [
+                    (FluentIcon.ACCEPT, self.tr("Use For Translation"), partial(self.set_as_translation_provider, k)),
                     (FluentIcon.EDIT, self.tr("Edit Interface"), partial(self.show_api_edit_page, k)),
                     (FluentIcon.LABEL, self.tr("Rename Interface"), partial(self.rename_platform, k)),
                     (FluentIcon.SCROLL, self.tr("Edit Rate Limit"), partial(self.show_limit_edit_page, k)),
@@ -302,7 +402,7 @@ class PlatformPage(QFrame, TransBase):
 
             if item.get("icon"):
                 icon_name = item.get("icon") + '.png'
-                icon_path = os.path.join(".", "Resource", "platforms", "Icon", icon_name)
+                icon_path = os.path.join("app", "resource", "images", "platforms", icon_name)
                 drop_down_push_button.setIcon(QIcon(icon_path))
 
             drop_down_push_button.setFixedWidth(192)
@@ -317,6 +417,24 @@ class PlatformPage(QFrame, TransBase):
                     menu.addSeparator()
             drop_down_push_button.setMenu(menu)
 
+    # 初始化简单按钮（无下拉菜单）
+    def init_simple_buttons(self, widget, datas):
+        for item in datas:
+            button = PushButton(item.get("name"))
+            # 设置图标（如果有）
+            if item.get("icon"):
+                icon_name = item.get("icon") + '.png'
+                icon_path = os.path.join("app", "resource", "images", "platforms", icon_name)
+                button.setIcon(QIcon(icon_path))
+
+            button.setFixedWidth(192)
+            button.setContentsMargins(4, 0, 4, 0)
+            widget.add_widget(button)
+
+            # 点击直接进入接口编辑页
+            tag = item.get("tag")
+            button.clicked.connect(partial(self.show_api_edit_page, tag))
+
     # 更新自定义平台控件
     def update_custom_platform_widgets(self, widget):
         config = self.load_config()
@@ -328,42 +446,35 @@ class PlatformPage(QFrame, TransBase):
             self.generate_ui_datas(platforms, True)
         )
 
-    # 添加头部-本地接口
-    def add_head_widget(self, parent, config):
+    # 添加头部-接口（仅展示 Google 类型，无下拉配置）
+    def add_api_widget(self, parent, config):
         def init(widget):
-            # 添加按钮
-            help_button = PushButton(self.tr("Tutorial"))
-            help_button.setIcon(FluentIcon.HELP)
-            help_button.setContentsMargins(4, 0, 4, 0)
-            help_button.clicked.connect(
-                lambda: QDesktopServices.openUrl(QUrl("https://github.com/SakuraLLM/SakuraLLM/wiki")))
-            widget.add_widget_to_head(help_button)
-
-            # 更新子控件
+            # 更新子控件：展示翻译接口，使用下拉菜单
             self.init_drop_down_push_button(
                 widget,
                 self.generate_ui_datas(platforms, False),
             )
 
-        # 本地接口分类的接口数据 
-        platforms = {k: v for k, v in config.get("platforms").items() if v.get("group") == "local"}
+        # 接口数据：筛选为翻译接口（group == "api"）
+        platforms = {k: v for k, v in config.get("platforms").items() if v.get("group") == "api"}
         parent.addWidget(
             APITypeCard(
-                self.tr("Local Interface"),
-                self.tr("Manage built-in local large language model interfaces"),
+                self.tr("Interface"),
+                self.tr("Manage translation interfaces"),
                 icon=FluentIcon.CONNECT,
                 init=init,
             )
         )
 
-    # 添加主体-在线接口
-    def add_body_widget(self, parent, config):
+    # 添加主体-AI（原"官方接口"）
+    def add_official_widget(self, parent, config):
 
-        platforms = {k: v for k, v in config.get("platforms").items() if v.get("group") == "online"}
+        # 展示所有在线AI接口
+        platforms = {k: v for k, v in config.get("platforms").items() if v.get("group") == "ai"}
         parent.addWidget(
             APITypeCard(
-                self.tr("Official Interface"),
-                self.tr("Manage built-in mainstream large language model official interfaces"),
+                self.tr("AI"),
+                self.tr("Manage built-in mainstream AI interfaces"),
                 icon=FluentIcon.ROBOT,
                 init=lambda widget: self.init_drop_down_push_button(
                     widget,
@@ -373,7 +484,7 @@ class PlatformPage(QFrame, TransBase):
         )
 
     # 添加底部-自定义接口
-    def add_foot_widget(self, parent, config):
+    def add_custom_widget(self, parent, config):
 
         def message_box_close(widget, text: str):
             config = self.load_config()
@@ -394,7 +505,7 @@ class PlatformPage(QFrame, TransBase):
         def on_add_button_clicked(widget):
             message_box = LineEditMessageBox(
                 self.window,
-                self.tr("Please enter new interface name"),
+                self.tr("Please enter new AI interface name"),
                 message_box_close=message_box_close
             )
 
@@ -412,7 +523,7 @@ class PlatformPage(QFrame, TransBase):
             self.update_custom_platform_widgets(widget)
 
         self.flow_card = APITypeCard(
-            self.tr("Custom Interface"),
+            self.tr("Custom AI"),
             self.tr("Add and manage any large language model interfaces that comply with OpenAI or Anthropic formats"),
             icon=FluentIcon.ASTERISK,
             init=init,

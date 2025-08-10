@@ -84,8 +84,8 @@ def load_config(path) -> dict:
     return config
 
 
-uiConfig = Config()
-uiConfig.themeMode.value = Theme.AUTO
-qconfig.load(str(CONFIG_FILE.absolute()), uiConfig)
+appConfig = Config()
+appConfig.themeMode.value = Theme.AUTO
+qconfig.load(str(CONFIG_FILE.absolute()), appConfig)
 
 # transConfig = load_config(str(TRANS_CONFIG_FILE.absolute()))

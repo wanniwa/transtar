@@ -10,6 +10,7 @@ from qfluentwidgets import InfoBarPosition
 
 from app.core.EventManager import EventManager
 from app.common.setting import TRANS_CONFIG_FILE
+from app.common.config import appConfig
 
 
 # 事件列表
@@ -211,7 +212,6 @@ class TransBase():
         with TransBase.CONFIG_FILE_LOCK:
             with open(TransBase.CONFIG_PATH, "w", encoding="utf-8") as writer:
                 writer.write(wjson.dumps(old))
-
         return old
 
     # 更新合并配置
@@ -246,6 +246,10 @@ class TransBase():
 
         # 3. 返回合并结果
         return config
+        # PRINT
+
+    def print(self, msg: str) -> None:
+        print(msg)
 
     # 触发事件
     def event_emit(self, event: int, data: dict) -> None:

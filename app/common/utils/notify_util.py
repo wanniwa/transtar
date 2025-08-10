@@ -3,7 +3,7 @@ import logging
 from qfluentwidgets import Dialog
 
 from app.common.window_manager import get_window
-from app.view.components.error_dialog import FileErrorDialog
+from app.view.components.ErrorDialog import FileErrorDialog
 
 
 def notify_common_error(title: str, content: str):

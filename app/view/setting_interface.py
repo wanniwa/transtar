@@ -1,10 +1,12 @@
 # coding:utf-8
+import requests
+
 import platform
 import subprocess
 import traceback
 from pathlib import Path
 
-from PySide6.QtCore import Qt, QUrl
+from PySide6.QtCore import Qt, QUrl, Signal, QThread
 from PySide6.QtGui import QDesktopServices, QFont
 from PySide6.QtWidgets import QWidget, QLabel, QApplication
 from packaging import version
@@ -15,15 +17,34 @@ from qfluentwidgets import (SwitchSettingCard,
                             ComboBoxSettingCard, ExpandLayout,
                             setTheme, setFont)
 
-from .components.check_update_thread import CheckUpdateThread
-from .components.download_thread import DownloadThread
+from .components.DownloadThread import DownloadThread
 from .components.SettingCard import LineEditSettingCard, TextEditSettingCard
-from ..common.config import uiConfig, models
+from ..common.config import appConfig, models
 from ..common.setting import HELP_URL, FEEDBACK_URL, AUTHOR, VERSION, YEAR, CONFIG_FOLDER
 from ..common.signal_bus import signalBus
 from ..common.style_sheet import StyleSheet
 from ..common.utils import file_util
 from ..common.window_manager import get_window
+
+
+class CheckUpdateThread(QThread):
+    finished_signal = Signal(bool, dict, str)  # success, data, error_message
+
+    def __init__(self):
+        super().__init__()
+
+    def run(self):
+        try:
+            response = requests.get('https://api.github.com/repos/wanniwa/transtar/releases/latest')
+            if response.status_code == 200:
+                self.finished_signal.emit(True, response.json(), "")
+            else:
+                self.finished_signal.emit(False, {}, f"Request failed with status code: {response.status_code}")
+        except Exception as e:
+            print(f"Check update error: {str(e)}")
+            print("Traceback:")
+            print(traceback.format_exc())
+            self.finished_signal.emit(False, {}, str(e))
 
 
 class SettingInterface(ScrollArea):
@@ -45,18 +66,18 @@ class SettingInterface(ScrollArea):
             FIF.FLAG,
             self.tr('Extract CP file'),
             self.tr('CP files will translated when i18n files exist.'),
-            configItem=uiConfig.i18n_extract_cp,
+            configItem=appConfig.i18n_extract_cp,
             parent=self.translationGroup
         )
         self.i18n_from_language_json_card = SwitchSettingCard(
             FIF.FLAG,
             self.tr('Extract specified language'),
             self.tr('For example, replace default.json with zh.json'),
-            configItem=uiConfig.i18n_source_flag,
+            configItem=appConfig.i18n_source_flag,
             parent=self.translationGroup
         )
         self.trans_mode_card = OptionsSettingCard(
-            uiConfig.trans_model,
+            appConfig.trans_model,
             FIF.FLAG,
             self.tr('Trans model'),
             self.tr('Google、OpenAI……'),
@@ -67,25 +88,25 @@ class SettingInterface(ScrollArea):
             FIF.FLAG,
             self.tr('APIKEY'),
             self.tr('API Key for authentication.'),
-            configItem=uiConfig.api_key,
+            configItem=appConfig.api_key,
             parent=self.translationGroup
         )
         self.ai_base_url_card = LineEditSettingCard(
             FIF.FLAG,
             self.tr('Base URL'),
             self.tr('Base URL for AI. If empty, use default URL.'),
-            configItem=uiConfig.ai_base_url,
+            configItem=appConfig.ai_base_url,
             parent=self.translationGroup
         )
         self.trans_custom_model_card = LineEditSettingCard(
             FIF.FLAG,
             self.tr('Trans custom model'),
             self.tr('Custom model for AI.'),
-            configItem=uiConfig.trans_custom_model,
+            configItem=appConfig.trans_custom_model,
             parent=self.translationGroup
         )
         self.ai_batch_size_card = RangeSettingCard(
-            uiConfig.ai_batch_size,
+            appConfig.ai_batch_size,
             FIF.UPDATE,
             self.tr('AI Batch Size'),
             self.tr('Number of texts sent to AI at once'),
@@ -93,7 +114,7 @@ class SettingInterface(ScrollArea):
         )
 
         self.thread_count_card = RangeSettingCard(
-            uiConfig.thread_count,
+            appConfig.thread_count,
             FIF.TRANSPARENT,
             self.tr('Thread Count'),
             self.tr('Number of concurrent translation threads'),
@@ -106,7 +127,7 @@ class SettingInterface(ScrollArea):
             self.tr('Prompt get shown to the AI on all chat.'),
             self.tr(
                 'Please enter the prompt word. If empty, the default prompt will be used. like: You are currently a professional Stardew Valley mod translator.'),
-            configItem=uiConfig.ai_prompt,
+            configItem=appConfig.ai_prompt,
             parent=self.translationGroup
         )
 
@@ -114,7 +135,7 @@ class SettingInterface(ScrollArea):
         self.personalGroup = SettingCardGroup(
             self.tr('Personalization'), self.scrollWidget)
         self.themeCard = ComboBoxSettingCard(
-            uiConfig.themeMode,
+            appConfig.themeMode,
             FIF.BRUSH,
             self.tr('Application theme'),
             self.tr("Change the appearance of your application"),
@@ -125,7 +146,7 @@ class SettingInterface(ScrollArea):
             parent=self.personalGroup
         )
         self.zoomCard = ComboBoxSettingCard(
-            uiConfig.dpiScale,
+            appConfig.dpiScale,
             FIF.ZOOM,
             self.tr("Interface zoom"),
             self.tr("Change the size of widgets and fonts"),
@@ -136,7 +157,7 @@ class SettingInterface(ScrollArea):
             parent=self.personalGroup
         )
         self.languageCard = ComboBoxSettingCard(
-            uiConfig.language,
+            appConfig.language,
             FIF.LANGUAGE,
             self.tr('Language'),
             self.tr('Set your preferred language for UI'),
@@ -151,7 +172,7 @@ class SettingInterface(ScrollArea):
             FIF.UPDATE,
             self.tr('Check for updates when the application starts'),
             self.tr('The new version will be more stable and have more features'),
-            configItem=uiConfig.checkUpdateAtStartUp,
+            configItem=appConfig.checkUpdateAtStartUp,
             parent=self.updateSoftwareGroup
         )
 
@@ -259,10 +280,10 @@ class SettingInterface(ScrollArea):
 
     def _connectSignalToSlot(self):
         """ connect signal to slot """
-        uiConfig.appRestartSig.connect(self._showRestartTooltip)
+        appConfig.appRestartSig.connect(self._showRestartTooltip)
 
         # personalization
-        uiConfig.themeChanged.connect(setTheme)
+        appConfig.themeChanged.connect(setTheme)
 
         # check update
         signalBus.checkUpdateSig.connect(self.check_for_updates)

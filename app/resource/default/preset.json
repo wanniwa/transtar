@@ -1,109 +1,13 @@
 {
     "platforms": {
-        "sakura": {
-            "tag": "sakura",
-            "group": "local",
-            "name": "SakuraLLM",
-            "api_url": "http://127.0.0.1:8080",
-            "api_key": "",
-            "api_format": "OpenAI",
-            "icon": "sakura",
-            "rpm_limit": 2000,
-            "tpm_limit": 100000000,
-            "model": "Sakura-v1.0",
-            "top_p": 0.3,
-            "temperature": 0.1,
-            "presence_penalty": 0.0,
-            "frequency_penalty": 0.0,
-            "think_switch": false,
-            "think_depth": "low",
-            "auto_complete": false,
-            "model_datas": [
-                "Sakura-v1.0"
-            ],
-            "key_in_settings": [
-                "api_url",
-                "model",
-                "rpm_limit",
-                "tpm_limit",
-                "top_p",
-                "temperature",
-                "frequency_penalty"
-            ]
-        },
-        "LocalLLM": {
-            "tag": "LocalLLM",
-            "group": "local",
-            "name": "本地小模型",
-            "api_url": "http://127.0.0.1:8080",
-            "api_key": "",
-            "api_format": "OpenAI",
-            "icon": "LocalLLM",
-            "rpm_limit": 2000,
-            "tpm_limit": 100000000,
-            "model": "Qwen2.5-7B",
-            "top_p": 1.0,
-            "temperature": 1.0,
-            "presence_penalty": 0.0,
-            "frequency_penalty": 0.0,
-            "think_switch": false,
-            "think_depth": "low",
-            "auto_complete": false,
-            "model_datas": [
-                "Qwen2.5-7B"
-            ],
-            "key_in_settings": [
-                "api_url",
-                "model",
-                "rpm_limit",
-                "tpm_limit",
-                "top_p",
-                "temperature",
-                "frequency_penalty",
-                "think_switch"
-            ]
-        },
-        "cohere": {
-            "tag": "cohere",
-            "group": "online",
-            "name": "Cohere",
-            "api_url": "https://api.cohere.com",
-            "api_key": "",
-            "api_format": "Cohere",
-            "icon": "cohere",
-            "rpm_limit": 10,
-            "tpm_limit": 9999999,
-            "model": "command-r-plus",
-            "top_p": 0.95,
-            "temperature": 1.0,
-            "presence_penalty": 0.0,
-            "frequency_penalty": 0.0,
-            "think_switch": false,
-            "think_depth": "low",
-            "auto_complete": false,
-            "model_datas": [
-                "command-r-plus",
-                "c4ai-aya-expanse-32b"
-            ],
-            "key_in_settings": [
-                "api_key",
-                "model",
-                "rpm_limit",
-                "tpm_limit",
-                "temperature",
-                "top_p",
-                "presence_penalty",
-                "frequency_penalty"
-            ]
-        },
-        "google": {
-            "tag": "google",
-            "group": "online",
-            "name": "Google",
+        "gemini": {
+            "tag": "gemini",
+            "group": "ai",
+            "name": "Gemini",
             "api_url": "",
             "api_key": "",
-            "api_format": "Google",
-            "icon": "google",
+            "api_format": "gemini",
+            "icon": "gemini",
             "rpm_limit": 15,
             "tpm_limit": 320000,
             "model": "gemini-2.5-flash",
@@ -134,13 +38,32 @@
                 "frequency_penalty"
             ]
         },
-        "openai": {
-            "tag": "openai",
-            "group": "online",
-            "name": "OpenAI",
+        "google": {
+            "tag": "google",
+            "group": "api",
+            "name": "Google",
+            "icon": "google",
+            "api_format": "google",
+            "key_in_settings": []
+        },
+        "deepl": {
+            "tag": "deepl",
+            "group": "api",
+            "name": "DeepL",
+            "api_key": "",
+            "icon": "deepl",
+            "api_format": "deepl",
+            "key_in_settings": [
+                "api_key"
+            ]
+        },
+        "chatgpt": {
+            "tag": "chatgpt",
+            "group": "ai",
+            "name": "ChatGPT",
             "api_url": "https://api.openai.com/v1",
             "api_key": "",
-            "api_format": "OpenAI",
+            "api_format": "ChatGPT",
             "icon": "openai",
             "rpm_limit": 3500,
             "tpm_limit": 600000,
@@ -174,7 +97,7 @@
         },
         "deepseek": {
             "tag": "deepseek",
-            "group": "online",
+            "group": "ai",
             "name": "DeepSeek",
             "api_url": "https://api.deepseek.com/v1",
             "api_key": "",
@@ -205,14 +128,14 @@
                 "frequency_penalty"
             ]
         },
-        "anthropic": {
-            "tag": "anthropic",
-            "group": "online",
-            "name": "Anthropic",
+        "claude": {
+            "tag": "claude",
+            "group": "ai",
+            "name": "Claude",
             "api_url": "https://api.anthropic.com",
             "api_key": "",
-            "api_format": "Anthropic",
-            "icon": "anthropic",
+            "api_format": "claude",
+            "icon": "claude",
             "rpm_limit": 2000,
             "tpm_limit": 100000000,
             "model": "claude-3-haiku",
@@ -237,63 +160,14 @@
                 "top_p"
             ]
         },
-        "amazonbedrock": {
-            "tag": "amazonbedrock",
-            "group": "online",
-            "name": "Amazon Bedrock",
-            "region": "us-east-1",
-            "access_key": "",
-            "secret_key": "",
-            "api_key": "",
-            "api_url": "",
-            "api_format": "Amazon Bedrock",
-            "icon": "amazonbedrock",
-            "rpm_limit": 2000,
-            "tpm_limit": 100000000,
-            "model": "claude-3-haiku",
-            "top_p": 0.95,
-            "temperature": 1.0,
-            "presence_penalty": 0.0,
-            "frequency_penalty": 0.0,
-            "think_switch": false,
-            "think_depth": "low",
-            "auto_complete": false,
-            "region_datas": [
-                "us-east-1",
-                "us-east-2",
-                "us-west-2",
-                "eu-west-1"
-            ],
-            "model_datas": [
-                "anthropic.claude-3-haiku-20240307-v1:0",
-                "anthropic.claude-3-sonnet-20240229-v1:0",
-                "us.anthropic.claude-3-5-haiku-20241022-v1:0",
-                "us.anthropic.claude-3-5-sonnet-20241022-v2:0",
-                "us.anthropic.claude-3-7-sonnet-20250219-v1:0",
-                "amazon.nova-lite-v1:0",
-                "amazon.nova-micro-v1:0",
-                "amazon.nova-pro-v1:0",
-                "us.deepseek.r1-v1:0"
-            ],
-            "key_in_settings": [
-                "region",
-                "access_key",
-                "secret_key",
-                "model",
-                "rpm_limit",
-                "tpm_limit",
-                "temperature",
-                "top_p"
-            ]
-        },
-        "xai": {
-            "tag": "xai",
-            "group": "online",
-            "name": "xAI",
+        "grok": {
+            "tag": "grok",
+            "group": "ai",
+            "name": "Grok",
             "api_url": "https://api.x.ai/v1",
             "api_key": "",
             "api_format": "OpenAI",
-            "icon": "xai",
+            "icon": "grok",
             "rpm_limit": 600,
             "tpm_limit": 1000000,
             "model": "grok-3-fast-beta",
@@ -322,7 +196,7 @@
         },
         "volcengine": {
             "tag": "volcengine",
-            "group": "online",
+            "group": "ai",
             "name": "火山引擎",
             "api_url": "https://ark.cn-beijing.volces.com/api/v3",
             "api_key": "",
@@ -355,14 +229,14 @@
                 "frequency_penalty"
             ]
         },
-        "dashscope": {
-            "tag": "dashscope",
-            "group": "online",
-            "name": "阿里云百炼",
+        "qwen": {
+            "tag": "qwen",
+            "group": "ai",
+            "name": "qwen",
             "api_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
             "api_key": "",
             "api_format": "OpenAI",
-            "icon": "dashscope",
+            "icon": "qwen",
             "rpm_limit": 150,
             "tpm_limit": 1500000,
             "model": "qwen-turbo",
@@ -393,7 +267,7 @@
         },
         "zhipu": {
             "tag": "zhipu",
-            "group": "online",
+            "group": "ai",
             "name": "智谱清言",
             "api_url": "https://open.bigmodel.cn/api/paas/v4",
             "api_key": "",
@@ -429,7 +303,7 @@
         },
         "yi": {
             "tag": "yi",
-            "group": "online",
+            "group": "ai",
             "name": "零一万物",
             "api_url": "https://api.lingyiwanwu.com/v1",
             "api_key": "",
@@ -462,7 +336,7 @@
         },
         "moonshot": {
             "tag": "moonshot",
-            "group": "online",
+            "group": "ai",
             "name": "月之暗面",
             "api_url": "https://api.moonshot.cn/v1",
             "api_key": "",

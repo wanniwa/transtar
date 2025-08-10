@@ -54,10 +54,6 @@ class APIEditPage(MessageBoxBase, TransBase):
         if "api_url" in config.get("platforms").get(self.key).get("key_in_settings"):
             self.add_widget_url(self.vbox, config)
 
-        # 接口地址自动补全
-        if "auto_complete" in config.get("platforms").get(self.key).get("key_in_settings"):
-            self.add_widget_auto_complete(self.vbox, config)
-
         # 接口密钥
         if "api_key" in config.get("platforms").get(self.key).get("key_in_settings"):
             self.add_widget_key(self.vbox, config)
@@ -104,25 +100,6 @@ class APIEditPage(MessageBoxBase, TransBase):
                 self.tr("Please enter interface URL, for example https://api.deepseek.com"),
                 init=init,
                 text_changed=text_changed,
-            )
-        )
-
-    # 接口地址自动补全
-    def add_widget_auto_complete(self, parent, config):
-        def init(widget):
-            widget.set_checked(config.get("platforms").get(self.key).get("auto_complete"))
-
-        def checked_changed(widget, checked: bool):
-            config = self.load_config()
-            config["platforms"][self.key]["auto_complete"] = checked
-            self.save_config(config)
-
-        parent.addWidget(
-            SwitchButtonCard(
-                self.tr("Interface URL auto-completion"),
-                self.tr("Will automatically fill in the interface URL for you, for example https://api.deepseek.com -> https://api.deepseek.com/v1"),
-                init=init,
-                checked_changed=checked_changed,
             )
         )
 
