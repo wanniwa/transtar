@@ -24,89 +24,79 @@
         <translation type="unfinished">请输入接口地址，例如https://api.deepseek.com/v1</translation>
     </message>
     <message>
-        <location filename="../../view/platform/APIEditPage.py" line="118"/>
-        <source>Interface URL auto-completion</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../view/platform/APIEditPage.py" line="119"/>
-        <source>Will automatically fill in the interface URL for you, for example https://api.deepseek.com -&gt; https://api.deepseek.com/v1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../view/platform/APIEditPage.py" line="136"/>
+        <location filename="../../view/platform/APIEditPage.py" line="117"/>
         <source>Please enter interface key</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../view/platform/APIEditPage.py" line="142"/>
+        <location filename="../../view/platform/APIEditPage.py" line="123"/>
         <source>Interface key</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../view/platform/APIEditPage.py" line="143"/>
+        <location filename="../../view/platform/APIEditPage.py" line="124"/>
         <source>Please enter interface key, for example sk-d0daba12345678fd8eb7b8d31c123456, separate multiple keys with comma (,)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../view/platform/APIEditPage.py" line="159"/>
-        <location filename="../../view/platform/APIEditPage.py" line="166"/>
+        <location filename="../../view/platform/APIEditPage.py" line="140"/>
+        <location filename="../../view/platform/APIEditPage.py" line="147"/>
         <source>Please enter AWS Access Key</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../view/platform/APIEditPage.py" line="165"/>
+        <location filename="../../view/platform/APIEditPage.py" line="146"/>
         <source>AWS Access Key</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../view/platform/APIEditPage.py" line="182"/>
-        <location filename="../../view/platform/APIEditPage.py" line="189"/>
+        <location filename="../../view/platform/APIEditPage.py" line="163"/>
+        <location filename="../../view/platform/APIEditPage.py" line="170"/>
         <source>Please enter AWS Secret Key</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../view/platform/APIEditPage.py" line="188"/>
+        <location filename="../../view/platform/APIEditPage.py" line="169"/>
         <source>AWS Secret Key</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../view/platform/APIEditPage.py" line="208"/>
+        <location filename="../../view/platform/APIEditPage.py" line="189"/>
         <source>Please enter region</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../view/platform/APIEditPage.py" line="221"/>
+        <location filename="../../view/platform/APIEditPage.py" line="202"/>
         <source>Region (editable)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../view/platform/APIEditPage.py" line="222"/>
+        <location filename="../../view/platform/APIEditPage.py" line="203"/>
         <source>Please select or enter the region to use</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../view/platform/APIEditPage.py" line="245"/>
+        <location filename="../../view/platform/APIEditPage.py" line="226"/>
         <source>Interface format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../view/platform/APIEditPage.py" line="246"/>
+        <location filename="../../view/platform/APIEditPage.py" line="227"/>
         <source>Please select interface format, most models use OpenAI format, some relay station Claude models use Anthropic format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../view/platform/APIEditPage.py" line="266"/>
+        <location filename="../../view/platform/APIEditPage.py" line="247"/>
         <source>Please enter model name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../view/platform/APIEditPage.py" line="279"/>
+        <location filename="../../view/platform/APIEditPage.py" line="260"/>
         <source>Model name (editable)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../view/platform/APIEditPage.py" line="280"/>
+        <location filename="../../view/platform/APIEditPage.py" line="261"/>
         <source>Please select or enter the name of the model to use</source>
         <translation type="unfinished"></translation>
     </message>
@@ -138,7 +128,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../view/platform/ArgsEditPage.py" line="207"/>
+        <location filename="../../view/platform/ArgsEditPage.py" line="206"/>
         <source>Please enter custom Body</source>
         <translation type="unfinished"></translation>
     </message>
@@ -212,9 +202,9 @@
         <translation>总数</translation>
     </message>
     <message>
-        <location filename="../../view/dict_interface.py" line="464"/>
-        <location filename="../../view/dict_interface.py" line="509"/>
-        <location filename="../../view/dict_interface.py" line="702"/>
+        <location filename="../../view/dict_interface.py" line="463"/>
+        <location filename="../../view/dict_interface.py" line="508"/>
+        <location filename="../../view/dict_interface.py" line="701"/>
         <source>Modified</source>
         <translation>修改时间</translation>
     </message>
@@ -292,7 +282,7 @@
         <translation>从 {} 下载文件…… ({}/{})</translation>
     </message>
     <message>
-        <location filename="../../view/dict_interface.py" line="853"/>
+        <location filename="../../view/dict_interface.py" line="852"/>
         <source>Enter folder name:</source>
         <translation>输入文件夹名称</translation>
     </message>
@@ -460,7 +450,8 @@
     </message>
     <message>
         <location filename="../../view/home_interface.py" line="158"/>
-        <location filename="../../view/home_interface.py" line="245"/>
+        <location filename="../../view/home_interface.py" line="244"/>
+        <location filename="../../view/home_interface.py" line="257"/>
         <location filename="../../view/home_interface.py" line="258"/>
         <source>Translate</source>
         <translation>翻译</translation>
@@ -577,7 +568,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../view/local_dict_interface.py" line="64"/>
+        <location filename="../../view/local_dict_interface.py" line="63"/>
         <source>Original</source>
         <translation type="unfinished"></translation>
     </message>
@@ -744,7 +735,7 @@
         <translation>ParaTranz 配置</translation>
     </message>
     <message>
-        <location filename="../../view/paratranz_config_interface.py" line="45"/>
+        <location filename="../../view/paratranz_config_interface.py" line="36"/>
         <source>Follow these steps to start using the dictionary feature:&lt;br&gt;
 
 1. Register an account at &lt;a href=&quot;https://paratranz.cn&quot;&gt;paratranz.cn&lt;/a&gt; &lt;br&gt;
@@ -814,119 +805,134 @@
 <context>
     <name>PlatformInterface</name>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="118"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="189"/>
         <source>Can&apos;t find the file:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="137"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="208"/>
         <source>API test is running, please try again later</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="145"/>
-        <location filename="../../view/platform/PlatformInterface.py" line="148"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="217"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="221"/>
         <source>API test results: Success</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="145"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="218"/>
         <source>Failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="212"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="295"/>
         <source>Interface name cannot be empty</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="219"/>
-        <location filename="../../view/platform/PlatformInterface.py" line="238"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="302"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="321"/>
         <source>Interface does not exist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="231"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="314"/>
         <source>Interface renamed successfully</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="245"/>
-        <location filename="../../view/platform/PlatformInterface.py" line="416"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="328"/>
         <source>Please enter new interface name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="265"/>
-        <location filename="../../view/platform/PlatformInterface.py" line="272"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="351"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="356"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="363"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="371"/>
+        <source>Use For Translation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../view/platform/PlatformInterface.py" line="357"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="364"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="372"/>
         <source>Edit Interface</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="266"/>
-        <location filename="../../view/platform/PlatformInterface.py" line="274"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="365"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="374"/>
         <source>Edit Rate Limit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="267"/>
-        <location filename="../../view/platform/PlatformInterface.py" line="275"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="366"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="375"/>
         <source>Edit Parameters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="268"/>
-        <location filename="../../view/platform/PlatformInterface.py" line="277"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="463"/>
+        <source>Manage translation interfaces</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../view/platform/PlatformInterface.py" line="526"/>
+        <source>Custom AI</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../view/platform/PlatformInterface.py" line="352"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="358"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="367"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="377"/>
         <source>Test Interface</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="273"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="131"/>
+        <source>Current translation provider: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../view/platform/PlatformInterface.py" line="373"/>
         <source>Rename Interface</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="276"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="376"/>
         <source>Delete Interface</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="353"/>
-        <source>Tutorial</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="370"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="462"/>
         <source>Interface</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="371"/>
-        <source>Manage translation interfaces (no dropdown settings)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="384"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="476"/>
         <source>AI</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="385"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="477"/>
         <source>Manage built-in mainstream AI interfaces</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="424"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="508"/>
+        <source>Please enter new AI interface name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../view/platform/PlatformInterface.py" line="516"/>
         <source>Add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="434"/>
-        <source>Custom Interface</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="435"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="527"/>
         <source>Add and manage any large language model interfaces that comply with OpenAI or Anthropic formats</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1064,8 +1070,8 @@
         <translation>深色</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="145"/>
-        <location filename="../../view/setting_interface.py" line="156"/>
+        <location filename="../../view/setting_interface.py" line="144"/>
+        <location filename="../../view/setting_interface.py" line="155"/>
         <location filename="../../view/setting_interface.py" line="164"/>
         <source>Use system setting</source>
         <translation>跟随系统设置</translation>
@@ -1306,7 +1312,7 @@ Do you want to download the latest version?</source>
         <translation>文件</translation>
     </message>
     <message>
-        <location filename="../../view/dict_interface.py" line="213"/>
+        <location filename="../../view/dict_interface.py" line="212"/>
         <source>Status</source>
         <translation>状态</translation>
     </message>
@@ -1339,7 +1345,7 @@ Do you want to download the latest version?</source>
         <translation>更新</translation>
     </message>
     <message>
-        <location filename="../../view/dict_interface.py" line="164"/>
+        <location filename="../../view/dict_interface.py" line="163"/>
         <source>Removed</source>
         <translation>删除</translation>
     </message>
