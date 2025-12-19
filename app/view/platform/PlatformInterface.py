@@ -159,7 +159,7 @@ class PlatformInterface(QFrame, TransBase):
 
         # 设置图标
         if icon:
-            icon_name = icon + '.png'
+            icon_name = icon
             icon_path = os.path.join("app", "resource", "images", "platforms", icon_name)
             if os.path.exists(icon_path):
                 self.current_provider_icon.setPixmap(QIcon(icon_path).pixmap(24, 24))
@@ -401,7 +401,7 @@ class PlatformInterface(QFrame, TransBase):
             )
 
             if item.get("icon"):
-                icon_name = item.get("icon") + '.png'
+                icon_name = item.get("icon")
                 icon_path = os.path.join("app", "resource", "images", "platforms", icon_name)
                 drop_down_push_button.setIcon(QIcon(icon_path))
 

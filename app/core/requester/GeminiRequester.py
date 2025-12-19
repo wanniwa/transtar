@@ -6,12 +6,12 @@ from app.core.requester.LLMClientFactory import LLMClientFactory
 
 
 # 接口请求器
-class GoogleRequester(TransBase):
+class GeminiRequester(TransBase):
     def __init__(self) -> None:
         pass
 
     # 发起请求
-    def request_google(self, messages, system_prompt, platform_config) -> tuple[bool, str, str, int, int]:
+    def request_gemini(self, messages, system_prompt, platform_config) -> tuple[bool, str, str, int, int]:
         try:
             model_name = platform_config.get("model_name")
             temperature = platform_config.get("temperature", 1.0)

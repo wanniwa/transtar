@@ -1,7 +1,6 @@
-from app.core.requester.SakuraRequester import SakuraRequester
 from app.core.requester.LocalLLMRequester import LocalLLMRequester
 from app.core.requester.CohereRequester import CohereRequester
-from app.core.requester.GoogleRequester import GoogleRequester
+from app.core.requester.GeminiRequester import GeminiRequester
 from app.core.requester.AnthropicRequester import AnthropicRequester
 from app.core.requester.AmazonbedrockRequester import AmazonbedrockRequester
 from app.core.requester.OpenaiRequester import OpenaiRequester
@@ -19,30 +18,16 @@ class LLMRequester():
         api_format = platform_config.get("api_format")
 
         # 发起请求
-        if target_platform == "sakura":
-            sakura_requester = SakuraRequester()
-            skip, response_think, response_content, prompt_tokens, completion_tokens = sakura_requester.request_sakura(
-                messages,
-                system_prompt,
-                platform_config,
-            )
-        elif target_platform == "LocalLLM":
-            local_llm_requester = LocalLLMRequester()
-            skip, response_think, response_content, prompt_tokens, completion_tokens = local_llm_requester.request_LocalLLM(
-                messages,
-                system_prompt,
-                platform_config,
-            )
-        elif target_platform == "cohere":
+        if target_platform == "cohere":
             cohere_requester = CohereRequester()
             skip, response_think, response_content, prompt_tokens, completion_tokens = cohere_requester.request_cohere(
                 messages,
                 system_prompt,
                 platform_config,
             )
-        elif target_platform == "google" or (target_platform.startswith("custom_platform_") and api_format == "Google"):
-            google_requester = GoogleRequester()
-            skip, response_think, response_content, prompt_tokens, completion_tokens = google_requester.request_google(
+        elif target_platform == "gemini" or (target_platform.startswith("custom_platform_") and api_format == "Gemini"):
+            gemini_requester = GeminiRequester()
+            skip, response_think, response_content, prompt_tokens, completion_tokens = gemini_requester.request_gemini(
                 messages,
                 system_prompt,
                 platform_config,

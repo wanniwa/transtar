@@ -7,15 +7,16 @@ from qfluentwidgets import SwitchButton
 from qfluentwidgets import CaptionLabel
 from qfluentwidgets import StrongBodyLabel
 
+
 class SwitchButtonCard(CardWidget):
 
-    def __init__(self, title: str, description: str, init = None, checked_changed = None):
+    def __init__(self, title: str, description: str, init=None, checked_changed=None):
         super().__init__(None)
 
         # 设置容器
         self.setBorderRadius(4)
         self.container = QHBoxLayout(self)
-        self.container.setContentsMargins(16, 16, 16, 16) # 左、上、右、下
+        self.container.setContentsMargins(16, 16, 16, 16)  # 左、上、右、下
 
         # 文本控件
         self.vbox = QVBoxLayout()

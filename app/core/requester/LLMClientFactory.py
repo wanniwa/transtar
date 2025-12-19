@@ -11,7 +11,7 @@ import json
 
 
 def create_httpx_client(
-        http2=True,
+        http2=False,
         max_connections=256,
         max_keepalive_connections=128,
         keepalive_expiry=30,

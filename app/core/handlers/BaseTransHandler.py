@@ -86,8 +86,7 @@ class BaseTransHandler(ABC):
         if (not raw
                 or "i18n" in raw.lower()
                 and self.get_file_type() != FileType.I18N
-                or raw == "null"
-                or "LocalizedText Strings" in raw):
+                or raw == "null"):
             return raw
 
         # Duplicate key
