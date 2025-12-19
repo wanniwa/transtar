@@ -76,29 +76,9 @@ class MainWindow(FluentWindow):
             # 连接到我们的检查函数
             paratranzItem.clicked.connect(self.check_and_switch_to_paratranz)
 
-        self.addSubInterface(self.settingInterface, FIF.SETTING, self.tr('Application Settings'), NavigationItemPosition.BOTTOM)
+        self.addSubInterface(self.settingInterface, FIF.SETTING, self.tr('Settings'), NavigationItemPosition.BOTTOM)
 
-        # # 添加本地字典界面
-        # self.addSubInterface(
-        #     self.localDictInterface,
-        #     FIF.LIBRARY,
-        #     self.tr('Local Dict'),
-        #     position=NavigationItemPosition.TOP
-        # )
-
-        # 监听界面切换
-        # self.stackedWidget.currentChanged.connect(self.handle_interface_changed)
         self.splashScreen.finish()
-
-    # def handle_interface_changed(self, index: int):
-    #     """处理界面切换"""
-    #     current_widget = self.stackedWidget.widget(index)
-    #     if isinstance(current_widget, HomeInterface):
-    #         self.resize(655, 700)
-    #     elif isinstance(current_widget, SettingInterface):
-    #         self.resize(800, 800)
-    #     else:
-    #         self.resize(1100, 700)
 
     def initWindow(self):
         self.setMinimumSize(self.APP_WIDTH, self.APP_HEIGHT)

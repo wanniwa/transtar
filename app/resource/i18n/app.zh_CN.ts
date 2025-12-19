@@ -685,8 +685,9 @@
         <translation type="vanished">字典</translation>
     </message>
     <message>
+        <location filename="../../view/main_window.py" line="79"/>
         <source>Settings</source>
-        <translation type="vanished">设置</translation>
+        <translation>设置</translation>
     </message>
     <message>
         <location filename="../../view/main_window.py" line="68"/>
@@ -696,11 +697,6 @@
     <message>
         <location filename="../../view/main_window.py" line="70"/>
         <source>Paratranz Dictionary</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../view/main_window.py" line="79"/>
-        <source>Application Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
