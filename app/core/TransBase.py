@@ -116,8 +116,8 @@ class TransBase():
         if e is None:
             print(f"[[red]ERROR[/]] {msg}")
         else:
-            print(
-                f"[[red]ERROR[/]] {msg}\n{e}\n{("".join(traceback.format_exception(None, e, e.__traceback__))).strip()}")
+            tb_str = "".join(traceback.format_exception(None, e, e.__traceback__)).strip()
+            print(f"[[red]ERROR[/]] {msg}\n{e}\n{tb_str}")
 
         # WARNING
 

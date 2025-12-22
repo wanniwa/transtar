@@ -1,6 +1,5 @@
 from PySide6.QtGui import QColor
-from PySide6.QtWidgets import QFrame
-from PySide6.QtWidgets import QVBoxLayout
+from PySide6.QtWidgets import QFrame, QVBoxLayout, QSizePolicy
 
 from qfluentwidgets import CardWidget, HorizontalSeparator
 from qfluentwidgets import CaptionLabel
@@ -15,6 +14,7 @@ class GroupCard(CardWidget):
         self.setBorderRadius(4)
         self.container = QVBoxLayout(self)
         self.container.setContentsMargins(16, 16, 16, 16) # 左、上、右、下
+        self.container.setSpacing(8)
 
         self.title_label = StrongBodyLabel(title, self)
         self.container.addWidget(self.title_label)
@@ -29,9 +29,10 @@ class GroupCard(CardWidget):
 
         # 添加流式布局容器
         self.vbox_container = QFrame(self)
+        self.vbox_container.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         self.vbox = QVBoxLayout(self.vbox_container)
-        self.vbox.setSpacing(0)
-        self.vbox.setContentsMargins(0, 0, 0, 0)
+        self.vbox.setSpacing(8)  # 增加子控件间距
+        self.vbox.setContentsMargins(0, 8, 0, 0)  # 顶部留一点间距
         self.container.addWidget(self.vbox_container)
 
         if init:
@@ -49,9 +50,5 @@ class GroupCard(CardWidget):
 
     # 添加分割线
     def addSeparator(self) -> None:
-        line = QFrame(self)
-        line.setFrameShape(QFrame.HLine)
-        line.setFrameShadow(QFrame.Sunken)
-        self.vbox.addSpacing(4)
+        line = HorizontalSeparator(self)
         self.vbox.addWidget(line)
-        self.vbox.addSpacing(4)

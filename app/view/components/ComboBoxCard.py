@@ -1,6 +1,5 @@
 from PySide6.QtGui import QColor
-from PySide6.QtWidgets import QHBoxLayout
-from PySide6.QtWidgets import QVBoxLayout
+from PySide6.QtWidgets import QHBoxLayout, QVBoxLayout, QSizePolicy
 
 from qfluentwidgets import CardWidget
 from qfluentwidgets import ComboBox
@@ -14,6 +13,9 @@ class ComboBoxCard(CardWidget):
 
         # 设置容器
         self.setBorderRadius(4)
+        self.setMinimumHeight(80)  # 设置最小高度
+        self.setMaximumHeight(100)  # 设置最大高度防止过度拉伸
+        self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
         self.hbox = QHBoxLayout(self)
         self.hbox.setContentsMargins(16, 16, 16, 16) # 左、上、右、下
 

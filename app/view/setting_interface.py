@@ -19,7 +19,7 @@ from qfluentwidgets import (SwitchSettingCard,
 
 from .components.DownloadThread import DownloadThread
 from .components.SettingCard import LineEditSettingCard, TextEditSettingCard
-from ..common.config import appConfig, models
+from ..common.config import appConfig
 from ..common.setting import HELP_URL, FEEDBACK_URL, AUTHOR, VERSION, YEAR, CONFIG_FOLDER
 from ..common.signal_bus import signalBus
 from ..common.style_sheet import StyleSheet
@@ -74,60 +74,6 @@ class SettingInterface(ScrollArea):
             self.tr('Extract specified language'),
             self.tr('For example, replace default.json with zh.json'),
             configItem=appConfig.i18n_source_flag,
-            parent=self.translationGroup
-        )
-        self.trans_mode_card = OptionsSettingCard(
-            appConfig.trans_model,
-            FIF.FLAG,
-            self.tr('Trans model'),
-            self.tr('Google、OpenAI……'),
-            models,
-            self.translationGroup
-        )
-        self.api_key_card = LineEditSettingCard(
-            FIF.FLAG,
-            self.tr('APIKEY'),
-            self.tr('API Key for authentication.'),
-            configItem=appConfig.api_key,
-            parent=self.translationGroup
-        )
-        self.ai_base_url_card = LineEditSettingCard(
-            FIF.FLAG,
-            self.tr('Base URL'),
-            self.tr('Base URL for AI. If empty, use default URL.'),
-            configItem=appConfig.ai_base_url,
-            parent=self.translationGroup
-        )
-        self.trans_custom_model_card = LineEditSettingCard(
-            FIF.FLAG,
-            self.tr('Trans custom model'),
-            self.tr('Custom model for AI.'),
-            configItem=appConfig.trans_custom_model,
-            parent=self.translationGroup
-        )
-        self.ai_batch_size_card = RangeSettingCard(
-            appConfig.ai_batch_size,
-            FIF.UPDATE,
-            self.tr('AI Batch Size'),
-            self.tr('Number of texts sent to AI at once'),
-            self
-        )
-
-        self.thread_count_card = RangeSettingCard(
-            appConfig.thread_count,
-            FIF.TRANSPARENT,
-            self.tr('Thread Count'),
-            self.tr('Number of concurrent translation threads'),
-            self
-        )
-
-        self.ai_prompt_card = TextEditSettingCard(
-            FIF.FLAG,
-            self.tr('AI prompt'),
-            self.tr('Prompt get shown to the AI on all chat.'),
-            self.tr(
-                'Please enter the prompt word. If empty, the default prompt will be used. like: You are currently a professional Stardew Valley mod translator.'),
-            configItem=appConfig.ai_prompt,
             parent=self.translationGroup
         )
 
@@ -238,13 +184,6 @@ class SettingInterface(ScrollArea):
 
         self.translationGroup.addSettingCard(self.i18n_extract_cp_card)
         self.translationGroup.addSettingCard(self.i18n_from_language_json_card)
-        self.translationGroup.addSettingCard(self.trans_mode_card)
-        self.translationGroup.addSettingCard(self.api_key_card)
-        self.translationGroup.addSettingCard(self.ai_base_url_card)
-        self.translationGroup.addSettingCard(self.trans_custom_model_card)
-        self.translationGroup.addSettingCard(self.ai_batch_size_card)
-        self.translationGroup.addSettingCard(self.thread_count_card)
-        self.translationGroup.addSettingCard(self.ai_prompt_card)
 
         self.personalGroup.addSettingCard(self.themeCard)
         self.personalGroup.addSettingCard(self.zoomCard)

@@ -26,7 +26,7 @@ class ArgsEditPage(MessageBoxBase, TransBase):
         self.key = key
 
         # 设置框体
-        self.widget.setFixedSize(700, 600)
+        # self.widget.setFixedSize(700, 600)
         self.yesButton.setText("关闭")
         self.cancelButton.hide()
 
@@ -212,7 +212,7 @@ class ArgsEditPage(MessageBoxBase, TransBase):
             GroupCard(
                 "extra_body",
                 self.tr(
-                    "请输入自定义Body，例如 {\"provider\": {\"order\": [\"DeepInfra\", \"Together\"], \"allow_fallbacks\": false}}"),
+                    "Please enter custom Body, for example {\"provider\": {\"order\": [\"DeepInfra\", \"Together\"], \"allow_fallbacks\": false}}"),
                 init=init,
             )
         )
@@ -221,8 +221,9 @@ class ArgsEditPage(MessageBoxBase, TransBase):
     def add_widget_top_p(self, parent, config, preset):
         def init(widget):
             widget.set_range(0, 100)
-            widget.set_text(f"{config.get("platforms").get(self.key).get("top_p"):.2f}")
-            widget.set_value(int(config.get("platforms").get(self.key).get("top_p") * 100))
+            top_p = config.get("platforms").get(self.key).get("top_p")
+            widget.set_text(f"{top_p:.2f}")
+            widget.set_value(int(top_p * 100))
 
         def value_changed(widget, value):
             widget.set_text(f"{(value / 100):.2f}")
@@ -250,8 +251,9 @@ class ArgsEditPage(MessageBoxBase, TransBase):
     def add_widget_temperature(self, parent, config, preset):
         def init(widget):
             widget.set_range(0, 200)
-            widget.set_text(f"{config.get("platforms").get(self.key).get("temperature"):.2f}")
-            widget.set_value(int(config.get("platforms").get(self.key).get("temperature") * 100))
+            temperature = config.get("platforms").get(self.key).get("temperature")
+            widget.set_text(f"{temperature:.2f}")
+            widget.set_value(int(temperature * 100))
 
         def value_changed(widget, value):
             widget.set_text(f"{(value / 100):.2f}")
@@ -279,8 +281,9 @@ class ArgsEditPage(MessageBoxBase, TransBase):
     def add_widget_presence_penalty(self, parent, config, preset):
         def init(widget):
             widget.set_range(-200, 200)
-            widget.set_text(f"{config.get("platforms").get(self.key).get("presence_penalty"):.2f}")
-            widget.set_value(int(config.get("platforms").get(self.key).get("presence_penalty") * 100))
+            presence_penalty = config.get("platforms").get(self.key).get("presence_penalty")
+            widget.set_text(f"{presence_penalty:.2f}")
+            widget.set_value(int(presence_penalty * 100))
 
         def value_changed(widget, value):
             widget.set_text(f"{(value / 100):.2f}")
@@ -308,8 +311,9 @@ class ArgsEditPage(MessageBoxBase, TransBase):
     def add_widget_frequency_penalty(self, parent, config, preset):
         def init(widget):
             widget.set_range(-200, 200)
-            widget.set_text(f"{config.get("platforms").get(self.key).get("frequency_penalty"):.2f}")
-            widget.set_value(int(config.get("platforms").get(self.key).get("frequency_penalty") * 100))
+            frequency_penalty = config.get("platforms").get(self.key).get("frequency_penalty")
+            widget.set_text(f"{frequency_penalty:.2f}")
+            widget.set_value(int(frequency_penalty * 100))
 
         def value_changed(widget, value):
             widget.set_text(f"{(value / 100):.2f}")

@@ -1,10 +1,10 @@
-PySide6-Fluent-Widgets~=1.9.0
-pyside6~=6.9.2
+PySide6-Fluent-Widgets~=1.10.4
+pyside6~=6.10.1
 hjson~=3.1.0
 translatepy~=2.3
-rich~=14.1.0
-json-repair~=0.51.0
-deepl~=1.22.0
+rich~=14.2.0
+json-repair~=0.54.3
+deepl~=1.27.0
 packaging>=25.0
 appdirs
 

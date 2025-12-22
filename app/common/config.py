@@ -11,9 +11,6 @@ from qfluentwidgets import (qconfig, QConfig, ConfigItem, OptionsConfigItem, Boo
 from .setting import CONFIG_FILE, TRANS_CONFIG_FILE
 from .constant import LANGUAGES
 
-models = ['google', 'deepl', 'gpt-3.5-turbo', 'gpt-4', 'gpt-4-turbo-2024-04-09', 'gpt-4o', 'gpt-4o-mini',
-          'custom model']
-
 
 class Language(Enum):
     """ Language enumeration """
@@ -49,16 +46,6 @@ class Config(QConfig):
     """ Config of application """
     i18n_extract_cp = ConfigItem("Translation", "i18n_extract_cp", False, BoolValidator())
     i18n_source_flag = ConfigItem("Translation", "i18n_source_flag", False, BoolValidator())
-    trans_model = OptionsConfigItem("Translation", "trans_model", "google", OptionsValidator(models))
-    ai_base_url = OptionsConfigItem("Translation", "ai_base_url", "")
-    trans_custom_model = OptionsConfigItem("Translation", "trans_custom_model", "")
-
-    ai_batch_size = RangeConfigItem("Translation", "ai_batch_size", 5, RangeValidator(1, 50))
-    thread_count = RangeConfigItem("Translation", "thread_count", 5, RangeValidator(1, 20))
-    ai_prompt = ConfigItem("Translation", "ai_prompt",
-                           "You are currently a professional Stardew Valley mod translator. ", None)
-    api_key = ConfigItem("Translation", "api_key", "", None)
-
     source_language = OptionsConfigItem(
         "Translation", "source_language", LANGUAGES['English'], OptionsValidator(LANGUAGES.values()), restart=False)
     to_language = OptionsConfigItem(
@@ -73,6 +60,17 @@ class Config(QConfig):
 
     # 本地字典界面每页显示条数
     localDictPageSize = ConfigItem("LocalDict", "pageSize", 100)
+
+    # 任务设置
+    trans_platform = ConfigItem("TaskSettings", "trans_platform", "google", None)
+    task_prompt = ConfigItem("TaskSettings", "prompt", "You are currently a professional Stardew Valley mod translator.", None)
+    task_split_mode = OptionsConfigItem("TaskSettings", "split_mode", "token", OptionsValidator(["token", "count"]))
+    task_split_token_limit = RangeConfigItem("TaskSettings", "split_token_limit", 3000, RangeValidator(100, 200000))
+    task_token_reserve = RangeConfigItem("TaskSettings", "token_reserve", 512, RangeValidator(0, 20000))
+    task_split_count_limit = RangeConfigItem("TaskSettings", "split_count_limit", 20, RangeValidator(1, 500))
+    task_concurrency = RangeConfigItem("TaskSettings", "concurrency", 0, RangeValidator(0, 100))
+    task_request_timeout = RangeConfigItem("TaskSettings", "request_timeout", 120, RangeValidator(10, 3600))
+    task_max_rounds = RangeConfigItem("TaskSettings", "max_rounds", 1, RangeValidator(1, 50))
 
 
 # 载入配置文件

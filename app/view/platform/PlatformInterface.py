@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import os
 import json
 import copy
@@ -76,7 +78,6 @@ class PlatformInterface(QFrame, TransBase):
             "presence_penalty",
             "frequency_penalty",
             "extra_body",
-            "think_switch",
             "think_depth",
             "thinking_budget"
         ],
@@ -93,8 +94,8 @@ class PlatformInterface(QFrame, TransBase):
         self.container.setSpacing(15)  # 增加间距以容纳新卡片
         self.container.setContentsMargins(24, 24, 24, 24)
 
-        # 读取合并配置
-        config = self.save_config(self.load_config_from_default())
+        # 读取配置
+        config = self.load_config()
 
         # 顶部：当前翻译提供方展示
         self.add_current_translation_widget(self.container, config)
@@ -109,6 +110,9 @@ class PlatformInterface(QFrame, TransBase):
 
         self.container.addStretch(1)
         self.subscribe(TransBase.EVENT.API_TEST_DONE, self.api_test_done)
+        
+        # 监听 trans_platform 配置变化
+        appConfig.trans_platform.valueChanged.connect(self._on_trans_platform_changed)
 
     # 顶部展示：当前翻译提供方
     def add_current_translation_widget(self, parent, config):
@@ -167,10 +171,15 @@ class PlatformInterface(QFrame, TransBase):
                 self.current_provider_icon.clear()
         else:
             self.current_provider_icon.clear()
+    
+    def _on_trans_platform_changed(self, value):
+        """当 trans_platform 配置改变时，更新显示"""
+        self.update_current_translation_display()
 
     def get_current_translation_info(self, config) -> tuple[str, str | None, str | None]:
-        # 优先根据保存的 trans_platform（平台 tag）确定
-        trans_tag = config.get("trans_platform")
+        # 从 appConfig 读取当前平台
+        from app.common.config import appConfig
+        trans_tag = appConfig.trans_platform.value
         platforms = config.get("platforms", {})
         if trans_tag and trans_tag in platforms:
             v = platforms[trans_tag]
@@ -220,16 +229,6 @@ class PlatformInterface(QFrame, TransBase):
         else:
             info_cont = self.tr("API test results: Success") + f"   {len(data.get('success', []))}"
             self.success_toast("", info_cont)
-
-    # 设为翻译提供方
-    def set_as_translation_provider(self, tag: str, *args) -> None:
-        config = self.load_config()
-        # 使用 TransBase 配置保存所选平台 TAG，供全局翻译使用
-        config["trans_platform"] = tag
-        self.save_config(config)
-
-        # 更新顶部展示
-        self.update_current_translation_display(config)
 
     # 加载并更新预设配置
     def load_preset(self):
@@ -346,21 +345,18 @@ class PlatformInterface(QFrame, TransBase):
 
             if not is_custom:
                 if v.get("api_format") == "google":
-                    # 翻译接口：仅提供选择为翻译与测试
+                    # 翻译接口：仅提供测试
                     base_data["menus"] = [
-                        (FluentIcon.ACCEPT, self.tr("Use For Translation"), partial(self.set_as_translation_provider, k)),
                         (FluentIcon.SEND, self.tr("Test Interface"), partial(self.api_test, k)),
                     ]
                 elif v.get("api_format") == "deepl":
                     base_data["menus"] = [
-                        (FluentIcon.ACCEPT, self.tr("Use For Translation"), partial(self.set_as_translation_provider, k)),
                         (FluentIcon.EDIT, self.tr("Edit Interface"), partial(self.show_api_edit_page, k)),
                         (FluentIcon.SEND, self.tr("Test Interface"), partial(self.api_test, k)),
                     ]
                 else:
-                    # AI 接口：完整菜单并提供选择为翻译
+                    # AI 接口：完整菜单（不包括设为翻译提供方）
                     base_data["menus"] = [
-                        (FluentIcon.ACCEPT, self.tr("Use For Translation"), partial(self.set_as_translation_provider, k)),
                         (FluentIcon.EDIT, self.tr("Edit Interface"), partial(self.show_api_edit_page, k)),
                         (FluentIcon.SCROLL, self.tr("Edit Rate Limit"), partial(self.show_limit_edit_page, k)),
                         (FluentIcon.DEVELOPER_TOOLS, self.tr("Edit Parameters"), partial(self.show_args_edit_page, k)),
@@ -368,7 +364,6 @@ class PlatformInterface(QFrame, TransBase):
                     ]
             else:
                 base_data["menus"] = [
-                    (FluentIcon.ACCEPT, self.tr("Use For Translation"), partial(self.set_as_translation_provider, k)),
                     (FluentIcon.EDIT, self.tr("Edit Interface"), partial(self.show_api_edit_page, k)),
                     (FluentIcon.LABEL, self.tr("Rename Interface"), partial(self.rename_platform, k)),
                     (FluentIcon.SCROLL, self.tr("Edit Rate Limit"), partial(self.show_limit_edit_page, k)),
