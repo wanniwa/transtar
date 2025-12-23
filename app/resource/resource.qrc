@@ -6,17 +6,21 @@
         <file>images/icons/Settings_black.svg</file>
         <file>images/platforms/amazonbedrock.png</file>
         <file>images/platforms/claude.png</file>
+        <file>images/platforms/deepl.svg</file>
         <file>images/platforms/deepseek.png</file>
+        <file>images/platforms/gemini.png</file>
         <file>images/platforms/google.png</file>
+        <file>images/platforms/grok.png</file>
         <file>images/platforms/moonshot.png</file>
         <file>images/platforms/openai.png</file>
+        <file>images/platforms/qwen.png</file>
         <file>images/platforms/volcengine.png</file>
         <file>images/platforms/yi.png</file>
         <file>images/platforms/zhipu.png</file>
-        <file>images/platforms/deepl.svg</file>
 
         <file>images/logo.png</file>
 
+        <file>default/preset.json</file>
 
         <file>i18n/app.zh_CN.qm</file>
 

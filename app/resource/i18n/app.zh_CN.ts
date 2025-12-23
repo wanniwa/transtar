@@ -104,36 +104,36 @@
 <context>
     <name>ArgsEditPage</name>
     <message>
-        <location filename="../../view/platform/ArgsEditPage.py" line="118"/>
+        <location filename="../../view/platform/ArgsEditPage.py" line="136"/>
         <source>思考模式开关</source>
         <translation type="unfinished">思考模式开关</translation>
     </message>
     <message>
-        <location filename="../../view/platform/ArgsEditPage.py" line="139"/>
+        <location filename="../../view/platform/ArgsEditPage.py" line="157"/>
         <source>think_depth</source>
         <translation type="unfinished">思考深度</translation>
     </message>
     <message>
-        <location filename="../../view/platform/ArgsEditPage.py" line="140"/>
+        <location filename="../../view/platform/ArgsEditPage.py" line="158"/>
         <source>Thinking depth</source>
         <translation type="unfinished">思考深度</translation>
     </message>
     <message>
-        <location filename="../../view/platform/ArgsEditPage.py" line="166"/>
-        <location filename="../../view/platform/ArgsEditPage.py" line="240"/>
-        <location filename="../../view/platform/ArgsEditPage.py" line="270"/>
-        <location filename="../../view/platform/ArgsEditPage.py" line="300"/>
-        <location filename="../../view/platform/ArgsEditPage.py" line="330"/>
+        <location filename="../../view/platform/ArgsEditPage.py" line="184"/>
+        <location filename="../../view/platform/ArgsEditPage.py" line="258"/>
+        <location filename="../../view/platform/ArgsEditPage.py" line="288"/>
+        <location filename="../../view/platform/ArgsEditPage.py" line="318"/>
+        <location filename="../../view/platform/ArgsEditPage.py" line="348"/>
         <source>Please set carefully, for the target interface, the default value of this parameter is</source>
         <translation type="unfinished">请仔细设置，对于目标接口，此参数的默认值为</translation>
     </message>
     <message>
-        <location filename="../../view/platform/ArgsEditPage.py" line="206"/>
+        <location filename="../../view/platform/ArgsEditPage.py" line="224"/>
         <source>Please enter custom Body</source>
         <translation type="unfinished">请输入自定义Body</translation>
     </message>
     <message>
-        <location filename="../../view/platform/ArgsEditPage.py" line="215"/>
+        <location filename="../../view/platform/ArgsEditPage.py" line="233"/>
         <source>Please enter custom Body, for example {&quot;provider&quot;: {&quot;order&quot;: [&quot;DeepInfra&quot;, &quot;Together&quot;], &quot;allow_fallbacks&quot;: false}}</source>
         <translation type="unfinished">请输入自定义Body，例如 {&quot;provider&quot;: {&quot;order&quot;: [&quot;DeepInfra&quot;, &quot;Together&quot;], &quot;allow_fallbacks&quot;: false}}</translation>
     </message>
@@ -829,126 +829,127 @@
 <context>
     <name>PlatformInterface</name>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="198"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="204"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="216"/>
         <source>Can&apos;t find the file:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="217"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="235"/>
         <source>API test is running, please try again later</source>
         <translation type="unfinished">接口测试正在进行中，请稍后重试</translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="226"/>
-        <location filename="../../view/platform/PlatformInterface.py" line="230"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="244"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="248"/>
         <source>API test results: Success</source>
         <translation type="unfinished">接口测试结果：成功</translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="227"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="245"/>
         <source>Failed</source>
         <translation type="unfinished">失败</translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="294"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="312"/>
         <source>Interface name cannot be empty</source>
         <translation type="unfinished">接口名称不能为空</translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="301"/>
-        <location filename="../../view/platform/PlatformInterface.py" line="320"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="319"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="338"/>
         <source>Interface does not exist</source>
         <translation type="unfinished">接口不存在</translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="313"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="331"/>
         <source>Interface renamed successfully</source>
         <translation type="unfinished">接口重命名成功</translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="327"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="345"/>
         <source>Please enter new interface name</source>
         <translation type="unfinished">请输入新的接口名称</translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="354"/>
-        <location filename="../../view/platform/PlatformInterface.py" line="360"/>
-        <location filename="../../view/platform/PlatformInterface.py" line="367"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="372"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="378"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="385"/>
         <source>Edit Interface</source>
         <translation type="unfinished">编辑接口</translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="361"/>
-        <location filename="../../view/platform/PlatformInterface.py" line="369"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="379"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="387"/>
         <source>Edit Rate Limit</source>
         <translation type="unfinished">编辑速率限制</translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="362"/>
-        <location filename="../../view/platform/PlatformInterface.py" line="370"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="380"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="388"/>
         <source>Edit Parameters</source>
         <translation type="unfinished">编辑参数</translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="458"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="476"/>
         <source>Manage translation interfaces</source>
         <translation type="unfinished">管理翻译接口</translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="521"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="539"/>
         <source>Custom AI</source>
         <translation type="unfinished">自定义AI</translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="350"/>
-        <location filename="../../view/platform/PlatformInterface.py" line="355"/>
-        <location filename="../../view/platform/PlatformInterface.py" line="363"/>
-        <location filename="../../view/platform/PlatformInterface.py" line="372"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="368"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="373"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="381"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="390"/>
         <source>Test Interface</source>
         <translation type="unfinished">测试接口</translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="135"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="137"/>
         <source>Current translation provider: </source>
         <translation type="unfinished">当前翻译使用：</translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="368"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="386"/>
         <source>Rename Interface</source>
         <translation type="unfinished">重命名接口</translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="371"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="389"/>
         <source>Delete Interface</source>
         <translation type="unfinished">删除接口</translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="457"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="475"/>
         <source>Interface</source>
         <translation type="unfinished">接口</translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="471"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="489"/>
         <source>AI</source>
         <translation type="unfinished">AI</translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="472"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="490"/>
         <source>Manage built-in mainstream AI interfaces</source>
         <translation type="unfinished">管理内置的主流 AI 接口</translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="503"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="521"/>
         <source>Please enter new AI interface name</source>
         <translation type="unfinished">请输入一个AI接口名字</translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="511"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="529"/>
         <source>Add</source>
         <translation type="unfinished">添加</translation>
     </message>
     <message>
-        <location filename="../../view/platform/PlatformInterface.py" line="522"/>
+        <location filename="../../view/platform/PlatformInterface.py" line="540"/>
         <source>Add and manage any large language model interfaces that comply with OpenAI or Anthropic formats</source>
         <translation type="unfinished">添加和管理任何符合 OpenAI 或 Anthropic 格式的大型语言模型接口</translation>
     </message>

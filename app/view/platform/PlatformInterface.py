@@ -1,12 +1,13 @@
 from __future__ import annotations
 
 import os
+import sys
 import json
 import copy
 import random
 from functools import partial
 
-from PySide6.QtCore import QUrl, Signal, Qt, QMimeData
+from PySide6.QtCore import QUrl, Signal, Qt, QMimeData, QFile, QIODevice
 from PySide6.QtGui import QDesktopServices, QIcon, QDrag
 from PySide6.QtWidgets import QFrame, QVBoxLayout, QHBoxLayout, QLabel
 
@@ -18,6 +19,7 @@ from qfluentwidgets import PushButton
 
 from app.core.TransBase import TransBase
 from app.common.config import appConfig
+import app.resource.resource_rc
 from app.view.components.APITypeCard import APITypeCard
 from app.view.components.LineEditMessageBox import LineEditMessageBox
 from app.view.platform.APIEditPage import APIEditPage
@@ -163,12 +165,9 @@ class PlatformInterface(QFrame, TransBase):
 
         # 设置图标
         if icon:
-            icon_name = icon
-            icon_path = os.path.join("app", "resource", "images", "platforms", icon_name)
-            if os.path.exists(icon_path):
-                self.current_provider_icon.setPixmap(QIcon(icon_path).pixmap(24, 24))
-            else:
-                self.current_provider_icon.clear()
+            # 使用Qt资源路径
+            icon_path = f":/app/images/platforms/{icon}"
+            self.current_provider_icon.setPixmap(QIcon(icon_path).pixmap(24, 24))
         else:
             self.current_provider_icon.clear()
     
@@ -191,11 +190,27 @@ class PlatformInterface(QFrame, TransBase):
     def load_file(self, path: str) -> dict:
         result = {}
 
-        if os.path.exists(path):
-            with open(path, "r", encoding="utf-8") as reader:
-                result = json.load(reader)
+        # 检查是否是Qt资源路径
+        if path.startswith(":/"):
+            file = QFile(path)
+            if file.open(QIODevice.ReadOnly):
+                content = file.readAll().data().decode('utf-8')
+                result = json.loads(content)
+                file.close()
+            else:
+                self.error(self.tr("Can't find the file:") + path)
         else:
-            self.error(self.tr("Can't find the file:") + path)
+            # 普通文件路径（兼容旧代码）
+            if hasattr(sys, '_MEIPASS'):
+                full_path = os.path.join(sys._MEIPASS, path)
+            else:
+                full_path = path
+                
+            if os.path.exists(full_path):
+                with open(full_path, "r", encoding="utf-8") as reader:
+                    result = json.load(reader)
+            else:
+                self.error(self.tr("Can't find the file:") + full_path)
 
         return result
 
@@ -233,7 +248,7 @@ class PlatformInterface(QFrame, TransBase):
     # 加载并更新预设配置
     def load_preset(self):
         # 这个函数的主要目的是保证可以通过预设文件对内置的接口的固定属性进行更新
-        preset = self.load_file("app/resource/default/preset.json")
+        preset = self.load_file(":/app/default/preset.json")
         config = self.load_config()
 
         # 从配置文件中非自定义读取接口信息数据并使用预设数据更新
@@ -397,7 +412,7 @@ class PlatformInterface(QFrame, TransBase):
 
             if item.get("icon"):
                 icon_name = item.get("icon")
-                icon_path = os.path.join("app", "resource", "images", "platforms", icon_name)
+                icon_path = f":/app/images/platforms/{icon_name}"
                 drop_down_push_button.setIcon(QIcon(icon_path))
 
             drop_down_push_button.setFixedWidth(192)
@@ -419,7 +434,7 @@ class PlatformInterface(QFrame, TransBase):
             # 设置图标（如果有）
             if item.get("icon"):
                 icon_name = item.get("icon") + '.png'
-                icon_path = os.path.join("app", "resource", "images", "platforms", icon_name)
+                icon_path = f":/app/images/platforms/{icon_name}"
                 button.setIcon(QIcon(icon_path))
 
             button.setFixedWidth(192)

@@ -1,7 +1,8 @@
 import os
+import sys
 import json
 
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QFile, QIODevice
 from PySide6.QtCore import QUrl
 from PySide6.QtWidgets import QWidget
 from PySide6.QtWidgets import QVBoxLayout
@@ -12,6 +13,7 @@ from qfluentwidgets import SingleDirectionScrollArea
 
 from app.core.TransBase import TransBase
 from app.view.components.SliderCard import SliderCard
+import app.resource.resource_rc
 from app.view.components.GroupCard import GroupCard
 from app.view.components.SwitchButtonCard import SwitchButtonCard
 from app.view.components.ComboBoxCard import ComboBoxCard
@@ -32,7 +34,7 @@ class ArgsEditPage(MessageBoxBase, TransBase):
 
         # 载入配置文件
         config = self.load_config()
-        preset = self.load_file("app/resource/default/preset.json")
+        preset = self.load_file(":/app/default/preset.json")
 
         # 设置主布局
         self.viewLayout.setContentsMargins(0, 0, 0, 0)
@@ -94,11 +96,27 @@ class ArgsEditPage(MessageBoxBase, TransBase):
     def load_file(self, path: str) -> dict:
         result = {}
 
-        if os.path.exists(path):
-            with open(path, "r", encoding="utf-8") as reader:
-                result = json.load(reader)
+        # 检查是否是Qt资源路径
+        if path.startswith(":/"):
+            file = QFile(path)
+            if file.open(QIODevice.ReadOnly):
+                content = file.readAll().data().decode('utf-8')
+                result = json.loads(content)
+                file.close()
+            else:
+                self.error(f"未找到 {path} 文件 ...")
         else:
-            self.error(f"未找到 {path} 文件 ...")
+            # 普通文件路径（兼容旧代码）
+            if hasattr(sys, '_MEIPASS'):
+                full_path = os.path.join(sys._MEIPASS, path)
+            else:
+                full_path = path
+                
+            if os.path.exists(full_path):
+                with open(full_path, "r", encoding="utf-8") as reader:
+                    result = json.load(reader)
+            else:
+                self.error(f"未找到 {full_path} 文件 ...")
 
         return result
 
