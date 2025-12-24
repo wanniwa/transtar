@@ -2,8 +2,9 @@ from __future__ import annotations
 
 import time
 from PySide6.QtCore import Qt, QTimer
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QFrame
-from qfluentwidgets import CardWidget, TitleLabel, SubtitleLabel, BodyLabel, CaptionLabel, FluentIcon
+from PySide6.QtGui import QColor
+from PySide6.QtWidgets import QWidget, QVBoxLayout
+from qfluentwidgets import CardWidget, TitleLabel, SubtitleLabel, BodyLabel, CaptionLabel, FluentIcon, HorizontalSeparator
 
 
 class StatCard(CardWidget):
@@ -21,10 +22,10 @@ class StatCard(CardWidget):
         title_layout.setSpacing(2)
         
         self.title_label = CaptionLabel(title, self)
-        self.title_label.setStyleSheet("color: rgb(150, 150, 150);")
+        self.title_label.setTextColor(QColor(150, 150, 150), QColor(180, 180, 180))
         
         self.value_label = SubtitleLabel("0", self)
-        self.value_label.setStyleSheet("font-weight: bold;")
+        # SubtitleLabel 默认会根据主题自动调整颜色，不需要额外设置
         
         title_layout.addWidget(self.title_label)
         title_layout.addWidget(self.value_label)
@@ -60,9 +61,7 @@ class TranslationDashboard(QWidget):
         layout.addWidget(title)
         
         # 分隔线
-        line = QFrame(self)
-        line.setFrameShape(QFrame.Shape.HLine)
-        line.setStyleSheet("background-color: rgb(200, 200, 200);")
+        line = HorizontalSeparator(self)
         layout.addWidget(line)
         
         # 统计卡片

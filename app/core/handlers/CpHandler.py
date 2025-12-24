@@ -4,7 +4,7 @@ import re
 
 import wjson
 
-from app.common.constant import FileType, TargetAssetType
+from app.common.constant import FileType, TargetAssetType, ActionType
 from .BaseTransHandler import BaseTransHandler
 from app.common.config import appConfig
 from app.common.utils import file_util
@@ -41,14 +41,185 @@ class CPTransHandler(BaseTransHandler):
         self.cp_path = None
         self.dynamicTokens = {}
 
+
     def replace_dynamic_token(self, text):
         return re.sub(r"\{\{([^}]+)}}", lambda match: self.dynamicTokens.get(match.group(1), match.group(0)), text)
+
+    def convert_source_to_target_path(self, source_file_path):
+        """
+        将源语言文件路径转换为目标语言文件路径
+        例如：i18n/en/Data/FarmAnimals.json -> i18n/zh_CN/Data/FarmAnimals.json
+        
+        Args:
+            source_file_path: 源文件路径
+            
+        Returns:
+            目标语言文件路径
+        """
+        # 标准化路径分隔符
+        normalized_path = source_file_path.replace(os.sep, '/')
+        
+        # 尝试匹配 i18n/{language}/ 模式
+        pattern = r'(.*?/i18n/)([^/]+)(/.+)$'
+        match = re.match(pattern, normalized_path)
+        
+        if match:
+            prefix = match.group(1)  # .../i18n/
+            lang_folder = match.group(2)  # en 或 default
+            suffix = match.group(3)  # /Data/xxx.json
+            
+            # 如果是源语言文件夹，替换为目标语言
+            if lang_folder.lower() in ['en', 'default', appConfig.source_language.value.lower()]:
+                target_path = f"{prefix}{appConfig.to_language.value}{suffix}"
+                # 转回系统路径分隔符
+                target_path = target_path.replace('/', os.sep)
+                logging.info(f"Converting path from source to target language: {source_file_path} -> {target_path}")
+                return target_path
+        
+        # 如果没有匹配到或不是源语言文件夹，返回原路径
+        return source_file_path
+
+    def replace_path_tokens(self, file_path, target=None, language_value=None):
+        """
+        替换文件路径中的占位符标记
+        
+        Args:
+            file_path: 原始文件路径
+            target: 目标字符串，用于替换{{Target}}和{{TargetWithoutPath}}
+            language_value: 语言值，如果提供则替换{{Language}}/{{language}}
+                          - 传入目标语言：appConfig.to_language.value
+                          - 传入源语言：'default' 或 'en'
+                          - 传入 None：不替换语言占位符
+            
+        Returns:
+            替换后的文件路径
+        """
+        result = file_path
+        
+        # 替换 Target 相关的占位符
+        if target is not None:
+            targetWithoutPath = target[target.rfind("/") + 1:]
+            result = result.replace("{{TargetWithoutPath}}", targetWithoutPath)
+            result = result.replace("{{Target}}", target)
+        
+        # 替换 Language 占位符（大小写不敏感）
+        if language_value is not None:
+            if "{{Language}}" in result:
+                result = result.replace("{{Language}}", language_value)
+            elif "{{language}}" in result:
+                result = result.replace("{{language}}", language_value)
+        
+        return result
+
+    def resolve_source_file_path(self, file_path, target=None):
+        """
+        解析源文件路径，按优先级尝试: en -> default
+        直接尝试打开文件，让 open() 自动抛异常（和老版本一样）
+        
+        Args:
+            file_path: 原始文件路径（可能包含{{Language}}占位符）
+            target: 目标字符串，用于替换{{Target}}和{{TargetWithoutPath}}
+            
+        Returns:
+            实际存在的源文件完整路径
+            
+        Raises:
+            FileNotFoundError: 如果所有尝试都失败（由 open() 自动抛出）
+        """
+        # 如果路径中没有Language占位符，直接返回路径（让 open() 去检查）
+        if "{{Language}}" not in file_path and "{{language}}" not in file_path:
+            return self.replace_path_tokens(file_path, target)
+        
+        # 按优先级尝试不同的语言值: en -> default
+        for lang in ["en", "default"]:
+            try_path = self.replace_path_tokens(file_path, target, lang)
+            full_path = os.path.join(self.cp_path, try_path)
+            logging.debug(f"Trying source file: {full_path}")
+            
+            # 直接尝试打开文件，如果失败会自动抛异常
+            try:
+                with open(full_path, 'r', encoding='utf-8') as f:
+                    # 文件存在且可以打开
+                    logging.info(f"Found source file with language '{lang}': {try_path}")
+                    return try_path
+            except FileNotFoundError:
+                logging.debug(f"File not found: {full_path}, will try next language option")
+                continue
+            except Exception as e:
+                logging.debug(f"Failed to open {full_path}: {e}, will try next language option")
+                continue
+        
+        # 如果都失败，尝试最后一次（会自动抛出 FileNotFoundError）
+        final_path = self.replace_path_tokens(file_path, target, "en")
+        full_path = os.path.join(self.cp_path, final_path)
+        # 直接打开，让它抛异常
+        with open(full_path, 'r', encoding='utf-8') as f:
+            pass
+        return final_path
+
+    def load_source_file_with_fallback(self, file_path, target=None):
+        """
+        加载源文件内容，支持回退机制
+        按优先级尝试: en -> default
+        直接尝试打开并读取文件，让 open() 自动抛异常（和老版本一样）
+        
+        Args:
+            file_path: 原始文件路径（可能包含{{Language}}占位符）
+            target: 目标字符串，用于替换{{Target}}和{{TargetWithoutPath}}
+            
+        Returns:
+            (source_path, entries): 实际读取的文件路径和解析后的内容
+            
+        Raises:
+            FileNotFoundError: 如果文件不存在（由 open() 自动抛出）
+            Exception: 如果文件读取失败
+        """
+        # 如果路径中没有Language占位符，直接读取文件
+        if "{{Language}}" not in file_path and "{{language}}" not in file_path:
+            source_path = self.replace_path_tokens(file_path, target)
+            full_path = os.path.join(self.cp_path, source_path)
+            # 直接读取，让 open() 自动抛异常
+            with open(full_path, 'r', encoding='utf-8') as f:
+                entries = wjson.load(f)
+            return source_path, entries
+        
+        # 按优先级尝试不同的语言值: en -> default
+        for lang in ["en", "default"]:
+            try_path = self.replace_path_tokens(file_path, target, lang)
+            full_path = os.path.join(self.cp_path, try_path)
+            logging.debug(f"Trying to load: {full_path}")
+            
+            try:
+                with open(full_path, 'r', encoding='utf-8') as f:
+                    entries = wjson.load(f)
+                # 如果成功读取且内容不为空，返回结果
+                if entries is not None:
+                    logging.info(f"Successfully loaded source file with language '{lang}': {try_path}")
+                    return try_path, entries
+                else:
+                    logging.debug(f"File content is None, trying next language option")
+                    continue
+            except FileNotFoundError:
+                logging.debug(f"File not found: {full_path}, trying next language option")
+                continue
+            except Exception as e:
+                logging.debug(f"Failed to load {full_path}: {e}, trying next language option")
+                continue
+        
+        # 如果都失败，尝试最后一次（会自动抛出 FileNotFoundError）
+        final_path = self.replace_path_tokens(file_path, target, "en")
+        full_path = os.path.join(self.cp_path, final_path)
+        # 直接读取，让它抛异常
+        with open(full_path, 'r', encoding='utf-8') as f:
+            entries = wjson.load(f)
+        return final_path, entries
 
     def handle(self, file_path):
         print(f"CPTransHandler translations:{file_path}")
 
         i18n_folder = os.path.exists(file_util.get_i18n_folder(file_path))
 
+        # 直接用 UTF-8 加载文件
         with open(file_path, 'r', encoding='utf-8') as f:
             content = wjson.load(f)
         if content is None:
@@ -170,14 +341,17 @@ class CPTransHandler(BaseTransHandler):
                                 if target1.strip() == "":
                                     continue
                                 target1 = target1.strip()
-                                targetWithoutPath = target1[target1.rfind("/") + 1:]
-                                form_file1 = form_file.replace("{{TargetWithoutPath}}", targetWithoutPath)
-                                form_file1 = form_file1.replace("{{Target}}", target1)
-                                self.batch_handle([os.path.join(self.cp_path, form_file1)])
+                                # 使用统一的源文件路径解析（尝试 en -> default）
+                                # 如果文件不存在会抛出异常，由 batch_handle 捕获并报错
+                                source_path = self.resolve_source_file_path(form_file, target1)
+                                self.batch_handle([os.path.join(self.cp_path, source_path)])
                         else:
                             print(self.cp_path)
                             print(form_file)
-                            self.batch_handle([os.path.join(self.cp_path, form_file)])
+                            # 使用统一的源文件路径解析
+                            # 如果文件不存在会抛出异常，由 batch_handle 捕获并报错
+                            source_path = self.resolve_source_file_path(form_file)
+                            self.batch_handle([os.path.join(self.cp_path, source_path)])
             elif action.lower() == "EditData".lower():
                 target_field = change.get("TargetField")
                 if target_field is not None:
@@ -203,21 +377,25 @@ class CPTransHandler(BaseTransHandler):
                             if target1.strip() == "":
                                 continue
                             target1 = target1.strip()
-                            targetWithoutPath = target1[target1.rfind("/") + 1:]
-                            form_file1 = form_file.replace("{{TargetWithoutPath}}", targetWithoutPath)
-                            form_file1 = form_file1.replace("{{Target}}", target1)
-                            with open(os.path.join(self.cp_path, form_file1.replace("{{Language}}", "default")), 'r',
-                                      encoding='utf-8') as f:
-                                entries = wjson.load(f)
-                            if entries is None:
-                                with open(os.path.join(self.cp_path, form_file1.replace("{{Language}}", "en")), 'r',
-                                          encoding='utf-8') as f:
-                                    entries = wjson.load(f)
+                            # 使用统一的源文件加载方法（尝试 en -> default）
+                            # 不仅检查文件存在性，还验证内容有效性
+                            # 如果文件不存在或读取失败会抛出异常，由 batch_handle 捕获并报错
+                            source_path, entries = self.load_source_file_with_fallback(form_file, target1)
                             target_type = TargetAssetType.get_target_asset_type(target1)
                             if self.traverse_editdata_entries(target_type, entries, base_key):
-                                if "{{Language}}" in form_file1:
-                                    form_file1 = form_file1.replace("{{Language}}", appConfig.to_language.value)
-                                self.create_out_file(os.path.join(self.cp_path, form_file1), entries)
+                                # 根据操作类型决定输出路径
+                                if self.context.action_type == ActionType.GENERATE:
+                                    # 生成翻译文件时：输出到目标语言路径
+                                    if "{{Language}}" in form_file or "{{language}}" in form_file:
+                                        # 使用模板路径，替换为目标语言
+                                        output_path = self.replace_path_tokens(form_file, target1, appConfig.to_language.value)
+                                    else:
+                                        # 即使没有模板占位符，也尝试转换 i18n/en 或 i18n/default 路径
+                                        output_path = self.convert_source_to_target_path(source_path)
+                                else:
+                                    # 提取阶段：保持源文件路径
+                                    output_path = source_path
+                                self.create_out_file(os.path.join(self.cp_path, output_path), entries)
             elif action.lower == "EditMap".lower():
                 # {
                 #     "Action": "EditMap",
@@ -251,7 +429,16 @@ class CPTransHandler(BaseTransHandler):
                             if failure:
                                 set_properties["Failure"] = self.get_new_value("#".join([base_key, "Failure"]), failure,
                                                                                TargetAssetType.PlainText)
-        self.create_out_file(file_path, content)
+        
+        # 根据操作类型决定输出路径
+        if self.context.action_type == ActionType.GENERATE:
+            # 生成翻译文件时：将源语言路径转换为目标语言路径
+            output_file_path = self.convert_source_to_target_path(file_path)
+        else:
+            # 提取阶段：保持源文件路径
+            output_file_path = file_path
+        
+        self.create_out_file(output_file_path, content)
 
     def traverse_editdata_entries(self, targetType, entries, baseKey):
         flag = True
