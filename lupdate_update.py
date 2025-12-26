@@ -34,8 +34,30 @@ def main():
     pro_file_path = 'main.pro'
     sources, translations = parse_pro_file(pro_file_path)
 
-    if sources and translations:
-        command = generate_command(sources, translations)
+    # Collect all .py files under app/view/** recursively
+    view_sources = []
+    view_root = os.path.join('app', 'view')
+    for root, _, files in os.walk(view_root):
+        for file_name in files:
+            if file_name.endswith('.py'):
+                file_path = os.path.join(root, file_name)
+                # Normalize to posix-style paths for lupdate
+                view_sources.append(file_path.replace(os.sep, '/'))
+
+    # Merge and de-duplicate while preserving order (view sources first to prefer actual FS casing)
+    merged = []
+    seen = set()
+    for path in view_sources + sources:
+        norm = path.replace('\\', '/')
+        if norm not in seen:
+            seen.add(norm)
+            merged.append(norm)
+
+    # Keep only files that actually exist to avoid lupdate failures
+    existing_sources = [p for p in merged if os.path.exists(p)]
+
+    if existing_sources and translations:
+        command = generate_command(existing_sources, translations)
         print(f"Executing command: {command}")
         os.system(command)
     else:

@@ -1,6 +1,10 @@
 .idea
+.vscode
 .venv
 /dist
 /build
 AppData
 /log
+__pycache__
+.DS_Store
+dist.zip

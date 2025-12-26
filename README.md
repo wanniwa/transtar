@@ -58,6 +58,13 @@ If my tool has been helpful for your translation work, I would appreciate it if 
 4. click Generate button
 5. After completing the generation, a mod translation package will be generated
 
+## Changelog
+
+- **3.0.0**
+  - **Translation model**: Fully revamped translation model support, bringing better quality, stability and compatibility.
+  - **Core**: Optimized the translation workflow to better cooperate with the new models.
+  - **Other**: Minor experience improvements and bug fixes.
+
 ## Support framework
 1. [CP] Content Patcher
 2. [i18n] i18n/default.json

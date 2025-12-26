@@ -1,10 +1,10 @@
 from typing import Dict, Type
 from app.common.constant import FileType
-from app.core.handlers.base_handler import BaseTransHandler
-from app.core.handlers.cp_handler import CPTransHandler
-from app.core.handlers.simple_handler import MailTransHandler, JATransHandler, BLTransHandler, STFTransHandler, \
+from app.core.handlers.BaseTransHandler import BaseTransHandler
+from app.core.handlers.CpHandler import CPTransHandler
+from app.core.handlers.SimpleHandler import MailTransHandler, JATransHandler, BLTransHandler, STFTransHandler, \
     QFTransHandler
-from app.core.handlers.i18n_handler import I18nTransHandler
+from app.core.handlers.I18nHandler import I18nTransHandler
 
 UNKNOWN = "UNKNOWN"
 JA = "JA.json"

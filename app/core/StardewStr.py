@@ -3,7 +3,7 @@ import re
 from app.common.constant import TargetAssetType, FileType
 from app.common.utils import trans_util
 from app.common.utils.trans_util import random_pattern
-from app.core.handlers.trans_context import TransContext
+from app.core.handlers.TransContext import TransContext
 
 event_pattern = r'(?i)(speak\s+[^ ]+|splitSpeak\s+[^ ]+|textAboveHead\s+[^ ]+|end dialogue\s+[^ ]+|end dialogueWarpOut\s+[^ ]+|message|quickQuestion|question\s+[^ ]+)\s+\"?(.*?)\"?\s*(?=\(break\)|\\|/|$)'
 

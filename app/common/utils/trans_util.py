@@ -11,7 +11,7 @@ from openai import OpenAI
 from translatepy.translators.google import GoogleTranslateV2
 
 from app.common.constant import LANGUAGE_KEY_NAME
-from app.common.config import cfg
+from app.common.config import appConfig
 
 random_pattern = re.compile(r"\{\{Random:(.*?)\|inputSeparator=(.*?)}}")
 
@@ -27,73 +27,28 @@ def trait(s):
     return '||'.join(matches)
 
 
+# 此函数已废弃，翻译逻辑现在在 Action.translate() 中使用平台配置
 def translate(value):
-    client = OpenAI(
-        api_key=cfg.api_key.value,
-        base_url=cfg.ai_base_url.value.strip() or None
-    )
-    model = cfg.trans_model.value
-    if model == 'custom model':
-        model = cfg.trans_custom_model.value
-    language_name = LANGUAGE_KEY_NAME[cfg.to_language.value]
-    chat_completion = client.chat.completions.create(
-        messages=[
-            {
-                "role": "system",
-                "content": f"You are currently a professional Stardew Valley mod translator. Translate the input text to {language_name}. Respond only with the translated text.",
-            },
-            {
-                "role": "user",
-                "content": value,
-            }
-        ],
-        max_tokens=4000,
-        model=model,
-    )
-    content = chat_completion.choices[0].message.content
-    return content
+    raise NotImplementedError("此函数已废弃，请使用 Action.translate() 中的平台配置")
 
 
-def batch_translate(dict_values):
+def batch_translate(dict_values, platform=None):
     values = list(dict_values)
     print(f'translate_put: {values}')
-    model = cfg.trans_model.value
-    if model == "google" or model == "deepl":
+    api_format = None
+    if platform:
+        api_format = (platform.get("api_format") or "").lower()
+    else:
+        api_format = (appConfig.trans_model.value or "").lower()
+
+    if api_format in ("google", "deepl"):
         result = []
         for value in values:
-            result.append(modTrans(value))
+            result.append(modTrans(value, platform))
         return result
 
-    client = OpenAI(
-        # This is the default and can be omitted
-        api_key=cfg.api_key.value,
-        base_url=cfg.ai_base_url.value.strip() or None
-    )
-
-    language_name = LANGUAGE_KEY_NAME[cfg.to_language.value]
-    prompt = cfg.ai_prompt.value
-    if prompt == '':
-        prompt = 'You are currently a professional Stardew Valley mod translator.'
-    if model == 'custom model':
-        model = cfg.trans_custom_model.value
-    chat_completion = client.chat.completions.create(
-        messages=[
-            {
-                "role": "system",
-                "content": prompt + f" Translate the text in array to {language_name}. Respond only with the translated text in array",
-            },
-            {
-                "role": "user",
-                "content": wjson.dumps(values),
-            }
-        ],
-        max_tokens=4000,
-        model=model
-    )
-
-    content = chat_completion.choices[0].message.content
-    print(f'translate_out: {content}')
-    return wjson.loads(content)
+    # 其它模型不在此处处理（Action 内会走 LLMRequester）
+    raise ValueError("batch_translate 仅用于 google/deepl 路径")
 
 
 cache = {}
@@ -104,13 +59,18 @@ def google_translate(text, source_language, target_language):
     return translate.result
 
 
-def deepl_translate(text, source_language, target_language):
-    translator = deepl.Translator(cfg.api_key.value)
+def deepl_translate(text, source_language, target_language, platform=None):
+    api_key = ""
+    if platform:
+        api_key = platform.get("api_key", "") or ""
+    if not api_key:
+        raise ValueError("DeepL API key not configured in platform settings")
+    translator = deepl.Translator(api_key)
     result = translator.translate_text(text, source_lang=source_language, target_lang=target_language)
     return result.text
 
 
-def transText(text, source_language, target_language):
+def transText(text, source_language, target_language, platform=None):
     if not text:
         return text
     if text.strip() == '':
@@ -120,8 +80,15 @@ def transText(text, source_language, target_language):
     if text in cache and cache[text]:
         return cache[text]
 
-    if cfg.trans_model.value == "deepl":
-        result = deepl_translate(text, source_language, target_language)
+    api_format = None
+    if platform:
+        api_format = (platform.get("api_format") or "").lower()
+    else:
+        # 默认使用 google
+        api_format = "google"
+
+    if api_format == "deepl":
+        result = deepl_translate(text, source_language, target_language, platform)
     else:
         result = google_translate(text, source_language, target_language)
 
@@ -129,10 +96,10 @@ def transText(text, source_language, target_language):
     return result
 
 
-def modTrans(value):
+def modTrans(value, platform=None):
     print(f'translate_put: {value}')
-    source_language = cfg.source_language.value
-    to_language = cfg.to_language.value
+    source_language = appConfig.source_language.value
+    to_language = appConfig.to_language.value
     if value == "":
         return value
 
@@ -143,10 +110,16 @@ def modTrans(value):
         return cache[value]
     new_value = value
 
-    if cfg.trans_model.value != "google" and cfg.trans_model.value != "deepl":
-        new_value = translate(value)
-        print(f'translate_out: {new_value}')
-        return new_value
+    api_format = None
+    if platform:
+        api_format = (platform.get("api_format") or "").lower()
+    else:
+        # 默认使用 google
+        api_format = "google"
+
+    if api_format not in ("google", "deepl"):
+        # 其它模型不在此处处理
+        return value
 
     if to_language == "zh":
         if source_language == "en":
@@ -186,11 +159,11 @@ def modTrans(value):
             prev = all[:index]
             next = all[index:]
             # for prev data handling
-            trans = transText(prev, source_language, to_language)
+            trans = transText(prev, source_language, to_language, platform)
             # for next data handling
             trans += next
         else:
-            trans = transText(all, source_language, to_language)
+            trans = transText(all, source_language, to_language, platform)
 
         if len(split) >= len(strings):
             builder += trans
