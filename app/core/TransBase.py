@@ -210,6 +210,8 @@ class TransBase():
 
         # 写入配置文件
         with TransBase.CONFIG_FILE_LOCK:
+            # 确保配置文件目录存在
+            os.makedirs(os.path.dirname(TransBase.CONFIG_PATH), exist_ok=True)
             with open(TransBase.CONFIG_PATH, "w", encoding="utf-8") as writer:
                 writer.write(wjson.dumps(old))
         return old
