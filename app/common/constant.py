@@ -14,6 +14,7 @@ LANGUAGES = {
     "Portuguese": "pt",
     "Russian": "ru",
     "Spanish": "es",
+    "Thai": "th",
     "Turkish": "tr",
     "Vietnamese": "vi",
     "Bahasa Indonesia": "id"
