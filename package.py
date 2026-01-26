@@ -16,11 +16,11 @@ args = [
     '--windows-icon-from-ico=app/resource/images/icon.ico',
     '--enable-plugins=pyside6',
     '--show-memory',
-    '--windows-product-version=3.0.0',
+    '--windows-product-version=3.0.4',
     '--windows-disable-console',
     '--show-progress',
     '--windows-file-description="Stardew Valley Mod Translation Tool"',
-    '--windows-file-version=3.0.0',
+    '--windows-file-version=3.0.4',
     '--output-dir=F:/Python/transtar/build',
     
     # 只编译项目代码，不编译任何第三方依赖

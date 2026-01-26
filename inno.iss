@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Transtar"
-#define MyAppVersion "3.0.0"
+#define MyAppVersion "3.0.4"
 #define MyAppPublisher "wanniwa"
 #define MyAppURL "https://github.com/wanniwa/transtar"
 #define MyAppExeName "Transtar.exe"

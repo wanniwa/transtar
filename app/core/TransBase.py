@@ -9,7 +9,7 @@ from qfluentwidgets import InfoBar
 from qfluentwidgets import InfoBarPosition
 
 from app.core.EventManager import EventManager
-from app.common.setting import TRANS_CONFIG_FILE
+from app.common.setting import TRANS_CONFIG_FILE,DEBUG
 from app.common.config import appConfig
 
 
@@ -105,8 +105,12 @@ class TransBase():
             else:
                 return self.window
         return None
+    
+    def is_debug(self) -> bool:
+        """返回调试模式状态"""
+        return DEBUG
+        
         # INFO
-
     def info(self, msg: str) -> None:
         print(f"[[green]INFO[/]] {msg}")
 
