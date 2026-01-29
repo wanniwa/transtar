@@ -228,71 +228,83 @@ class CPTransHandler(BaseTransHandler):
         if dynamicTokens is not None:
             i18n_folder = file_util.get_i18n_folder(file_path)
             default_json_path = os.path.join(i18n_folder, "default.json")
-            existing_translations = {}
-            has_changes = False
-            default_json_path_exist = os.path.exists(default_json_path)
-            if default_json_path_exist:
-                with open(default_json_path, 'r', encoding='utf-8') as f:
-                    existing_translations = wjson.load(f)
+            
+            # 检查 i18n 文件夹第一层是否已经存在 json 文件
+            # 如果不存在，说明采用新的子文件夹方式（如 i18n/zh/），不自动生成 default.json
+            should_process_config = False
+            if os.path.exists(i18n_folder):
+                # 检查第一层是否有 .json 文件
+                for item in os.listdir(i18n_folder):
+                    item_path = os.path.join(i18n_folder, item)
+                    if os.path.isfile(item_path) and item.endswith('.json'):
+                        should_process_config = True
+                        break
+            
+            # 只有当 i18n 第一层已经有 json 文件时，才处理 ConfigSchema
+            if should_process_config:
+                existing_translations = {}
+                has_changes = False
+                default_json_path_exist = os.path.exists(default_json_path)
+                if default_json_path_exist:
+                    with open(default_json_path, 'r', encoding='utf-8') as f:
+                        existing_translations = wjson.load(f)
 
-            existing_keys_lower = {k.lower(): k for k in existing_translations.keys()}
+                existing_keys_lower = {k.lower(): k for k in existing_translations.keys()}
 
-            for key, value in dynamicTokens.items():
-                default_value = value.get("Default")
-                if default_value is not None and isinstance(default_value, (int, float)):
-                    continue
+                for key, value in dynamicTokens.items():
+                    default_value = value.get("Default")
+                    if default_value is not None and isinstance(default_value, (int, float)):
+                        continue
 
-                # Handle basic name
-                name_key = f"config.{key}.name"
-                if name_key.lower() not in existing_keys_lower:
-                    self.dynamicTokens[name_key] = key
-                    existing_translations[name_key] = key
-                    has_changes = True
-
-                # Handle Description if exists
-                if "Description" in value:
-                    desc_key = f"config.{key}.description"
-                    if desc_key.lower() not in existing_keys_lower:
-                        self.dynamicTokens[desc_key] = value["Description"]
-                        existing_translations[desc_key] = value["Description"]
+                    # Handle basic name
+                    name_key = f"config.{key}.name"
+                    if name_key.lower() not in existing_keys_lower:
+                        self.dynamicTokens[name_key] = key
+                        existing_translations[name_key] = key
                         has_changes = True
 
-                # Handle Section if exists
-                if "Section" in value:
-                    section_key = f"config.section.{key}.name"
-                    if section_key.lower() not in existing_keys_lower:
-                        self.dynamicTokens[section_key] = value["Section"]
-                        existing_translations[section_key] = value["Section"]
-                        has_changes = True
-
-                # Handle AllowValues if exists
-                if "AllowValues" in value:
-                    values = [v.strip() for v in value["AllowValues"].split(",")]
-                    for val in values:
-                        if val.replace(".", "").isdigit() or val.lower() == 'true' or val.lower() == 'false':
-                            continue
-
-                        value_key = f"config.{key}.values.{val}"
-                        if value_key.lower() not in existing_keys_lower:
-                            self.dynamicTokens[value_key] = val
-                            existing_translations[value_key] = val
+                    # Handle Description if exists
+                    if "Description" in value:
+                        desc_key = f"config.{key}.description"
+                        if desc_key.lower() not in existing_keys_lower:
+                            self.dynamicTokens[desc_key] = value["Description"]
+                            existing_translations[desc_key] = value["Description"]
                             has_changes = True
 
-            if has_changes:
-                os.makedirs(i18n_folder, exist_ok=True)
+                    # Handle Section if exists
+                    if "Section" in value:
+                        section_key = f"config.section.{key}.name"
+                        if section_key.lower() not in existing_keys_lower:
+                            self.dynamicTokens[section_key] = value["Section"]
+                            existing_translations[section_key] = value["Section"]
+                            has_changes = True
 
-                try:
-                    with open(default_json_path, 'w', encoding='utf-8') as f:
-                        wjson.dump(existing_translations, f)
-                except Exception as e:
-                    logging.error(f"Error writing to default.json: {e}")
+                    # Handle AllowValues if exists
+                    if "AllowValues" in value:
+                        values = [v.strip() for v in value["AllowValues"].split(",")]
+                        for val in values:
+                            if val.replace(".", "").isdigit() or val.lower() == 'true' or val.lower() == 'false':
+                                continue
 
-                if not default_json_path_exist:
-                    if FileType.I18N in self.context.files_by_type:
-                        if default_json_path not in self.context.files_by_type[FileType.I18N]:
-                            self.context.files_by_type[FileType.I18N].append(default_json_path)
-                    else:
-                        self.context.files_by_type[FileType.I18N] = [default_json_path]
+                            value_key = f"config.{key}.values.{val}"
+                            if value_key.lower() not in existing_keys_lower:
+                                self.dynamicTokens[value_key] = val
+                                existing_translations[value_key] = val
+                                has_changes = True
+
+                if has_changes:
+                    try:
+                        with open(default_json_path, 'w', encoding='utf-8') as f:
+                            wjson.dump(existing_translations, f)
+                    except Exception as e:
+                        logging.error(f"Error writing to default.json: {e}")
+
+                    if not default_json_path_exist:
+                        if FileType.I18N in self.context.files_by_type:
+                            if default_json_path not in self.context.files_by_type[FileType.I18N]:
+                                self.context.files_by_type[FileType.I18N].append(default_json_path)
+                        else:
+                            self.context.files_by_type[FileType.I18N] = [default_json_path]
 
         if not appConfig.i18n_extract_cp.value and i18n_folder:
             logging.info(f"exist i18n folder ignore extra CP ：{file_path}")

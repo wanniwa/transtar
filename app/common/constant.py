@@ -17,7 +17,8 @@ LANGUAGES = {
     "Thai": "th",
     "Turkish": "tr",
     "Vietnamese": "vi",
-    "Bahasa Indonesia": "id"
+    "Bahasa Indonesia": "id",
+    "Polish": "pl"
 }
 
 LANGUAGE_KEY_NAME = {v: k for k, v in LANGUAGES.items()}
