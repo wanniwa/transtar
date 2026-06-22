@@ -493,20 +493,22 @@ class CPTransHandler(BaseTransHandler):
                         map_tooltip["PrimaryText"] = self.get_new_value(
                             "#".join([dict_key, "MapTooltip", "PrimaryText"]), primary_text, TargetAssetType.PlainText)
                 elif targetType == TargetAssetType.WorldMap:
-                    map_tooltip = entry.get("Tooltips")
-                    if map_tooltip is not None and map_tooltip.get("Text").strip() != "":
-                        text = map_tooltip.get("Text")
-                        map_tooltip["Text"] = self.get_new_value(
-                            "#".join([dict_key, "Tooltips", "Text"]), text, TargetAssetType.PlainText)
+                    self.traverse_world_map_tooltips(
+                        entry.get("Tooltips"), "#".join([dict_key, "Tooltips"]))
                     map_areas = entry.get("MapAreas")
                     if map_areas is not None:
                         for map_area in map_areas:
-                            scroll_text = map_area.get("ScrollText")
                             map_area_id = map_area.get("Id") or map_area.get("ID")
-                            if map_area_id and scroll_text is not None and scroll_text.strip() != "":
+                            if not map_area_id:
+                                continue
+                            scroll_text = map_area.get("ScrollText")
+                            if scroll_text is not None and scroll_text.strip() != "":
                                 map_area["ScrollText"] = self.get_new_value(
                                     "#".join([dict_key, "MapAreas", map_area_id, "ScrollText"]), scroll_text,
                                     TargetAssetType.PlainText)
+                            self.traverse_world_map_tooltips(
+                                map_area.get("Tooltips"),
+                                "#".join([dict_key, "MapAreas", map_area_id, "Tooltips"]))
                 elif targetType == TargetAssetType.DataSpecialOrders:
                     objectives = entry.get("Objectives")
                     for i in range(len(objectives)):
@@ -590,6 +592,20 @@ class CPTransHandler(BaseTransHandler):
                 else:
                     flag = False
         return flag
+
+    def traverse_world_map_tooltips(self, tooltips, base_key):
+        if not tooltips:
+            return
+        tooltip_list = tooltips if isinstance(tooltips, list) else [tooltips]
+        for i, tooltip in enumerate(tooltip_list):
+            if not isinstance(tooltip, dict):
+                continue
+            text = tooltip.get("Text")
+            if text is None or text.strip() == "":
+                continue
+            tooltip_id = tooltip.get("Id") or tooltip.get("ID") or str(i)
+            tooltip["Text"] = self.get_new_value(
+                "#".join([base_key, tooltip_id, "Text"]), text, TargetAssetType.PlainText)
 
     def entry_field(self, dict_key, field_name, entry):
         field_name_lower = field_name.lower()
